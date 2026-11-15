@@ -1,0 +1,2572 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Tenses Masterclass & Dynamic Exercise</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        ielts: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            900: '#0c4a6e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for sleek UI */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+        }
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.9);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300 antialiased selection:bg-ielts-500 selection:text-white">
+
+    <!-- Toast Notification Container (Replaces alert()) -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-40 w-full border-b border-slate-200/80 dark:border-slate-800/80 glass-card">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-ielts-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-ielts-500/20">
+                    <i class="fa-solid fa-graduation-cap text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-display font-bold text-lg sm:text-xl tracking-tight text-slate-900 dark:text-white leading-none">
+                        IELTS <span class="text-ielts-600 dark:text-ielts-500">Tenses</span> Pro
+                    </h1>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5 hidden sm:block">Grammatical Range & Accuracy Mastery</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2 sm:gap-4">
+                <!-- Progress Pill -->
+                <div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-xs font-medium border border-slate-200 dark:border-slate-700">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>Band Target: <strong>7.5 - 8.5</strong></span>
+                </div>
+
+                <!-- API Key Settings Button (Safe for Public Hosting like Vercel) -->
+                <button id="btn-open-apikey" onclick="openApiKeyModal()" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold transition-all flex items-center gap-2 border border-slate-200/80 dark:border-slate-700" title="Atur Gemini API Key untuk Hosting">
+                    <i class="fa-solid fa-key text-amber-500"></i>
+                    <span class="hidden sm:inline">API Key</span>
+                    <span id="apikey-status-dot" class="w-2 h-2 rounded-full bg-slate-400"></span>
+                </button>
+
+                <!-- Dark Mode Toggle -->
+                <button id="theme-toggle" class="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all" aria-label="Toggle Dark Mode">
+                    <i class="fa-solid fa-moon dark:hidden"></i>
+                    <i class="fa-solid fa-sun hidden dark:inline text-amber-400"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- API Key Configuration Modal (Client-Side Storage Only - No Hardcoded Key in HTML) -->
+    <div id="apikey-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/60 backdrop-blur-sm p-4">
+        <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl p-6 space-y-5 animate-fade-in">
+            <div class="flex items-start justify-between gap-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-shield-halved text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-display font-bold text-base text-slate-900 dark:text-white">Pengaturan Gemini API Key</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Aman untuk hosting publik (Vercel / GitHub)</p>
+                    </div>
+                </div>
+                <button onclick="closeApiKeyModal()" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/80 dark:border-slate-700/70 text-xs text-slate-600 dark:text-slate-300 space-y-1.5 leading-relaxed">
+                <p><strong>Mengapa fitur ini ada?</strong> API Key Anda tidak pernah disimpan di dalam file kode HTML, melainkan hanya tersimpan secara lokal di browser perangkat Anda.</p>
+                <p>Dapatkan API Key gratis di <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="text-ielts-600 dark:text-ielts-400 font-semibold underline hover:text-ielts-700">Google AI Studio <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>.</p>
+            </div>
+
+            <div class="space-y-2">
+                <label for="input-gemini-apikey" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">
+                    Masukkan Gemini API Key Anda
+                </label>
+                <div class="relative">
+                    <input type="password" id="input-gemini-apikey" placeholder="AIzaSy..." class="w-full pl-3.5 pr-10 py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-sm font-mono text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-ielts-500 outline-none">
+                    <button type="button" onclick="toggleApiKeyVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200" title="Tampilkan/Sembunyikan">
+                        <i id="apikey-eye-icon" class="fa-solid fa-eye text-xs"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-between gap-2 pt-2">
+                <button type="button" onclick="clearSavedApiKey()" class="px-3.5 py-2 rounded-xl text-xs font-semibold text-rose-600 hover:bg-rose-50 dark:text-rose-400 dark:hover:bg-rose-950/40 transition-colors">
+                    <i class="fa-solid fa-trash-can mr-1"></i> Hapus Key
+                </button>
+                <div class="flex items-center gap-2">
+                    <button type="button" onclick="closeApiKeyModal()" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                        Batal
+                    </button>
+                    <button type="button" onclick="saveApiKey()" class="px-4 py-2 rounded-xl bg-ielts-600 hover:bg-ielts-700 text-white text-xs font-bold shadow-md shadow-ielts-600/20 transition-all">
+                        Simpan API Key
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Layout -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        
+        <!-- Mobile Category Selector -->
+        <div class="lg:hidden mb-6">
+            <label for="mobile-tense-select" class="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Pilih Materi Tense</label>
+            <select id="mobile-tense-select" class="w-full p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 font-medium text-sm shadow-sm focus:ring-2 focus:ring-ielts-500 outline-none">
+                <!-- Populated by JS -->
+            </select>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+            
+            <!-- Left Sidebar: 16 Tenses Navigation (Desktop) -->
+            <aside class="hidden lg:block lg:col-span-4 xl:col-span-3 sticky top-24 space-y-4">
+                <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm overflow-hidden">
+                    <div class="p-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30">
+                        <h2 class="font-display font-bold text-sm uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                            <i class="fa-solid fa-layer-group text-ielts-600"></i> Kurikulum 16 Tenses
+                        </h2>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Pilih untuk mempelajari rumus & aplikasi IELTS</p>
+                    </div>
+                    
+                    <!-- Filter Tabs -->
+                    <div class="grid grid-cols-5 border-b border-slate-100 dark:border-slate-800 text-[11px] font-semibold">
+                        <button onclick="filterSidebar('all')" class="filter-btn active py-2.5 text-center border-b-2 border-ielts-600 text-ielts-600 dark:text-ielts-400">All</button>
+                        <button onclick="filterSidebar('Present')" class="filter-btn py-2.5 text-center border-b-2 border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200">Present</button>
+                        <button onclick="filterSidebar('Past')" class="filter-btn py-2.5 text-center border-b-2 border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200">Past</button>
+                        <button onclick="filterSidebar('Future')" class="filter-btn py-2.5 text-center border-b-2 border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200">Future</button>
+                        <button onclick="filterSidebar('Past Future')" class="filter-btn py-2.5 text-center border-b-2 border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200">P.Future</button>
+                    </div>
+
+                    <div id="tense-sidebar-list" class="max-h-[calc(100vh-260px)] overflow-y-auto p-2 space-y-1">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Right Content Area: Module & Dynamic Exercise -->
+            <div class="lg:col-span-8 xl:col-span-9 space-y-6">
+                
+                <!-- Mode Switcher Tabs -->
+                <div class="flex flex-wrap sm:flex-nowrap items-center justify-between gap-4 bg-white dark:bg-slate-900 p-2 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm">
+                    <div class="flex w-full sm:w-auto gap-1.5">
+                        <button id="tab-learn" onclick="switchView('learn')" class="flex-1 sm:flex-none px-5 py-2.5 rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2 bg-ielts-600 text-white shadow-md shadow-ielts-600/20">
+                            <i class="fa-solid fa-book-open"></i> Modul Belajar
+                        </button>
+                        <button id="tab-practice" onclick="switchView('practice')" class="flex-1 sm:flex-none px-5 py-2.5 rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
+                            <i class="fa-solid fa-pen-to-square"></i> Latihan IELTS (AI)
+                            <span class="px-1.5 py-0.5 text-[10px] font-bold uppercase rounded bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-300">Baru</span>
+                        </button>
+                    </div>
+
+                    <div class="hidden sm:flex items-center gap-2 pr-2 text-xs text-slate-500 dark:text-slate-400">
+                        <i class="fa-solid fa-lightbulb text-amber-500"></i>
+                        <span>Tips: Kuasai konteks sebelum latihan</span>
+                    </div>
+                </div>
+
+                <!-- VIEW 1: MODUL PEMBELAJARAN -->
+                <section id="view-learn" class="space-y-6 transition-all">
+                    <!-- Hero Card for Selected Tense -->
+                    <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-6 sm:p-8 shadow-sm relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-ielts-500/10 to-transparent rounded-bl-full pointer-events-none"></div>
+                        
+                        <div class="flex flex-wrap items-center gap-2 mb-3">
+                            <span id="learn-category-badge" class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-ielts-100 text-ielts-700 dark:bg-ielts-900/50 dark:text-ielts-300">
+                                Present
+                            </span>
+                            <span id="learn-ielts-priority" class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 flex items-center gap-1.5">
+                                <i class="fa-solid fa-star text-[10px]"></i> Sangat Penting untuk IELTS
+                            </span>
+                        </div>
+
+                        <h2 id="learn-title" class="font-display font-extrabold text-2xl sm:text-3xl text-slate-900 dark:text-white tracking-tight">
+                            Simple Present Tense
+                        </h2>
+                        <p id="learn-description" class="text-slate-600 dark:text-slate-300 mt-3 leading-relaxed text-sm sm:text-base">
+                            Digunakan untuk menyatakan fakta umum, kebenaran ilmiah, kebiasaan rutin, serta mendeskripsikan grafik/proses yang bersifat permanen dalam IELTS Academic.
+                        </p>
+
+                        <!-- Formula Box -->
+                        <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700/70">
+                                <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 block mb-1">
+                                    <i class="fa-solid fa-plus-circle mr-1"></i> Positif (+)
+                                </span>
+                                <code id="formula-pos" class="text-sm font-mono font-semibold text-slate-800 dark:text-slate-200 block">S + V1 (s/es) + O</code>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700/70">
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400 block mb-1">
+                                    <i class="fa-solid fa-minus-circle mr-1"></i> Negatif (-)
+                                </span>
+                                <code id="formula-neg" class="text-sm font-mono font-semibold text-slate-800 dark:text-slate-200 block">S + do/does + not + V1</code>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700/70">
+                                <span class="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 block mb-1">
+                                    <i class="fa-solid fa-question-circle mr-1"></i> Interogatif (?)
+                                </span>
+                                <code id="formula-int" class="text-sm font-mono font-semibold text-slate-800 dark:text-slate-200 block">Do/Does + S + V1?</code>
+                            </div>
+                        </div>
+
+                        <!-- Time Signals -->
+                        <div class="mt-5 flex flex-wrap items-center gap-2">
+                            <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 mr-1"><i class="fa-regular fa-clock mr-1"></i>Time Signals:</span>
+                            <div id="learn-time-signals" class="flex flex-wrap gap-1.5">
+                                <!-- Badges populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- IELTS Strategic Application Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Writing Task 1 & 2 Strategy -->
+                        <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-6 shadow-sm">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-9 h-9 rounded-lg bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+                                    <i class="fa-solid fa-pen-nib"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-display font-bold text-base text-slate-900 dark:text-white">Aplikasi IELTS Writing</h3>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">Task 1 (Data/Proses) & Task 2 (Esai)</p>
+                                </div>
+                            </div>
+                            <p id="ielts-writing-tip" class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                                Sangat krusial untuk menjelaskan diagram proses (man-made/natural process), peta saat ini, serta argumen fakta umum dalam Task 2.
+                            </p>
+                            <div class="p-3.5 rounded-xl bg-indigo-50/70 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/60">
+                                <span class="text-[11px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 block mb-1">Contoh Kalimat Band 8.0+:</span>
+                                <p id="ielts-writing-example" class="text-sm font-medium text-slate-800 dark:text-slate-200 italic">
+                                    "Globalization inevitably accelerates cultural homogenization across developing nations."
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Speaking Strategy -->
+                        <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-6 shadow-sm">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-9 h-9 rounded-lg bg-teal-100 dark:bg-teal-900/50 text-teal-600 dark:text-teal-400 flex items-center justify-center">
+                                    <i class="fa-solid fa-microphone-lines"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-display font-bold text-base text-slate-900 dark:text-white">Aplikasi IELTS Speaking</h3>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">Part 1, Part 2 & Part 3</p>
+                                </div>
+                            </div>
+                            <p id="ielts-speaking-tip" class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                                Digunakan secara dominan pada Speaking Part 1 saat membahas rutinitas harian, hobi, pekerjaan, dan opini umum.
+                            </p>
+                            <div class="p-3.5 rounded-xl bg-teal-50/70 dark:bg-teal-950/40 border border-teal-100 dark:border-teal-900/60">
+                                <span class="text-[11px] font-bold uppercase tracking-wider text-teal-600 dark:text-teal-400 block mb-1">Contoh Respon Natural:</span>
+                                <p id="ielts-speaking-example" class="text-sm font-medium text-slate-800 dark:text-slate-200 italic">
+                                    "I generally commute to the city center by train because it spares me from the morning traffic congestion."
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Expanded Examples Bank with Indonesian Translations -->
+                    <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-6 sm:p-8 shadow-sm">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5 pb-4 border-b border-slate-100 dark:border-slate-800">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
+                                    <i class="fa-solid fa-quote-left text-lg"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-display font-bold text-lg text-slate-900 dark:text-white">Bank Contoh Kalimat IELTS & Terjemahan</h3>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">Variasi kalimat Positif (+), Negatif (-), Pertanyaan (?), serta konteks Writing & Speaking</p>
+                                </div>
+                            </div>
+                            <span id="examples-count-badge" class="self-start sm:self-center px-3 py-1 rounded-full text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                                6 Contoh Lengkap
+                            </span>
+                        </div>
+
+                        <div id="learn-more-examples" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Populated dynamically by JS -->
+                        </div>
+                    </div>
+
+                    <!-- CTA to Start Exercise -->
+                    <div class="bg-gradient-to-r from-ielts-600 to-indigo-600 rounded-2xl p-6 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg shadow-ielts-600/20">
+                        <div>
+                            <h3 class="font-display font-bold text-lg">Siap menguji pemahaman Anda?</h3>
+                            <p class="text-ielts-100 text-sm mt-0.5">Kerjakan latihan soal konteks IELTS yang dapat di-refresh tanpa batas.</p>
+                        </div>
+                        <button onclick="switchView('practice')" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-white text-ielts-700 font-bold text-sm hover:bg-ielts-50 transition-all shadow-sm flex items-center justify-center gap-2 shrink-0">
+                            <span>Mulai Latihan Sekarang</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- VIEW 2: LATIHAN SOAL DINAMIS (EXERCISE) -->
+                <section id="view-practice" class="hidden space-y-6">
+                    
+                    <!-- Exercise Control Header -->
+                    <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-5 sm:p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="px-2.5 py-0.5 rounded-md text-xs font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-300">
+                                    Dynamic Generator (16 Tenses)
+                                </span>
+                                <span id="exercise-topic-badge" class="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                                    Fokus: Simple Present Tense
+                                </span>
+                            </div>
+                            <h2 class="font-display font-bold text-xl text-slate-900 dark:text-white mt-1">
+                                IELTS Grammar Drill & Error Correction
+                            </h2>
+                        </div>
+
+                        <div class="flex flex-wrap items-center gap-2.5">
+                            <!-- Direct 16-Tense & Mixed Selector inside Practice View -->
+                            <select id="exercise-scope" onchange="handleExerciseScopeChange()" class="px-3.5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-200 outline-none focus:ring-2 focus:ring-ielts-500 max-w-[240px]">
+                                <option value="mixed">🎯 Campuran Semua 16 Tenses</option>
+                                <!-- 16 Tenses populated dynamically by JS -->
+                            </select>
+
+                            <!-- Refresh Exercise Button -->
+                            <button id="btn-refresh-quiz" onclick="generateNewExercises()" class="px-4 py-2.5 rounded-xl bg-ielts-600 hover:bg-ielts-700 text-white font-semibold text-xs sm:text-sm transition-all shadow-md shadow-ielts-600/20 flex items-center gap-2">
+                                <i id="refresh-icon" class="fa-solid fa-arrows-rotate"></i>
+                                <span>Refresh Soal Baru</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Loading Skeleton State -->
+                    <div id="quiz-loading" class="hidden bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-8 text-center space-y-4">
+                        <div class="w-12 h-12 rounded-full border-4 border-ielts-200 border-t-ielts-600 animate-spin mx-auto"></div>
+                        <div>
+                            <h3 class="font-display font-bold text-lg text-slate-900 dark:text-white">Menyusun Soal IELTS Baru...</h3>
+                            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">AI sedang merancang konteks akademis (Writing Task 1/2 & Speaking) beserta pembahasan detail.</p>
+                        </div>
+                    </div>
+
+                    <!-- Score Summary Banner (Shown after submit) -->
+                    <div id="quiz-result-banner" class="hidden bg-gradient-to-r from-emerald-600 to-teal-600 rounded-2xl p-6 text-white shadow-lg">
+                        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                            <div class="flex items-center gap-4">
+                                <div class="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-2xl font-display font-extrabold" id="score-display">
+                                    0/5
+                                </div>
+                                <div>
+                                    <h3 class="font-display font-bold text-lg" id="score-title">Hasil Latihan Anda</h3>
+                                    <p class="text-emerald-100 text-sm" id="score-feedback">Simak pembahasan di bawah setiap soal untuk meningkatkan akurasi tata bahasa Anda.</p>
+                                </div>
+                            </div>
+                            <button onclick="generateNewExercises()" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-white text-emerald-700 font-bold text-sm hover:bg-emerald-50 transition-all shadow-sm flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-rotate-right"></i> Latihan Set Baru
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Questions Container -->
+                    <div id="quiz-container" class="space-y-4">
+                        <!-- Populated dynamically -->
+                    </div>
+
+                    <!-- Submit Answers Footer -->
+                    <div id="quiz-footer" class="flex items-center justify-between bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm">
+                        <span class="text-xs sm:text-sm text-slate-500 dark:text-slate-400" id="answered-counter">
+                            Terjawab: 0 dari 5 soal
+                        </span>
+                        <button id="btn-submit-quiz" onclick="submitQuiz()" class="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm transition-all shadow-md shadow-emerald-600/20 flex items-center gap-2">
+                            <i class="fa-solid fa-check-double"></i> Periksa Jawaban
+                        </button>
+                    </div>
+
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Application Logic & Comprehensive IELTS Tenses Data -->
+    <script>
+        // =========================================================================
+        // 1. KURIKULUM LENGKAP 16 TENSES UNTUK IELTS
+        // =========================================================================
+        const TENSES_DATA = [
+            // --- PRESENT FAMILY ---
+            {
+                id: "simple-present",
+                name: "Simple Present Tense",
+                category: "Present",
+                priority: "Sangat Penting (Core IELTS)",
+                description: "Digunakan untuk menyatakan fakta umum, kebenaran ilmiah, kebiasaan rutin, serta mendeskripsikan diagram proses atau peta kondisi saat ini dalam IELTS Academic.",
+                formulaPos: "S + V1 (s/es) + O",
+                formulaNeg: "S + do/does + not + V1",
+                formulaInt: "Do/Does + S + V1?",
+                timeSignals: ["generally", "consistently", "nowadays", "every year", "as a rule"],
+                writingTip: "Wajib digunakan pada Writing Task 1 untuk diagram proses (manufacturing/natural cycles) dan Writing Task 2 untuk menyatakan argumen serta fakta umum.",
+                writingExample: "Globalization inevitably accelerates cultural homogenization across developing nations.",
+                speakingTip: "Dominan dipakai pada Speaking Part 1 untuk menjelaskan rutinitas, pekerjaan, studi, serta opini permanen Anda.",
+                speakingExample: "I generally commute to the city center by train because it spares me from the morning traffic congestion.",
+                moreExamples: [
+                    {
+                        context: "Writing Task 1 (Proses)",
+                        type: "Positif (+)",
+                        en: "First, raw cocoa beans undergo fermentation before workers dry them under direct sunlight.",
+                        id: "Pertama, biji kakao mentah menjalani proses fermentasi sebelum pekerja mengeringkannya di bawah sinar matahari langsung.",
+                        breakdown: [
+                            { label: "S (Jamak)", text: "raw cocoa beans" },
+                            { label: "V1", text: "undergo" },
+                            { label: "O", text: "fermentation" },
+                            { label: "Penanda", text: "First (urutan proses rutin)" }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 2 (Esai)",
+                        type: "Positif (+)",
+                        en: "Renewable energy sources significantly reduce dependence on imported fossil fuels.",
+                        id: "Sumber energi terbarukan secara signifikan mengurangi ketergantungan pada bahan bakar fosil impor.",
+                        breakdown: [
+                            { label: "S (Jamak)", text: "Renewable energy sources" },
+                            { label: "V1", text: "reduce" },
+                            { label: "O", text: "dependence on imported fossil fuels" }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 2 (Negatif)",
+                        type: "Negatif (-)",
+                        en: "Many developing municipalities do not allocate sufficient funds for waste management infrastructure.",
+                        id: "Banyak pemerintah kota berkembang tidak mengalokasikan dana yang memadai untuk infrastruktur pengelolaan limbah.",
+                        breakdown: [
+                            { label: "S (Jamak)", text: "Many developing municipalities" },
+                            { label: "Aux + not + V1", text: "do not allocate" },
+                            { label: "O", text: "sufficient funds..." }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 1",
+                        type: "Positif (+)",
+                        en: "I usually unwind after work by reading non-fiction books or listening to educational podcasts.",
+                        id: "Saya biasanya bersantai sepulang kerja dengan membaca buku non-fiksi atau mendengarkan siniar edukatif.",
+                        breakdown: [
+                            { label: "S", text: "I" },
+                            { label: "Time Signal", text: "usually" },
+                            { label: "V1", text: "unwind" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 3",
+                        type: "Negatif (-)",
+                        en: "Young children rarely appreciate the long-term value of financial literacy unless parents teach them early.",
+                        id: "Anak-anak kecil jarang menghargai nilai jangka panjang dari literasi keuangan kecuali orang tua mengajarkannya sejak dini.",
+                        breakdown: [
+                            { label: "S (Jamak)", text: "Young children" },
+                            { label: "Adverb + V1", text: "rarely appreciate" },
+                            { label: "O", text: "the long-term value..." }
+                        ]
+                    },
+                    {
+                        context: "Speaking / Retorika",
+                        type: "Interogatif (?)",
+                        en: "Does technological automation ultimately create more skilled jobs than it eliminates?",
+                        id: "Apakah otomatisasi teknologi pada akhirnya menciptakan lebih banyak pekerjaan terampil daripada yang dihilangkannya?",
+                        breakdown: [
+                            { label: "Aux", text: "Does" },
+                            { label: "S (Tunggal)", text: "technological automation" },
+                            { label: "V1", text: "create" },
+                            { label: "O", text: "more skilled jobs..." }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "present-continuous",
+                name: "Present Continuous Tense",
+                category: "Present",
+                priority: "Penting (Tren Terkini)",
+                description: "Menyatakan aktivitas atau tren perubahan sosial/ekonomi yang sedang berlangsung secara aktif di sekitar waktu sekarang (belum selesai).",
+                formulaPos: "S + am/is/are + V-ing + O",
+                formulaNeg: "S + am/is/are + not + V-ing",
+                formulaInt: "Am/Is/Are + S + V-ing?",
+                timeSignals: ["currently", "at present", "these days", "increasingly", "at the moment"],
+                writingTip: "Sangat efektif pada Writing Task 2 untuk menggambarkan fenomena modern yang sedang berkembang pesat (misalnya dampak AI atau perubahan iklim).",
+                writingExample: "Rapid advancements in artificial intelligence are reshaping traditional employment structures worldwide.",
+                speakingTip: "Gunakan di Speaking Part 1 & Part 3 saat membahas proyek yang sedang Anda kerjakan atau perubahan gaya hidup masyarakat saat ini.",
+                speakingExample: "More young professionals are currently opting for remote work arrangements to achieve a better work-life balance.",
+                moreExamples: [
+                    {
+                        context: "Writing Task 2 (Tren)",
+                        type: "Positif (+)",
+                        en: "Global temperatures are rising at an alarming pace due to unchecked industrial emissions.",
+                        id: "Suhu global sedang meningkat pada laju yang mengkhawatirkan akibat emisi industri yang tidak terkendali.",
+                        breakdown: [
+                            { label: "S (Jamak)", text: "Global temperatures" },
+                            { label: "to be + V-ing", text: "are rising" },
+                            { label: "Pelengkap", text: "at an alarming pace..." }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 2 (Teknologi)",
+                        type: "Positif (+)",
+                        en: "Universities around the world are increasingly integrating virtual reality into medical training.",
+                        id: "Universitas di seluruh dunia semakin banyak mengintegrasikan realitas virtual ke dalam pelatihan medis.",
+                        breakdown: [
+                            { label: "S (Jamak)", text: "Universities around the world" },
+                            { label: "to be + V-ing", text: "are ... integrating" },
+                            { label: "Time Signal", text: "increasingly" },
+                            { label: "O", text: "virtual reality..." }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 2 (Negatif)",
+                        type: "Negatif (-)",
+                        en: "Traditional print newspapers are not attracting younger demographics as effectively as digital platforms.",
+                        id: "Surat kabar cetak tradisional tidak menarik demografi muda seefektif platform digital.",
+                        breakdown: [
+                            { label: "S (Jamak)", text: "Traditional print newspapers" },
+                            { label: "to be + not + V-ing", text: "are not attracting" },
+                            { label: "O", text: "younger demographics..." }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 1",
+                        type: "Positif (+)",
+                        en: "At the moment, I am taking an intensive academic writing course to prepare for my master's degree.",
+                        id: "Saat ini, saya sedang mengambil kursus menulis akademis intensif untuk mempersiapkan gelar magister saya.",
+                        breakdown: [
+                            { label: "Time Signal", text: "At the moment" },
+                            { label: "S", text: "I" },
+                            { label: "to be + V-ing", text: "am taking" },
+                            { label: "O", text: "an intensive academic writing course" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 3",
+                        type: "Positif (+)",
+                        en: "Consumers are becoming far more conscious of ethical sourcing and sustainable packaging.",
+                        id: "Konsumen menjadi jauh lebih sadar akan pengadaan etis dan kemasan berkelanjutan.",
+                        breakdown: [
+                            { label: "S (Jamak)", text: "Consumers" },
+                            { label: "to be + V-ing", text: "are becoming" },
+                            { label: "Pelengkap", text: "far more conscious..." }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 3",
+                        type: "Interogatif (?)",
+                        en: "Are governments doing enough to regulate the rapid expansion of artificial intelligence?",
+                        id: "Apakah pemerintah melakukan upaya yang cukup untuk mengatur ekspansi pesat kecerdasan buatan?",
+                        breakdown: [
+                            { label: "to be", text: "Are" },
+                            { label: "S (Jamak)", text: "governments" },
+                            { label: "V-ing", text: "doing" },
+                            { label: "O", text: "enough to regulate..." }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "present-perfect",
+                name: "Present Perfect Tense",
+                category: "Present",
+                priority: "Sangat Penting (Band 7.5+ Key)",
+                description: "Menghubungkan masa lalu dengan masa kini: menyatakan kejadian yang dimulai di masa lalu dan masih berdampak/berlanjut hingga sekarang, atau tren dari masa lalu ke kini.",
+                formulaPos: "S + have/has + V3 + O",
+                formulaNeg: "S + have/has + not + V3",
+                formulaInt: "Have/Has + S + V3?",
+                timeSignals: ["over the past decade", "since 2010", "in recent years", "for decades", "so far"],
+                writingTip: "Krusial pada Writing Task 1 ketika grafik dimulai dari tahun lampau hingga tahun sekarang (atau 'present'), serta pada Task 2 untuk bukti empiris terkini.",
+                writingExample: "Over the past two decades, rapid urbanization has placed unprecedented pressure on municipal infrastructure.",
+                speakingTip: "Sangat berguna di Speaking Part 1 & 2 untuk menceritakan pengalaman hidup tanpa menyebut waktu spesifik yang sudah selesai.",
+                speakingExample: "I have lived in Jakarta for nearly eight years, and the public transit network has improved dramatically.",
+                moreExamples: [
+                    {
+                        context: "Writing Task 1 (Tren)",
+                        type: "Positif (+)",
+                        en: "Since 2010, the number of electric vehicle registrations has tripled across Northern Europe.",
+                        id: "Sejak tahun 2010, jumlah pendaftaran kendaraan listrik telah meningkat tiga kali lipat di seluruh Eropa Utara.",
+                        breakdown: [
+                            { label: "Time Signal", text: "Since 2010" },
+                            { label: "S (Tunggal: 'the number')", text: "the number of ... registrations" },
+                            { label: "has + V3", text: "has tripled" }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 2 (Bukti)",
+                        type: "Positif (+)",
+                        en: "Medical breakthroughs have substantially extended average life expectancy in both developed and emerging nations.",
+                        id: "Terobosan medis telah memperpanjang harapan hidup rata-rata secara substansial baik di negara maju maupun berkembang.",
+                        breakdown: [
+                            { label: "S (Jamak)", text: "Medical breakthroughs" },
+                            { label: "have + V3", text: "have ... extended" },
+                            { label: "O", text: "average life expectancy..." }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 2 (Negatif)",
+                        type: "Negatif (-)",
+                        en: "Despite numerous international treaties, global carbon emissions have not declined to safe levels.",
+                        id: "Meskipun banyak perjanjian internasional telah dibuat, emisi karbon global belum menurun ke tingkat yang aman.",
+                        breakdown: [
+                            { label: "S (Jamak)", text: "global carbon emissions" },
+                            { label: "have + not + V3", text: "have not declined" },
+                            { label: "Pelengkap", text: "to safe levels" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 1",
+                        type: "Positif (+)",
+                        en: "I have visited several coastal towns in Indonesia, and each region offers a distinct culinary heritage.",
+                        id: "Saya telah mengunjungi beberapa kota pesisir di Indonesia, dan setiap daerah menawarkan warisan kuliner yang khas.",
+                        breakdown: [
+                            { label: "S", text: "I" },
+                            { label: "have + V3", text: "have visited" },
+                            { label: "O", text: "several coastal towns..." }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 2",
+                        type: "Negatif (-)",
+                        en: "I have never encountered a mentor as patient and inspiring as my undergraduate thesis advisor.",
+                        id: "Saya belum pernah bertemu mentor yang sesabar dan seinspiratif dosen pembimbing skripsi saya.",
+                        breakdown: [
+                            { label: "S", text: "I" },
+                            { label: "have + never + V3", text: "have never encountered" },
+                            { label: "O", text: "a mentor..." }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 3",
+                        type: "Interogatif (?)",
+                        en: "How has the rise of social media altered the way citizens participate in civic debates?",
+                        id: "Bagaimana kemunculan media sosial telah mengubah cara warga negara berpartisipasi dalam debat publik?",
+                        breakdown: [
+                            { label: "Aux", text: "has" },
+                            { label: "S (Tunggal)", text: "the rise of social media" },
+                            { label: "V3", text: "altered" },
+                            { label: "O", text: "the way citizens participate..." }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "present-perfect-continuous",
+                name: "Present Perfect Continuous",
+                category: "Present",
+                priority: "Menengah (Penekanan Durasi)",
+                description: "Menekankan durasi atau kesinambungan suatu aktivitas yang dimulai di masa lampau dan masih terus berlangsung hingga detik ini.",
+                formulaPos: "S + have/has + been + V-ing + O",
+                formulaNeg: "S + have/has + not + been + V-ing",
+                formulaInt: "Have/Has + S + been + V-ing?",
+                timeSignals: ["for the past few years", "all day", "since the early 2000s", "lately"],
+                writingTip: "Digunakan di Writing Task 2 untuk menyoroti isu jangka panjang yang terus-menerus diperdebatkan atau diteliti para ilmuwan.",
+                writingExample: "Environmental scientists have been warning policymakers about irreversible biodiversity loss for decades.",
+                speakingTip: "Menunjukkan kefasihan (Grammatical Range) di Speaking Part 1 saat ditanya sudah berapa lama menekuni hobi, studi, atau karier.",
+                speakingExample: "I have been preparing intensively for the IELTS exam for the last three months to meet my university requirements.",
+                moreExamples: [
+                    {
+                        context: "Writing Task 2 (Riset)",
+                        type: "Positif (+)",
+                        en: "Economists have been debating the long-term merits of universal basic income since the early 2000s.",
+                        id: "Para ekonom telah memperdebatkan manfaat jangka panjang dari pendapatan dasar universal sejak awal tahun 2000-an.",
+                        breakdown: [
+                            { label: "S (Jamak)", text: "Economists" },
+                            { label: "have + been + V-ing", text: "have been debating" },
+                            { label: "O", text: "the long-term merits..." },
+                            { label: "Time Signal", text: "since the early 2000s" }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 2 (Lingkungan)",
+                        type: "Positif (+)",
+                        en: "Coastal communities have been experiencing increasingly severe flooding over the past fifteen years.",
+                        id: "Masyarakat pesisir telah mengalami banjir yang semakin parah selama lima belas tahun terakhir.",
+                        breakdown: [
+                            { label: "S (Jamak)", text: "Coastal communities" },
+                            { label: "have + been + V-ing", text: "have been experiencing" },
+                            { label: "Time Signal", text: "over the past fifteen years" }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 2 (Negatif)",
+                        type: "Negatif (-)",
+                        en: "Local authorities have not been enforcing zoning regulations strictly enough to prevent urban sprawl.",
+                        id: "Otoritas setempat belum menegakkan peraturan zonasi dengan cukup ketat untuk mencegah perluasan kota yang tidak terkendali.",
+                        breakdown: [
+                            { label: "S (Jamak)", text: "Local authorities" },
+                            { label: "have + not + been + V-ing", text: "have not been enforcing" },
+                            { label: "O", text: "zoning regulations..." }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 1",
+                        type: "Positif (+)",
+                        en: "I have been practicing landscape photography on weekends for nearly five years.",
+                        id: "Saya telah menekuni fotografi lanskap di akhir pekan selama hampir lima tahun.",
+                        breakdown: [
+                            { label: "S", text: "I" },
+                            { label: "have + been + V-ing", text: "have been practicing" },
+                            { label: "O", text: "landscape photography" },
+                            { label: "Time Signal", text: "for nearly five years" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 2",
+                        type: "Positif (+)",
+                        en: "My colleagues and I have been collaborating on a sustainable packaging initiative since January.",
+                        id: "Rekan-rekan saya dan saya telah berkolaborasi dalam inisiatif kemasan berkelanjutan sejak Januari.",
+                        breakdown: [
+                            { label: "S (Jamak)", text: "My colleagues and I" },
+                            { label: "have + been + V-ing", text: "have been collaborating" },
+                            { label: "Time Signal", text: "since January" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 1",
+                        type: "Interogatif (?)",
+                        en: "How long have you been working in your current field of software engineering?",
+                        id: "Sudah berapa lama Anda bekerja di bidang rekayasa perangkat lunak Anda saat ini?",
+                        breakdown: [
+                            { label: "Time Question", text: "How long" },
+                            { label: "Aux", text: "have" },
+                            { label: "S", text: "you" },
+                            { label: "been + V-ing", text: "been working" }
+                        ]
+                    }
+                ]
+            },
+
+            // --- PAST FAMILY ---
+            {
+                id: "simple-past",
+                name: "Simple Past Tense",
+                category: "Past",
+                priority: "Sangat Penting (Task 1 Utama)",
+                description: "Menyatakan kejadian, data statistik, atau situasi yang dimulai dan sepenuhnya selesai pada titik waktu tertentu di masa lampau.",
+                formulaPos: "S + V2 + O",
+                formulaNeg: "S + did + not + V1",
+                formulaInt: "Did + S + V1?",
+                timeSignals: ["in 1995", "between 2000 and 2015", "last year", "a decade ago", "formerly"],
+                writingTip: "Tense nomor satu paling sering dipakai di IELTS Writing Task 1 karena 80% grafik/tabel menyajikan data historis yang sudah selesai.",
+                writingExample: "The proportion of renewable energy consumption rose steadily from 12% in 2005 to 28% in 2020.",
+                speakingTip: "Wajib dikuasai untuk Speaking Part 2 (Long Turn) ketika menceritakan pengalaman, perjalanan, atau peristiwa masa lalu.",
+                speakingExample: "When I visited Kyoto last autumn, I was captivated by how seamlessly traditional temples coexisted with modern architecture.",
+                moreExamples: [
+                    {
+                        context: "Writing Task 1 (Grafik)",
+                        type: "Positif (+)",
+                        en: "Consumer expenditure on electronics peaked at $450 million in 2012 before declining slightly.",
+                        id: "Pengeluaran konsumen untuk barang elektronik mencapai puncaknya pada $450 juta di tahun 2012 sebelum menurun sedikit.",
+                        breakdown: [
+                            { label: "S", text: "Consumer expenditure on electronics" },
+                            { label: "V2", text: "peaked" },
+                            { label: "Time Signal", text: "in 2012" }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 1 (Peta)",
+                        type: "Positif (+)",
+                        en: "In 1990, an industrial estate occupied the northern section of the town alongside a small railway station.",
+                        id: "Pada tahun 1990, sebuah kawasan industri menempati bagian utara kota di samping stasiun kereta api kecil.",
+                        breakdown: [
+                            { label: "Time Signal", text: "In 1990" },
+                            { label: "S", text: "an industrial estate" },
+                            { label: "V2", text: "occupied" },
+                            { label: "O", text: "the northern section of the town" }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 1 (Negatif)",
+                        type: "Negatif (-)",
+                        en: "Unlike wheat production, rice yields did not fluctuate significantly between 2000 and 2010.",
+                        id: "Tidak seperti produksi gandum, hasil panen padi tidak berfluktuasi secara signifikan antara tahun 2000 dan 2010.",
+                        breakdown: [
+                            { label: "S", text: "rice yields" },
+                            { label: "did + not + V1", text: "did not fluctuate" },
+                            { label: "Time Signal", text: "between 2000 and 2010" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 2",
+                        type: "Positif (+)",
+                        en: "Two years ago, I volunteered at a rural literacy program that profoundly changed my perspective on education.",
+                        id: "Dua tahun lalu, saya menjadi sukarelawan di program literasi pedesaan yang mengubah pandangan saya tentang pendidikan secara mendalam.",
+                        breakdown: [
+                            { label: "Time Signal", text: "Two years ago" },
+                            { label: "S", text: "I" },
+                            { label: "V2", text: "volunteered" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 2",
+                        type: "Negatif (-)",
+                        en: "Initially, I did not anticipate how challenging adapting to a foreign academic culture would be.",
+                        id: "Awalnya, saya tidak mengantisipasi betapa menantangnya beradaptasi dengan budaya akademis asing.",
+                        breakdown: [
+                            { label: "S", text: "I" },
+                            { label: "did + not + V1", text: "did not anticipate" },
+                            { label: "O", text: "how challenging adapting..." }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 3",
+                        type: "Interogatif (?)",
+                        en: "How did people maintain long-distance friendships before instant messaging became widespread?",
+                        id: "Bagaimana orang-orang menjaga persahabatan jarak jauh sebelum pesan instan tersebar luas?",
+                        breakdown: [
+                            { label: "Aux", text: "did" },
+                            { label: "S", text: "people" },
+                            { label: "V1", text: "maintain" },
+                            { label: "O", text: "long-distance friendships" }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "past-continuous",
+                name: "Past Continuous Tense",
+                category: "Past",
+                priority: "Menengah (Latar Cerita)",
+                description: "Menggambarkan aktivitas atau tren yang sedang berlangsung pada titik waktu tertentu di masa lampau, atau latar belakang ketika peristiwa lain terjadi.",
+                formulaPos: "S + was/were + V-ing + O",
+                formulaNeg: "S + was/were + not + V-ing",
+                formulaInt: "Was/Were + S + V-ing?",
+                timeSignals: ["while", "whereas", "at that time", "during the 1990s", "when"],
+                writingTip: "Bermanfaat pada Writing Task 1 untuk membandingkan dua tren paralel yang sedang bergerak bersamaan dalam periode masa lampau.",
+                writingExample: "While manufacturing output was declining in Western Europe during the 1990s, Asian economies expanded rapidly.",
+                speakingTip: "Membuat cerita di Speaking Part 2 terasa lebih hidup dan deskriptif saat menjelaskan suasana atau situasi latar belakang.",
+                speakingExample: "While we were waiting for the delayed flight, I struck up an inspiring conversation with an environmental researcher.",
+                moreExamples: [
+                    {
+                        context: "Writing Task 1 (Perbandingan)",
+                        type: "Positif (+)",
+                        en: "During the late 1990s, internet penetration was expanding rapidly across North America while remaining minimal elsewhere.",
+                        id: "Selama akhir tahun 1990-an, penetrasi internet berkembang pesat di Amerika Utara sementara tetap minimal di tempat lain.",
+                        breakdown: [
+                            { label: "Time Signal", text: "During the late 1990s" },
+                            { label: "S (Tunggal)", text: "internet penetration" },
+                            { label: "was + V-ing", text: "was expanding" }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 2 (Sejarah)",
+                        type: "Positif (+)",
+                        en: "When the Industrial Revolution began, rural laborers were migrating to urban factories in unprecedented numbers.",
+                        id: "Ketika Revolusi Industri dimulai, buruh pedesaan bermigrasi ke pabrik-pabrik perkotaan dalam jumlah yang belum pernah terjadi sebelumnya.",
+                        breakdown: [
+                            { label: "Klausa Waktu", text: "When the Industrial Revolution began" },
+                            { label: "S (Jamak)", text: "rural laborers" },
+                            { label: "were + V-ing", text: "were migrating" }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 2 (Negatif)",
+                        type: "Negatif (-)",
+                        en: "At that stage of economic growth, policymakers were not prioritizing environmental sustainability.",
+                        id: "Pada tahap pertumbuhan ekonomi tersebut, pembuat kebijakan tidak memprioritaskan keberlanjutan lingkungan.",
+                        breakdown: [
+                            { label: "Time Signal", text: "At that stage..." },
+                            { label: "S (Jamak)", text: "policymakers" },
+                            { label: "were + not + V-ing", text: "were not prioritizing" },
+                            { label: "O", text: "environmental sustainability" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 2",
+                        type: "Positif (+)",
+                        en: "The sun was setting behind the mountains as we finally reached the summit of the trail.",
+                        id: "Matahari sedang terbenam di balik pegunungan saat kami akhirnya mencapai puncak jalur pendakian.",
+                        breakdown: [
+                            { label: "S (Tunggal)", text: "The sun" },
+                            { label: "was + V-ing", text: "was setting" },
+                            { label: "Pelengkap", text: "behind the mountains" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 2",
+                        type: "Negatif (-)",
+                        en: "Fortunately, it was not raining when the outdoor cultural festival commenced.",
+                        id: "Untungnya, hujan tidak turun ketika festival budaya luar ruangan itu dimulai.",
+                        breakdown: [
+                            { label: "S", text: "it" },
+                            { label: "was + not + V-ing", text: "was not raining" },
+                            { label: "Klausa Waktu", text: "when ... commenced" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 2",
+                        type: "Interogatif (?)",
+                        en: "What were you studying at university when you decided to pursue an international career?",
+                        id: "Apa yang sedang Anda pelajari di universitas ketika Anda memutuskan untuk mengejar karier internasional?",
+                        breakdown: [
+                            { label: "Aux", text: "were" },
+                            { label: "S", text: "you" },
+                            { label: "V-ing", text: "studying" },
+                            { label: "Klausa Waktu", text: "when you decided..." }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "past-perfect",
+                name: "Past Perfect Tense",
+                category: "Past",
+                priority: "Penting (Skor Band 8.0+)",
+                description: "Menyatakan suatu peristiwa yang telah selesai terjadi SEBELUM titik waktu atau peristiwa lain di masa lampau.",
+                formulaPos: "S + had + V3 + O",
+                formulaNeg: "S + had + not + V3",
+                formulaInt: "Had + S + V3?",
+                timeSignals: ["by 2010", "prior to", "before", "by the time", "already"],
+                writingTip: "Sangat impresif pada Writing Task 1 (terutama peta/maps dan grafik) ketika menjelaskan perubahan yang sudah rampung sebelum tahun patokan kedua.",
+                writingExample: "By the end of 2015, total solar power capacity had surpassed all initial targets set a decade earlier.",
+                speakingTip: "Menunjukkan kontrol tata bahasa tingkat lanjut pada Speaking Part 2 saat menjelaskan kronologi kejadian lampau.",
+                speakingExample: "Before I relocated to Melbourne, I had never experienced living independently in a multicultural metropolis.",
+                moreExamples: [
+                    {
+                        context: "Writing Task 1 (Peta - Pasif)",
+                        type: "Positif (+)",
+                        en: "By 2015, the farmland in the eastern district had been completely replaced by a residential complex.",
+                        id: "Menjelang tahun 2015, lahan pertanian di distrik timur telah sepenuhnya digantikan oleh kompleks perumahan.",
+                        breakdown: [
+                            { label: "Time Signal", text: "By 2015" },
+                            { label: "S", text: "the farmland in the eastern district" },
+                            { label: "had + been + V3 (Pasif)", text: "had been ... replaced" }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 1 (Data)",
+                        type: "Positif (+)",
+                        en: "By the end of the decade, literacy rates in the region had climbed to over 92%.",
+                        id: "Pada akhir dekade tersebut, tingkat melek huruf di wilayah tersebut telah naik hingga lebih dari 92%.",
+                        breakdown: [
+                            { label: "Time Signal", text: "By the end of the decade" },
+                            { label: "S", text: "literacy rates in the region" },
+                            { label: "had + V3", text: "had climbed" }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 2 (Negatif)",
+                        type: "Negatif (-)",
+                        en: "Prior to the 2020 legislation, most corporations had not disclosed their annual carbon footprints.",
+                        id: "Sebelum undang-undang tahun 2020, sebagian besar perusahaan belum mengungkapkan jejak karbon tahunan mereka.",
+                        breakdown: [
+                            { label: "Time Signal", text: "Prior to the 2020 legislation" },
+                            { label: "S", text: "most corporations" },
+                            { label: "had + not + V3", text: "had not disclosed" },
+                            { label: "O", text: "their annual carbon footprints" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 2",
+                        type: "Positif (+)",
+                        en: "By the time I arrived at the auditorium, the keynote speaker had already concluded her opening remarks.",
+                        id: "Saat saya tiba di auditorium, pembicara utama sudah mengakhiri sambutan pembukaannya.",
+                        breakdown: [
+                            { label: "Time Signal", text: "By the time I arrived..." },
+                            { label: "S", text: "the keynote speaker" },
+                            { label: "had + already + V3", text: "had already concluded" },
+                            { label: "O", text: "her opening remarks" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 2",
+                        type: "Negatif (-)",
+                        en: "I felt quite nervous during the presentation because I had not rehearsed with the final slides.",
+                        id: "Saya merasa cukup gugup selama presentasi karena saya belum berlatih menggunakan salindia terakhir.",
+                        breakdown: [
+                            { label: "S", text: "I" },
+                            { label: "had + not + V3", text: "had not rehearsed" },
+                            { label: "Pelengkap", text: "with the final slides" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 3",
+                        type: "Interogatif (?)",
+                        en: "Had society already become reliant on digital banking before the pandemic accelerated the shift?",
+                        id: "Apakah masyarakat sudah menjadi bergantung pada perbankan digital sebelum pandemi mempercepat pergeseran tersebut?",
+                        breakdown: [
+                            { label: "Aux", text: "Had" },
+                            { label: "S", text: "society" },
+                            { label: "V3", text: "become" },
+                            { label: "Time Signal", text: "before the pandemic accelerated..." }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "past-perfect-continuous",
+                name: "Past Perfect Continuous",
+                category: "Past",
+                priority: "Pendukung (Konteks Spesifik)",
+                description: "Menekankan durasi suatu tindakan yang terus berlangsung di masa lalu hingga akhirnya terhenti oleh peristiwa lampau lainnya.",
+                formulaPos: "S + had + been + V-ing + O",
+                formulaNeg: "S + had + not + been + V-ing",
+                formulaInt: "Had + S + been + V-ing?",
+                timeSignals: ["for years before", "prior to", "until", "for several months"],
+                writingTip: "Dapat digunakan dalam Writing Task 2 saat menganalisis latar belakang historis penyebab munculnya suatu krisis atau kebijakan.",
+                writingExample: "Prior to the 2008 financial crisis, several institutions had been issuing high-risk mortgages for years.",
+                speakingTip: "Digunakan sesekali di Speaking Part 2 untuk menekankan lamanya upaya sebelum mencapai suatu hasil di masa lalu.",
+                speakingExample: "I had been saving up for nearly two years before I could finally afford that photography workshop.",
+                moreExamples: [
+                    {
+                        context: "Writing Task 2 (Sejarah)",
+                        type: "Positif (+)",
+                        en: "Researchers had been investigating mRNA vaccine technology for decades before its rapid deployment.",
+                        id: "Para peneliti telah menyelidiki teknologi vaksin mRNA selama beberapa dekade sebelum penerapannya yang cepat.",
+                        breakdown: [
+                            { label: "S", text: "Researchers" },
+                            { label: "had + been + V-ing", text: "had been investigating" },
+                            { label: "O", text: "mRNA vaccine technology" },
+                            { label: "Durasi + Batas Lampau", text: "for decades before..." }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 2 (Lingkungan)",
+                        type: "Positif (+)",
+                        en: "Factories had been discharging untreated waste into the river for years until strict penalties were introduced.",
+                        id: "Pabrik-pabrik telah membuang limbah yang tidak diolah ke sungai selama bertahun-tahun hingga sanksi ketat diberlakukan.",
+                        breakdown: [
+                            { label: "S", text: "Factories" },
+                            { label: "had + been + V-ing", text: "had been discharging" },
+                            { label: "Durasi + Batas", text: "for years until strict penalties were introduced" }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 2 (Negatif)",
+                        type: "Negatif (-)",
+                        en: "The city council had not been maintaining the historic bridge properly before structural cracks appeared.",
+                        id: "Dewan kota tidak memelihara jembatan bersejarah itu dengan baik sebelum retakan struktural muncul.",
+                        breakdown: [
+                            { label: "S", text: "The city council" },
+                            { label: "had + not + been + V-ing", text: "had not been maintaining" },
+                            { label: "O", text: "the historic bridge" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 2",
+                        type: "Positif (+)",
+                        en: "We had been trekking through dense rainforest for six hours before we spotted the waterfall.",
+                        id: "Kami telah berjalan kaki melintasi hutan hujan lebat selama enam jam sebelum kami melihat air terjun tersebut.",
+                        breakdown: [
+                            { label: "S", text: "We" },
+                            { label: "had + been + V-ing", text: "had been trekking" },
+                            { label: "Durasi", text: "for six hours" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 2",
+                        type: "Negatif (-)",
+                        en: "She was exhausted because she had not been sleeping well in the weeks leading up to her defense.",
+                        id: "Dia kelelahan karena tidak tidur nyenyak dalam beberapa minggu menjelang sidang skripsinya.",
+                        breakdown: [
+                            { label: "S", text: "she" },
+                            { label: "had + not + been + V-ing", text: "had not been sleeping" },
+                            { label: "Time Signal", text: "in the weeks leading up to..." }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 2",
+                        type: "Interogatif (?)",
+                        en: "How long had you been living abroad before you decided to return to your hometown?",
+                        id: "Sudah berapa lama Anda tinggal di luar negeri sebelum Anda memutuskan untuk kembali ke kampung halaman?",
+                        breakdown: [
+                            { label: "Aux", text: "had" },
+                            { label: "S", text: "you" },
+                            { label: "been + V-ing", text: "been living" },
+                            { label: "Batas Lampau", text: "before you decided..." }
+                        ]
+                    }
+                ]
+            },
+
+            // --- FUTURE FAMILY ---
+            {
+                id: "simple-future",
+                name: "Simple Future Tense",
+                category: "Future",
+                priority: "Penting (Prediksi & Task 2)",
+                description: "Menyatakan prediksi, proyeksi tren masa depan, atau konsekuensi logis dari suatu kebijakan/tindakan.",
+                formulaPos: "S + will + V1 + O",
+                formulaNeg: "S + will + not + V1",
+                formulaInt: "Will + S + V1?",
+                timeSignals: ["in 2040", "over the next decade", "in the foreseeable future", "eventually"],
+                writingTip: "Digunakan di Writing Task 2 untuk memaparkan dampak masa depan dari sebuah masalah, serta di Task 1 untuk grafik proyeksi.",
+                writingExample: "Without stricter carbon taxation, global plastic waste in marine ecosystems will escalate dramatically.",
+                speakingTip: "Esensial pada Speaking Part 3 ketika penguji menanyakan prediksi masa depan mengenai teknologi, pendidikan, atau masyarakat.",
+                speakingExample: "I believe automated translation tools will significantly reduce language barriers in international business.",
+                moreExamples: [
+                    {
+                        context: "Writing Task 1 (Proyeksi)",
+                        type: "Positif (+)",
+                        en: "According to the forecast, urban populations in Asia will exceed 3 billion by 2040.",
+                        id: "Menurut perkiraan tersebut, populasi perkotaan di Asia akan melampaui 3 miliar pada tahun 2040.",
+                        breakdown: [
+                            { label: "S", text: "urban populations in Asia" },
+                            { label: "will + V1", text: "will exceed" },
+                            { label: "O", text: "3 billion" },
+                            { label: "Time Signal", text: "by 2040" }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 2 (Konsekuensi)",
+                        type: "Positif (+)",
+                        en: "Investing in early childhood education will yield substantial economic dividends for future generations.",
+                        id: "Berinvestasi pada pendidikan anak usia dini akan menghasilkan dividen ekonomi yang substansial bagi generasi mendatang.",
+                        breakdown: [
+                            { label: "S (Gerund)", text: "Investing in early childhood education" },
+                            { label: "will + V1", text: "will yield" },
+                            { label: "O", text: "substantial economic dividends..." }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 2 (Negatif)",
+                        type: "Negatif (-)",
+                        en: "Punitive measures alone will not resolve traffic congestion unless public transit becomes more reliable.",
+                        id: "Tindakan hukuman saja tidak akan menyelesaikan kemacetan lalu lintas kecuali transportasi umum menjadi lebih andal.",
+                        breakdown: [
+                            { label: "S", text: "Punitive measures alone" },
+                            { label: "will + not + V1", text: "will not resolve" },
+                            { label: "O", text: "traffic congestion" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 3",
+                        type: "Positif (+)",
+                        en: "I suspect flexible hybrid schedules will become the standard norm across most corporate sectors.",
+                        id: "Saya menduga jadwal hibrida yang fleksibel akan menjadi norma standar di sebagian besar sektor korporasi.",
+                        breakdown: [
+                            { label: "S", text: "flexible hybrid schedules" },
+                            { label: "will + V1", text: "will become" },
+                            { label: "Pelengkap", text: "the standard norm..." }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 3",
+                        type: "Negatif (-)",
+                        en: "Artificial intelligence will not entirely replace human empathy in fields such as nursing and counseling.",
+                        id: "Kecerdasan buatan tidak akan sepenuhnya menggantikan empati manusia di bidang seperti keperawatan dan konseling.",
+                        breakdown: [
+                            { label: "S", text: "Artificial intelligence" },
+                            { label: "will + not + V1", text: "will not ... replace" },
+                            { label: "O", text: "human empathy..." }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 3",
+                        type: "Interogatif (?)",
+                        en: "Will traditional brick-and-mortar universities remain relevant in an era of accessible online degrees?",
+                        id: "Apakah universitas fisik tradisional akan tetap relevan di era gelar daring yang mudah diakses?",
+                        breakdown: [
+                            { label: "Aux", text: "Will" },
+                            { label: "S", text: "traditional brick-and-mortar universities" },
+                            { label: "V1", text: "remain" },
+                            { label: "Pelengkap", text: "relevant..." }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "future-continuous",
+                name: "Future Continuous Tense",
+                category: "Future",
+                priority: "Menengah (Proyeksi Tren)",
+                description: "Menggambarkan aktivitas atau keadaan yang diproyeksikan akan sedang berlangsung pada titik waktu tertentu di masa depan.",
+                formulaPos: "S + will + be + V-ing + O",
+                formulaNeg: "S + will + not + be + V-ing",
+                formulaInt: "Will + S + be + V-ing?",
+                timeSignals: ["by mid-century", "this time next year", "in ten years' time", "at that point"],
+                writingTip: "Memberikan variasi struktur kalimat yang elegan pada Writing Task 2 saat membayangkan skenario masyarakat di masa mendatang.",
+                writingExample: "By mid-century, a substantial proportion of metropolitan commuters will be utilizing autonomous transit systems.",
+                speakingTip: "Bagus dipakai di Speaking Part 1 atau Part 3 saat menjelaskan rencana karier atau kehidupan Anda dalam 5–10 tahun ke depan.",
+                speakingExample: "In five years' time, I hope I will be working as a clinical researcher at an international hospital.",
+                moreExamples: [
+                    {
+                        context: "Writing Task 2 (Skenario)",
+                        type: "Positif (+)",
+                        en: "Within two decades, millions of households will be generating their own electricity via rooftop solar panels.",
+                        id: "Dalam dua dekade, jutaan rumah tangga akan menghasilkan listrik mereka sendiri melalui panel surya atap.",
+                        breakdown: [
+                            { label: "Time Signal", text: "Within two decades" },
+                            { label: "S", text: "millions of households" },
+                            { label: "will + be + V-ing", text: "will be generating" },
+                            { label: "O", text: "their own electricity..." }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 2 (Demografi)",
+                        type: "Positif (+)",
+                        en: "By 2045, a much larger share of citizens will be working well past the traditional retirement age.",
+                        id: "Menjelang tahun 2045, porsi warga yang jauh lebih besar akan tetap bekerja melewati usia pensiun tradisional.",
+                        breakdown: [
+                            { label: "Time Signal", text: "By 2045" },
+                            { label: "S", text: "a much larger share of citizens" },
+                            { label: "will + be + V-ing", text: "will be working" }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 2 (Negatif)",
+                        type: "Negatif (-)",
+                        en: "In twenty years' time, major automotive manufacturers will no longer be producing diesel passenger cars.",
+                        id: "Dalam waktu dua puluh tahun, produsen otomotif besar tidak akan lagi memproduksi mobil penumpang diesel.",
+                        breakdown: [
+                            { label: "Time Signal", text: "In twenty years' time" },
+                            { label: "S", text: "major automotive manufacturers" },
+                            { label: "will + not + be + V-ing", text: "will no longer be producing" },
+                            { label: "O", text: "diesel passenger cars" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 1",
+                        type: "Positif (+)",
+                        en: "This time next year, I will hopefully be attending postgraduate lectures in the United Kingdom.",
+                        id: "Waktu seperti ini tahun depan, saya berharap sudah menghadiri perkuliahan pascasarjana di Inggris.",
+                        breakdown: [
+                            { label: "Time Signal", text: "This time next year" },
+                            { label: "S", text: "I" },
+                            { label: "will + be + V-ing", text: "will ... be attending" },
+                            { label: "O", text: "postgraduate lectures..." }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 3",
+                        type: "Positif (+)",
+                        en: "Students in the future will be collaborating with peers across continents in virtual classrooms.",
+                        id: "Siswa di masa depan akan berkolaborasi dengan rekan-rekan di seluruh benua dalam ruang kelas virtual.",
+                        breakdown: [
+                            { label: "S", text: "Students in the future" },
+                            { label: "will + be + V-ing", text: "will be collaborating" },
+                            { label: "Pelengkap", text: "with peers across continents..." }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 3",
+                        type: "Interogatif (?)",
+                        en: "How will people be spending their leisure time once automation reduces standard working hours?",
+                        id: "Bagaimana orang-orang akan menghabiskan waktu luang mereka begitu otomatisasi mengurangi jam kerja standar?",
+                        breakdown: [
+                            { label: "Aux", text: "will" },
+                            { label: "S", text: "people" },
+                            { label: "be + V-ing", text: "be spending" },
+                            { label: "O", text: "their leisure time" }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "future-perfect",
+                name: "Future Perfect Tense",
+                category: "Future",
+                priority: "Sangat Penting (Task 1 Proyeksi)",
+                description: "Menyatakan suatu pencapaian atau angka proyeksi yang akan SUDAH selesai/tercapai sebelum titik waktu tertentu di masa depan.",
+                formulaPos: "S + will + have + V3 + O",
+                formulaNeg: "S + will + not + have + V3",
+                formulaInt: "Will + S + have + V3?",
+                timeSignals: ["by 2050", "by the end of this century", "before 2035", "by the time"],
+                writingTip: "Senjata rahasia untuk Band 8.0+ di Writing Task 1 ketika mendeskripsikan data prediksi tahun masa depan (misal: 'By 2050, the figure will have doubled').",
+                writingExample: "By 2050, the global population aged 65 and over will have reached more than double its current figure.",
+                speakingTip: "Membuat jawaban Speaking Part 3 terdengar sangat terstruktur saat membahas target pembangunan jangka panjang.",
+                speakingExample: "By the end of this decade, many European nations will have phased out conventional petrol vehicles.",
+                moreExamples: [
+                    {
+                        context: "Writing Task 1 (Proyeksi)",
+                        type: "Positif (+)",
+                        en: "By 2035, renewable energy's share of the national grid will have overtaken coal power.",
+                        id: "Menjelang tahun 2035, pangsa energi terbarukan dalam jaringan listrik nasional akan telah melampaui tenaga batu bara.",
+                        breakdown: [
+                            { label: "Time Signal", text: "By 2035" },
+                            { label: "S", text: "renewable energy's share..." },
+                            { label: "will + have + V3", text: "will have overtaken" },
+                            { label: "O", text: "coal power" }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 1 (Proyeksi)",
+                        type: "Positif (+)",
+                        en: "By the end of the projection period, per capita water consumption will have fallen by nearly 15%.",
+                        id: "Pada akhir periode proyeksi, konsumsi air per kapita akan telah turun hampir 15%.",
+                        breakdown: [
+                            { label: "Time Signal", text: "By the end of the projection period" },
+                            { label: "S", text: "per capita water consumption" },
+                            { label: "will + have + V3", text: "will have fallen" }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 2 (Negatif)",
+                        type: "Negatif (-)",
+                        en: "Without immediate intervention, several vulnerable island nations will not have built adequate seawalls by 2040.",
+                        id: "Tanpa intervensi segera, beberapa negara kepulauan yang rentan tidak akan selesai membangun tanggul laut yang memadai pada tahun 2040.",
+                        breakdown: [
+                            { label: "S", text: "several vulnerable island nations" },
+                            { label: "will + not + have + V3", text: "will not have built" },
+                            { label: "O", text: "adequate seawalls" },
+                            { label: "Time Signal", text: "by 2040" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 1",
+                        type: "Positif (+)",
+                        en: "By the time I graduate next summer, I will have completed two industry internships.",
+                        id: "Saat saya lulus musim panas mendatang, saya akan telah menyelesaikan dua program magang industri.",
+                        breakdown: [
+                            { label: "Time Signal", text: "By the time I graduate..." },
+                            { label: "S", text: "I" },
+                            { label: "will + have + V3", text: "will have completed" },
+                            { label: "O", text: "two industry internships" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 3",
+                        type: "Positif (+)",
+                        en: "By mid-century, space agencies will have established permanent research outposts on the Moon.",
+                        id: "Menjelang pertengahan abad ini, badan antariksa akan telah mendirikan pos penelitian permanen di Bulan.",
+                        breakdown: [
+                            { label: "Time Signal", text: "By mid-century" },
+                            { label: "S", text: "space agencies" },
+                            { label: "will + have + V3", text: "will have established" },
+                            { label: "O", text: "permanent research outposts..." }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 3",
+                        type: "Interogatif (?)",
+                        en: "Will humanity have transitioned to clean energy fast enough to prevent severe climate disruption?",
+                        id: "Akankah umat manusia telah beralih ke energi bersih dengan cukup cepat untuk mencegah gangguan iklim yang parah?",
+                        breakdown: [
+                            { label: "Aux", text: "Will" },
+                            { label: "S", text: "humanity" },
+                            { label: "have + V3", text: "have transitioned" },
+                            { label: "Pelengkap", text: "to clean energy..." }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "future-perfect-continuous",
+                name: "Future Perfect Continuous",
+                category: "Future",
+                priority: "Pendukung (Akumulasi Durasi)",
+                description: "Menekankan lamanya durasi suatu aktivitas yang akan terus berlangsung hingga titik waktu tertentu di masa depan.",
+                formulaPos: "S + will + have + been + V-ing + O",
+                formulaNeg: "S + will + not + have + been + V-ing",
+                formulaInt: "Will + S + have + been + V-ing?",
+                timeSignals: ["by next year ... for", "by 2030 ... for over a decade"],
+                writingTip: "Jarang wajib, namun dapat dipakai di Writing Task 2 untuk menekankan lamanya akumulasi proses transisi energi atau penelitian.",
+                writingExample: "By the time the railway network opens next year, engineers will have been working on the tunnels for a decade.",
+                speakingTip: "Dapat dipakai di Speaking Part 1 saat menceritakan pencapaian durasi studi atau pengalaman kerja Anda di tahun depan.",
+                speakingExample: "By next September, I will have been teaching economics at the university for exactly ten years.",
+                moreExamples: [
+                    {
+                        context: "Writing Task 2 (Infrastruktur)",
+                        type: "Positif (+)",
+                        en: "By the time the desalination plant operates in 2029, contractors will have been constructing it for seven years.",
+                        id: "Pada saat pabrik desalinasi beroperasi pada tahun 2029, kontraktor akan telah membangunnya selama tujuh tahun.",
+                        breakdown: [
+                            { label: "Titik Waktu Depan", text: "By the time ... in 2029" },
+                            { label: "S", text: "contractors" },
+                            { label: "will + have + been + V-ing", text: "will have been constructing" },
+                            { label: "Durasi", text: "for seven years" }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 2 (Sains)",
+                        type: "Positif (+)",
+                        en: "By 2030, astronomers will have been analyzing data from the James Webb telescope for nearly a decade.",
+                        id: "Menjelang tahun 2030, para astronom akan telah menganalisis data dari teleskop James Webb selama hampir satu dekade.",
+                        breakdown: [
+                            { label: "Time Signal", text: "By 2030" },
+                            { label: "S", text: "astronomers" },
+                            { label: "will + have + been + V-ing", text: "will have been analyzing" },
+                            { label: "Durasi", text: "for nearly a decade" }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 2 (Negatif)",
+                        type: "Negatif (-)",
+                        en: "By next month, the committee will not have been reviewing the proposal long enough to issue a final verdict.",
+                        id: "Menjelang bulan depan, komite belum meninjau proposal tersebut cukup lama untuk mengeluarkan keputusan akhir.",
+                        breakdown: [
+                            { label: "Time Signal", text: "By next month" },
+                            { label: "S", text: "the committee" },
+                            { label: "will + not + have + been + V-ing", text: "will not have been reviewing" },
+                            { label: "O", text: "the proposal" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 1",
+                        type: "Positif (+)",
+                        en: "By the end of this year, I will have been playing the cello in our community orchestra for twelve years.",
+                        id: "Pada akhir tahun ini, saya akan telah bermain selo di orkestra komunitas kami selama dua belas tahun.",
+                        breakdown: [
+                            { label: "Time Signal", text: "By the end of this year" },
+                            { label: "S", text: "I" },
+                            { label: "will + have + been + V-ing", text: "will have been playing" },
+                            { label: "Durasi", text: "for twelve years" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 1",
+                        type: "Positif (+)",
+                        en: "Next April, my parents will have been running their family bakery for three decades.",
+                        id: "April mendatang, orang tua saya akan telah menjalankan toko roti keluarga mereka selama tiga dekade.",
+                        breakdown: [
+                            { label: "Time Signal", text: "Next April" },
+                            { label: "S", text: "my parents" },
+                            { label: "will + have + been + V-ing", text: "will have been running" },
+                            { label: "Durasi", text: "for three decades" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 1",
+                        type: "Interogatif (?)",
+                        en: "How long will you have been living in your current apartment by the time your lease expires?",
+                        id: "Sudah berapa lama Anda akan tinggal di apartemen Anda saat ini ketika masa sewa Anda berakhir?",
+                        breakdown: [
+                            { label: "Aux", text: "will" },
+                            { label: "S", text: "you" },
+                            { label: "have + been + V-ing", text: "have been living" },
+                            { label: "Titik Waktu Depan", text: "by the time your lease expires" }
+                        ]
+                    }
+                ]
+            },
+
+            // --- PAST FUTURE FAMILY ---
+            {
+                id: "simple-past-future",
+                name: "Simple Past Future",
+                category: "Past Future",
+                priority: "Sangat Penting (Conditional Type 2)",
+                description: "Digunakan dalam kalimat pengandaian (Conditional Type 2) untuk membahas situasi hipotesis di masa kini/depan serta saran kebijakan yang halus.",
+                formulaPos: "S + would + V1 + O",
+                formulaNeg: "S + would + not + V1",
+                formulaInt: "Would + S + V1?",
+                timeSignals: ["if + Simple Past", "otherwise", "without such measures", "hypothetically"],
+                writingTip: "Sangat krusial di Writing Task 2 untuk membangun argumen pengandaian (jika pemerintah melakukan X, maka Y akan terjadi) agar nada tulisan akademis dan tidak terlalu mutlak.",
+                writingExample: "If municipal governments subsidized public transport heavily, significantly fewer residents would operate private cars.",
+                speakingTip: "Wajib dikuasai untuk Speaking Part 3 yang sering mengajukan pertanyaan hipotesis ('What would happen if...?').",
+                speakingExample: "If cities invested more in protected cycling lanes, more people would definitely choose sustainable commuting.",
+                moreExamples: [
+                    {
+                        context: "Writing Task 2 (Kebijakan)",
+                        type: "Positif (+)",
+                        en: "A four-day working week would boost employee morale and reduce corporate overhead expenses.",
+                        id: "Empat hari kerja seminggu akan meningkatkan moral karyawan dan mengurangi biaya operasional perusahaan.",
+                        breakdown: [
+                            { label: "S", text: "A four-day working week" },
+                            { label: "would + V1", text: "would boost ... and reduce" },
+                            { label: "O", text: "employee morale..." }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 2 (Pengandaian)",
+                        type: "Positif (+)",
+                        en: "If higher education were tuition-free, students from low-income backgrounds would gain equal career mobility.",
+                        id: "Jika pendidikan tinggi bebas biaya kuliah, siswa dari latar belakang berpenghasilan rendah akan mendapatkan mobilitas karier yang setara.",
+                        breakdown: [
+                            { label: "If-Clause (V2)", text: "If higher education were tuition-free" },
+                            { label: "S", text: "students..." },
+                            { label: "would + V1", text: "would gain" },
+                            { label: "O", text: "equal career mobility" }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 2 (Negatif)",
+                        type: "Negatif (-)",
+                        en: "Without strict legal enforcement, voluntary corporate pledges alone would not curb industrial pollution.",
+                        id: "Tanpa penegakan hukum yang ketat, janji sukarela perusahaan saja tidak akan mengekang polusi industri.",
+                        breakdown: [
+                            { label: "Syarat Hipotesis", text: "Without strict legal enforcement" },
+                            { label: "S", text: "voluntary corporate pledges alone" },
+                            { label: "would + not + V1", text: "would not curb" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 3",
+                        type: "Positif (+)",
+                        en: "If I had the authority to redesign my hometown, I would prioritize pedestrian-only green zones.",
+                        id: "Jika saya memiliki wewenang untuk merancang ulang kampung halaman saya, saya akan memprioritaskan zona hijau khusus pejalan kaki.",
+                        breakdown: [
+                            { label: "If-Clause (V2)", text: "If I had the authority..." },
+                            { label: "S", text: "I" },
+                            { label: "would + V1", text: "would prioritize" },
+                            { label: "O", text: "pedestrian-only green zones" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 3",
+                        type: "Negatif (-)",
+                        en: "I would not support banning private cars entirely unless reliable rural transit existed first.",
+                        id: "Saya tidak akan mendukung pelarangan mobil pribadi sepenuhnya kecuali transportasi pedesaan yang andal tersedia terlebih dahulu.",
+                        breakdown: [
+                            { label: "S", text: "I" },
+                            { label: "would + not + V1", text: "would not support" },
+                            { label: "O", text: "banning private cars entirely" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 3",
+                        type: "Interogatif (?)",
+                        en: "How would global tourism change if international airfares doubled due to environmental taxes?",
+                        id: "Bagaimana pariwisata global akan berubah jika tarif penerbangan internasional berlipat ganda akibat pajak lingkungan?",
+                        breakdown: [
+                            { label: "Aux", text: "would" },
+                            { label: "S", text: "global tourism" },
+                            { label: "V1", text: "change" },
+                            { label: "If-Clause (V2)", text: "if international airfares doubled..." }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "past-future-continuous",
+                name: "Past Future Continuous",
+                category: "Past Future",
+                priority: "Pendukung (Hipotesis Aktif)",
+                description: "Menyatakan aktivitas atau kondisi alternatif yang seharusnya sedang berlangsung saat ini seandainya kondisi pengandaian terpenuhi.",
+                formulaPos: "S + would + be + V-ing + O",
+                formulaNeg: "S + would + not + be + V-ing",
+                formulaInt: "Would + S + be + V-ing?",
+                timeSignals: ["without + noun", "if + Simple Past ... right now"],
+                writingTip: "Berguna di Writing Task 2 untuk menggambarkan konsekuensi langsung yang sedang dirasakan masyarakat jika suatu kebijakan tidak ada.",
+                writingExample: "Without international humanitarian intervention, millions of displaced citizens would still be facing severe famine.",
+                speakingTip: "Menunjukkan fleksibilitas tata bahasa tinggi saat menjawab pertanyaan pengandaian personal di Speaking Part 2/3.",
+                speakingExample: "If I had not chosen engineering, I would probably be pursuing a degree in environmental architecture right now.",
+                moreExamples: [
+                    {
+                        context: "Writing Task 2 (Ekonomi)",
+                        type: "Positif (+)",
+                        en: "Without central bank stimulus packages, thousands of small enterprises would currently be filing for bankruptcy.",
+                        id: "Tanpa paket stimulus bank sentral, ribuan usaha kecil saat ini akan sedang mengajukan kebangkrutan.",
+                        breakdown: [
+                            { label: "Syarat Hipotesis", text: "Without central bank stimulus packages" },
+                            { label: "S", text: "thousands of small enterprises" },
+                            { label: "would + be + V-ing", text: "would currently be filing" }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 2 (Lingkungan)",
+                        type: "Positif (+)",
+                        en: "If reforestation programs had started earlier, local ecosystems would now be recovering much faster.",
+                        id: "Jika program reboisasi dimulai lebih awal, ekosistem lokal sekarang akan sedang pulih jauh lebih cepat.",
+                        breakdown: [
+                            { label: "If-Clause", text: "If reforestation programs had started..." },
+                            { label: "S", text: "local ecosystems" },
+                            { label: "would + be + V-ing", text: "would now be recovering" }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 2 (Negatif)",
+                        type: "Negatif (-)",
+                        en: "Had public awareness campaigns succeeded, hospitals would not be treating so many preventable illnesses today.",
+                        id: "Seandainya kampanye kesadaran publik berhasil, rumah sakit tidak akan sedang merawat begitu banyak penyakit yang dapat dicegah hari ini.",
+                        breakdown: [
+                            { label: "S", text: "hospitals" },
+                            { label: "would + not + be + V-ing", text: "would not be treating" },
+                            { label: "O", text: "so many preventable illnesses" },
+                            { label: "Time Signal", text: "today" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 2",
+                        type: "Positif (+)",
+                        en: "If my flight had not been canceled yesterday, I would be exploring the museums in Tokyo right now.",
+                        id: "Jika penerbangan saya tidak dibatalkan kemarin, saya pasti sedang menjelajahi museum-museum di Tokyo sekarang.",
+                        breakdown: [
+                            { label: "S", text: "I" },
+                            { label: "would + be + V-ing", text: "would be exploring" },
+                            { label: "O", text: "the museums in Tokyo" },
+                            { label: "Time Signal", text: "right now" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 3",
+                        type: "Negatif (-)",
+                        en: "Without modern broadband infrastructure, remote employees would not be collaborating seamlessly across time zones.",
+                        id: "Tanpa infrastruktur pita lebar modern, karyawan jarak jauh tidak akan dapat berkolaborasi dengan lancar lintas zona waktu.",
+                        breakdown: [
+                            { label: "S", text: "remote employees" },
+                            { label: "would + not + be + V-ing", text: "would not be collaborating" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 3",
+                        type: "Interogatif (?)",
+                        en: "What would you be doing right now if you had chosen a completely different academic major?",
+                        id: "Apa yang akan sedang Anda lakukan sekarang jika Anda memilih jurusan akademis yang sama sekali berbeda?",
+                        breakdown: [
+                            { label: "Aux", text: "would" },
+                            { label: "S", text: "you" },
+                            { label: "be + V-ing", text: "be doing" },
+                            { label: "Time Signal", text: "right now" }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "past-future-perfect",
+                name: "Past Future Perfect",
+                category: "Past Future",
+                priority: "Penting (Conditional Type 3)",
+                description: "Digunakan dalam Conditional Type 3 untuk mengevaluasi peristiwa masa lampau yang tidak terjadi beserta konsekuensi alternatifnya.",
+                formulaPos: "S + would + have + V3 + O",
+                formulaNeg: "S + would + not + have + V3",
+                formulaInt: "Would + S + have + V3?",
+                timeSignals: ["if + Past Perfect", "had + S + V3", "otherwise"],
+                writingTip: "Sangat berkelas di Writing Task 2 untuk mengevaluasi kegagalan kebijakan masa lalu (termasuk bentuk inversi 'Had + S + V3').",
+                writingExample: "Had local authorities invested in flood defenses earlier, the severe economic damage last winter would have been avoided.",
+                speakingTip: "Sangat tepat dipakai di Speaking Part 2 & 3 saat merefleksikan keputusan masa lalu dan pelajaran yang dipetik.",
+                speakingExample: "Looking back, I would have started learning a second language much earlier if I had realized its career benefits.",
+                moreExamples: [
+                    {
+                        context: "Writing Task 2 (Inversi - Pasif)",
+                        type: "Positif (+)",
+                        en: "Had stricter building codes been enforced before the earthquake, structural casualties would have been minimal.",
+                        id: "Seandainya kode bangunan yang lebih ketat ditegakkan sebelum gempa bumi, korban akibat keruntuhan struktur akan minimal.",
+                        breakdown: [
+                            { label: "Inversi Type 3", text: "Had stricter building codes been enforced..." },
+                            { label: "S", text: "structural casualties" },
+                            { label: "would + have + V3", text: "would have been" },
+                            { label: "Pelengkap", text: "minimal" }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 2 (Sejarah)",
+                        type: "Positif (+)",
+                        en: "Without the invention of antibiotics, minor bacterial infections would have remained fatal throughout the 20th century.",
+                        id: "Tanpa penemuan antibiotik, infeksi bakteri ringan akan tetap berakibat fatal sepanjang abad ke-20.",
+                        breakdown: [
+                            { label: "Syarat Lampau", text: "Without the invention of antibiotics" },
+                            { label: "S", text: "minor bacterial infections" },
+                            { label: "would + have + V3", text: "would have remained" }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 2 (Negatif)",
+                        type: "Negatif (-)",
+                        en: "The coastal wetland would not have deteriorated if industrial zoning permits had been denied in 2005.",
+                        id: "Lahan basah pesisir tidak akan mengalami kerusakan jika izin zonasi industri ditolak pada tahun 2005.",
+                        breakdown: [
+                            { label: "S", text: "The coastal wetland" },
+                            { label: "would + not + have + V3", text: "would not have deteriorated" },
+                            { label: "If-Clause (Past Perfect)", text: "if ... permits had been denied in 2005" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 2",
+                        type: "Positif (+)",
+                        en: "If I had booked the accommodation earlier, I would have saved nearly half of my travel budget.",
+                        id: "Jika saya memesan akomodasi lebih awal, saya akan telah menghemat hampir setengah dari anggaran perjalanan saya.",
+                        breakdown: [
+                            { label: "If-Clause (Past Perfect)", text: "If I had booked..." },
+                            { label: "S", text: "I" },
+                            { label: "would + have + V3", text: "would have saved" },
+                            { label: "O", text: "nearly half of my travel budget" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 2",
+                        type: "Negatif (-)",
+                        en: "I would not have secured my current job without the constructive feedback from my former supervisor.",
+                        id: "Saya tidak akan mendapatkan pekerjaan saya saat ini tanpa umpan balik konstruktif dari mantan penyelia saya.",
+                        breakdown: [
+                            { label: "S", text: "I" },
+                            { label: "would + not + have + V3", text: "would not have secured" },
+                            { label: "O", text: "my current job" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 3",
+                        type: "Interogatif (?)",
+                        en: "Would global globalization have progressed as rapidly if commercial aviation had not become affordable?",
+                        id: "Akankah globalisasi berkembang secepat ini jika penerbangan komersial tidak menjadi terjangkau?",
+                        breakdown: [
+                            { label: "Aux", text: "Would" },
+                            { label: "S", text: "globalization" },
+                            { label: "have + V3", text: "have progressed" },
+                            { label: "If-Clause (Past Perfect)", text: "if commercial aviation had not become..." }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "past-future-perfect-continuous",
+                name: "Past Future Perfect Continuous",
+                category: "Past Future",
+                priority: "Lanjutan (Grammatical Range)",
+                description: "Menekankan durasi suatu keadaan pengandaian di masa lampau yang gagal terwujud hingga titik waktu tertentu di masa lalu.",
+                formulaPos: "S + would + have + been + V-ing + O",
+                formulaNeg: "S + would + not + have + been + V-ing",
+                formulaInt: "Would + S + have + been + V-ing?",
+                timeSignals: ["had ... not occurred", "for + duration + by + past year"],
+                writingTip: "Menunjukkan penguasaan struktur kompleks tingkat tertinggi saat membahas tren ekonomi atau sosial yang terhenti oleh krisis masa lalu.",
+                writingExample: "Had the sudden recession not occurred, the technology sector would have been expanding steadily for fifteen years by 2022.",
+                speakingTip: "Dapat digunakan dalam refleksi mendalam di Speaking Part 3 untuk menunjukkan akurasi tata bahasa tingkat mahir.",
+                speakingExample: "If the scholarship program had not been suspended, students would have been benefiting from exchange opportunities for years.",
+                moreExamples: [
+                    {
+                        context: "Writing Task 2 (Ekonomi)",
+                        type: "Positif (+)",
+                        en: "Had trade tariffs not been imposed in 2018, bilateral exports would have been growing continuously for two decades.",
+                        id: "Seandainya tarif perdagangan tidak diberlakukan pada 2018, ekspor bilateral akan telah tumbuh terus-menerus selama dua dekade.",
+                        breakdown: [
+                            { label: "Inversi Lampau", text: "Had trade tariffs not been imposed..." },
+                            { label: "S", text: "bilateral exports" },
+                            { label: "would + have + been + V-ing", text: "would have been growing" },
+                            { label: "Durasi", text: "for two decades" }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 2 (Konservasi)",
+                        type: "Positif (+)",
+                        en: "Without illegal deforestation, indigenous tribes would have been managing those forest reserves sustainably for generations.",
+                        id: "Tanpa deforestasi ilegal, suku-suku asli akan telah mengelola cagar hutan tersebut secara berkelanjutan selama beberapa generasi.",
+                        breakdown: [
+                            { label: "Syarat Lampau", text: "Without illegal deforestation" },
+                            { label: "S", text: "indigenous tribes" },
+                            { label: "would + have + been + V-ing", text: "would have been managing" },
+                            { label: "Durasi", text: "for generations" }
+                        ]
+                    },
+                    {
+                        context: "Writing Task 2 (Negatif)",
+                        type: "Negatif (-)",
+                        en: "Had the rail project been funded on schedule, commuters would not have been enduring severe highway delays for years.",
+                        id: "Seandainya proyek kereta api didanai sesuai jadwal, para komuter tidak akan mengalami penundaan jalan raya yang parah selama bertahun-tahun.",
+                        breakdown: [
+                            { label: "S", text: "commuters" },
+                            { label: "would + not + have + been + V-ing", text: "would not have been enduring" },
+                            { label: "Durasi", text: "for years" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 2",
+                        type: "Positif (+)",
+                        en: "If I had not relocated for university, I would have been playing for my hometown club for ten years by last season.",
+                        id: "Jika saya tidak pindah untuk kuliah, saya akan telah bermain untuk klub kampung halaman saya selama sepuluh tahun pada musim lalu.",
+                        breakdown: [
+                            { label: "S", text: "I" },
+                            { label: "would + have + been + V-ing", text: "would have been playing" },
+                            { label: "Durasi + Batas Lampau", text: "for ten years by last season" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 2",
+                        type: "Negatif (-)",
+                        en: "Had our team received accurate weather forecasts, we would not have been hiking in dangerous conditions all afternoon.",
+                        id: "Seandainya tim kami menerima prakiraan cuaca yang akurat, kami tidak akan mendaki dalam kondisi berbahaya sepanjang sore.",
+                        breakdown: [
+                            { label: "S", text: "we" },
+                            { label: "would + not + have + been + V-ing", text: "would not have been hiking" },
+                            { label: "Durasi", text: "all afternoon" }
+                        ]
+                    },
+                    {
+                        context: "Speaking Part 3",
+                        type: "Interogatif (?)",
+                        en: "How long would local artisans have been operating their workshops if mass-produced imports had not flooded the market?",
+                        id: "Berapa lama perajin lokal akan tetap menjalankan bengkel mereka jika barang impor produksi massal tidak membanjiri pasar?",
+                        breakdown: [
+                            { label: "Aux", text: "would" },
+                            { label: "S", text: "local artisans" },
+                            { label: "have + been + V-ing", text: "have been operating" },
+                            { label: "O", text: "their workshops" }
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        // =========================================================================
+        // 2. FALLBACK LOCAL BANK SOAL UNTUK SEMUA 16 TENSES
+        // =========================================================================
+        const FALLBACK_BANK_BY_TENSE = {
+            "simple-present": [
+                {
+                    question: "In the final stage of the manufacturing process, the purified water _______ into sterilized glass bottles before distribution.",
+                    options: ["is channeled", "was channeled", "has channeled", "will be channeling"],
+                    correctIndex: 0,
+                    tenseTag: "Simple Present Tense",
+                    explanation: "Mendeskripsikan tahapan proses produksi yang bersifat fakta rutin/permanen dalam IELTS Writing Task 1 menggunakan Simple Present Tense."
+                },
+                {
+                    question: "Empirical studies consistently _______ that bilingualism enhances executive cognitive control across all age groups.",
+                    options: ["demonstrate", "demonstrated", "are demonstrating", "had demonstrated"],
+                    correctIndex: 0,
+                    tenseTag: "Simple Present Tense",
+                    explanation: "Kata keterangan 'consistently' dan pernyataan fakta ilmiah umum dalam esai Writing Task 2 membutuhkan Simple Present Tense."
+                }
+            ],
+            "present-continuous": [
+                {
+                    question: "Rapid advancements in generative artificial intelligence _______ traditional recruitment workflows across global corporations these days.",
+                    options: ["are reshaping", "reshaped", "had reshaped", "reshape"],
+                    correctIndex: 0,
+                    tenseTag: "Present Continuous Tense",
+                    explanation: "Penanda waktu 'these days' menunjukkan tren perubahan yang sedang aktif berlangsung saat ini, sehingga menggunakan Present Continuous."
+                }
+            ],
+            "present-perfect": [
+                {
+                    question: "Over the past two decades, rapid urbanization _______ significant pressure on municipal housing and sanitation infrastructure.",
+                    options: ["placed", "has placed", "will place", "is placing"],
+                    correctIndex: 1,
+                    tenseTag: "Present Perfect Tense",
+                    explanation: "Frasa 'Over the past two decades' menunjukkan rentang waktu yang dimulai di masa lalu dan berlanjut hingga saat ini (Present Perfect)."
+                }
+            ],
+            "present-perfect-continuous": [
+                {
+                    question: "Marine biologists _______ the degradation of coral reef ecosystems in the Pacific Ocean for nearly thirty years.",
+                    options: ["have been monitoring", "monitored", "had monitored", "are monitoring"],
+                    correctIndex: 0,
+                    tenseTag: "Present Perfect Continuous",
+                    explanation: "Menekankan durasi aktivitas yang dimulai di masa lalu ('for nearly thirty years') dan masih terus berlangsung hingga sekarang."
+                }
+            ],
+            "simple-past": [
+                {
+                    question: "According to the line graph, the proportion of renewable energy consumption _______ steadily from 12% in 2005 to 28% in 2020.",
+                    options: ["increased", "has increased", "increases", "had been increasing"],
+                    correctIndex: 0,
+                    tenseTag: "Simple Past Tense",
+                    explanation: "Terdapat keterangan waktu spesifik yang sudah selesai di masa lampau ('in 2005 to 2020'), wajib menggunakan Simple Past Tense (V2)."
+                }
+            ],
+            "past-continuous": [
+                {
+                    question: "While manufacturing output _______ in Western Europe during the 1990s, Asian economies experienced unprecedented industrial expansion.",
+                    options: ["was declining", "has declined", "declines", "will decline"],
+                    correctIndex: 0,
+                    tenseTag: "Past Continuous Tense",
+                    explanation: "Menggambarkan tren latar belakang yang sedang berlangsung di masa lampau ('While ... during the 1990s')."
+                }
+            ],
+            "past-perfect": [
+                {
+                    question: "By the end of 2015, total solar power capacity in Germany _______ all initial government targets set a decade earlier.",
+                    options: ["had surpassed", "has surpassed", "surpasses", "will have surpassed"],
+                    correctIndex: 0,
+                    tenseTag: "Past Perfect Tense",
+                    explanation: "Frasa 'By the end of 2015' menunjukkan peristiwa yang telah selesai sebelum titik waktu lampau tersebut (Past Perfect)."
+                }
+            ],
+            "past-perfect-continuous": [
+                {
+                    question: "Prior to the 2008 global financial crisis, several financial institutions _______ high-risk subprime mortgages for years.",
+                    options: ["had been issuing", "have been issuing", "were issuing", "issued"],
+                    correctIndex: 0,
+                    tenseTag: "Past Perfect Continuous",
+                    explanation: "Menekankan durasi tindakan berkelanjutan di masa lalu ('for years') sebelum terjadinya krisis di masa lampau ('Prior to 2008')."
+                }
+            ],
+            "simple-future": [
+                {
+                    question: "Without stricter carbon taxation, global plastic waste in marine ecosystems _______ dramatically over the next thirty years.",
+                    options: ["will escalate", "escalated", "has escalated", "had escalated"],
+                    correctIndex: 0,
+                    tenseTag: "Simple Future Tense",
+                    explanation: "Prediksi konsekuensi di masa depan ('over the next thirty years') pada IELTS Writing Task 2 menggunakan Simple Future Tense."
+                }
+            ],
+            "future-continuous": [
+                {
+                    question: "By mid-century, a substantial proportion of metropolitan commuters _______ autonomous electric transit systems.",
+                    options: ["will be utilizing", "utilized", "have utilized", "had been utilizing"],
+                    correctIndex: 0,
+                    tenseTag: "Future Continuous Tense",
+                    explanation: "Menggambarkan aktivitas/keadaan yang akan sedang berlangsung pada titik waktu tertentu di masa depan ('By mid-century')."
+                }
+            ],
+            "future-perfect": [
+                {
+                    question: "By 2050, the global population aged 65 and over _______ more than double its current figure, according to UN projections.",
+                    options: ["will reach", "has reached", "will have reached", "reached"],
+                    correctIndex: 2,
+                    tenseTag: "Future Perfect Tense",
+                    explanation: "Preposisi 'By + tahun masa depan (By 2050)' menandakan pencapaian proyeksi yang akan sudah selesai sebelum waktu tersebut."
+                }
+            ],
+            "future-perfect-continuous": [
+                {
+                    question: "By the time the new railway network opens next year, engineers _______ on the subterranean tunnels for over a decade.",
+                    options: ["will have been working", "will work", "have worked", "had been working"],
+                    correctIndex: 0,
+                    tenseTag: "Future Perfect Continuous",
+                    explanation: "Menekankan akumulasi durasi pekerjaan ('for over a decade') hingga titik waktu tertentu di masa depan ('By the time ... opens next year')."
+                }
+            ],
+            "simple-past-future": [
+                {
+                    question: "If municipal governments subsidized public transportation heavily, significantly fewer residents _______ private automobiles.",
+                    options: ["would operate", "will operate", "operated", "had operated"],
+                    correctIndex: 0,
+                    tenseTag: "Simple Past Future",
+                    explanation: "Conditional Sentence Type 2 ('If + Simple Past') untuk argumen pengandaian dalam esai IELTS menggunakan 'would + V1'."
+                }
+            ],
+            "past-future-continuous": [
+                {
+                    question: "Without emergency international humanitarian intervention, millions of displaced citizens _______ severe famine right now.",
+                    options: ["would still be facing", "will still face", "faced", "have faced"],
+                    correctIndex: 0,
+                    tenseTag: "Past Future Continuous",
+                    explanation: "Menyatakan kondisi alternatif yang seharusnya sedang berlangsung saat ini akibat situasi hipotesis."
+                }
+            ],
+            "past-future-perfect": [
+                {
+                    question: "Had the local authorities invested in flood defenses earlier, the severe economic damage last winter _______.",
+                    options: ["would avoid", "would have been avoided", "will be avoided", "had been avoided"],
+                    correctIndex: 1,
+                    tenseTag: "Past Future Perfect",
+                    explanation: "Inversi Conditional Type 3 ('Had + S + V3') untuk situasi masa lalu yang tidak terjadi membutuhkan 'would have + V3'."
+                }
+            ],
+            "past-future-perfect-continuous": [
+                {
+                    question: "Had the sudden economic recession not occurred, the technology sector _______ steadily for fifteen consecutive years by 2022.",
+                    options: ["would have been expanding", "will have been expanding", "was expanding", "has expanded"],
+                    correctIndex: 0,
+                    tenseTag: "Past Future Perfect Continuous",
+                    explanation: "Menekankan durasi kejadian pengandaian di masa lampau yang gagal terwujud hingga titik waktu tertentu ('by 2022')."
+                }
+            ]
+        };
+
+        // =========================================================================
+        // 3. STATE MANAGEMENT & INITIALIZATION
+        // =========================================================================
+        let currentTense = TENSES_DATA[0];
+        let currentSidebarFilter = 'all';
+        let currentQuestions = [];
+        let userAnswers = {};
+        let isQuizSubmitted = false;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            updateApiKeyStatusIndicator();
+            renderSidebar();
+            renderMobileSelect();
+            populateExerciseScopeDropdown();
+            selectTense(TENSES_DATA[0].id);
+        });
+
+        // =========================================================================
+        // 3B. CLIENT-SIDE API KEY MANAGEMENT (SAFE FOR VERCEL / PUBLIC HOSTING)
+        // =========================================================================
+        const API_KEY_STORAGE_NAME = 'ielts_pro_gemini_api_key';
+
+        function getStoredApiKey() {
+            try {
+                return (localStorage.getItem(API_KEY_STORAGE_NAME) || '').trim();
+            } catch (e) {
+                return '';
+            }
+        }
+
+        function updateApiKeyStatusIndicator() {
+            const dot = document.getElementById('apikey-status-dot');
+            if (!dot) return;
+            const hasKey = Boolean(getStoredApiKey());
+            dot.className = hasKey
+                ? 'w-2 h-2 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/50'
+                : 'w-2 h-2 rounded-full bg-amber-400';
+        }
+
+        function openApiKeyModal() {
+            const modal = document.getElementById('apikey-modal');
+            const input = document.getElementById('input-gemini-apikey');
+            input.value = getStoredApiKey();
+            input.type = 'password';
+            document.getElementById('apikey-eye-icon').className = 'fa-solid fa-eye text-xs';
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeApiKeyModal() {
+            const modal = document.getElementById('apikey-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function toggleApiKeyVisibility() {
+            const input = document.getElementById('input-gemini-apikey');
+            const icon = document.getElementById('apikey-eye-icon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fa-solid fa-eye-slash text-xs';
+            } else {
+                input.type = 'password';
+                icon.className = 'fa-solid fa-eye text-xs';
+            }
+        }
+
+        function saveApiKey() {
+            const inputVal = document.getElementById('input-gemini-apikey').value.trim();
+            if (!inputVal) {
+                showToast("Masukkan API Key terlebih dahulu atau klik Hapus Key.", "warning");
+                return;
+            }
+            try {
+                localStorage.setItem(API_KEY_STORAGE_NAME, inputVal);
+                updateApiKeyStatusIndicator();
+                closeApiKeyModal();
+                showToast("Gemini API Key berhasil disimpan di browser Anda!", "success");
+            } catch (e) {
+                showToast("Gagal menyimpan ke penyimpanan browser.", "warning");
+            }
+        }
+
+        function clearSavedApiKey() {
+            try {
+                localStorage.removeItem(API_KEY_STORAGE_NAME);
+                document.getElementById('input-gemini-apikey').value = '';
+                updateApiKeyStatusIndicator();
+                closeApiKeyModal();
+                showToast("API Key dihapus dari browser.", "info");
+            } catch (e) {
+                // ignore
+            }
+        }
+
+        // Populate Exercise Scope Dropdown with all 16 Tenses + Mixed Mode
+        function populateExerciseScopeDropdown() {
+            const scopeSelect = document.getElementById('exercise-scope');
+            const tenseOptions = TENSES_DATA.map(t => 
+                `<option value="${t.id}">Fokus: ${t.name}</option>`
+            ).join('');
+            scopeSelect.innerHTML = `<option value="mixed">🎯 Campuran Semua 16 Tenses</option>` + tenseOptions;
+        }
+
+        function handleExerciseScopeChange() {
+            const scopeVal = document.getElementById('exercise-scope').value;
+            if (scopeVal !== 'mixed') {
+                const found = TENSES_DATA.find(t => t.id === scopeVal);
+                if (found && found.id !== currentTense.id) {
+                    // Sync sidebar & module view without double-triggering generateNewExercises
+                    selectTense(found.id, false);
+                }
+            } else {
+                document.getElementById('exercise-topic-badge').textContent = "Fokus: Campuran Semua 16 Tenses";
+            }
+            generateNewExercises();
+        }
+
+        // Theme Management
+        function initTheme() {
+            const themeToggle = document.getElementById('theme-toggle');
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            }
+            themeToggle.addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+                localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+            });
+        }
+
+        // Toast Notification Utility (Replaces alert())
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            const colors = {
+                info: 'bg-slate-900 text-white dark:bg-slate-800 border-slate-700',
+                success: 'bg-emerald-600 text-white border-emerald-500',
+                warning: 'bg-amber-600 text-white border-amber-500'
+            };
+
+            const icons = {
+                info: 'fa-circle-info',
+                success: 'fa-circle-check',
+                warning: 'fa-triangle-exclamation'
+            };
+
+            toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl border shadow-xl text-sm font-medium transform transition-all duration-300 translate-y-2 opacity-0 ${colors[type]}`;
+            toast.innerHTML = `<i class="fa-solid ${icons[type]}"></i><span>${message}</span>`;
+            
+            container.appendChild(toast);
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            });
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3200);
+        }
+
+        // =========================================================================
+        // 4. NAVIGATION & MODULE RENDERING
+        // =========================================================================
+        function filterSidebar(category) {
+            currentSidebarFilter = category;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                const label = btn.textContent.trim();
+                const isMatch = (category === 'all' && label === 'All') || 
+                                (category === 'Past Future' && label === 'P.Future') || 
+                                label === category;
+                btn.className = isMatch 
+                    ? 'filter-btn active py-2.5 text-center border-b-2 border-ielts-600 text-ielts-600 dark:text-ielts-400 font-bold'
+                    : 'filter-btn py-2.5 text-center border-b-2 border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200';
+            });
+            renderSidebar();
+        }
+
+        function renderSidebar() {
+            const list = document.getElementById('tense-sidebar-list');
+            const filtered = currentSidebarFilter === 'all' 
+                ? TENSES_DATA 
+                : TENSES_DATA.filter(t => t.category === currentSidebarFilter);
+
+            list.innerHTML = filtered.map((tense, idx) => {
+                const isSelected = tense.id === currentTense.id;
+                return `
+                    <button onclick="selectTense('${tense.id}')" class="w-full text-left px-3.5 py-2.5 rounded-xl text-sm transition-all flex items-center justify-between group ${
+                        isSelected 
+                        ? 'bg-ielts-50 dark:bg-ielts-900/40 text-ielts-700 dark:text-ielts-300 font-bold border border-ielts-200/70 dark:border-ielts-800' 
+                        : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 font-medium'
+                    }">
+                        <span class="truncate pr-2">${tense.name}</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded-md shrink-0 ${
+                            isSelected 
+                            ? 'bg-ielts-600 text-white' 
+                            : 'bg-slate-100 dark:bg-slate-800 text-slate-500 group-hover:bg-slate-200 dark:group-hover:bg-slate-700'
+                        }">${tense.category}</span>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function renderMobileSelect() {
+            const select = document.getElementById('mobile-tense-select');
+            select.innerHTML = TENSES_DATA.map(t => 
+                `<option value="${t.id}">[${t.category}] ${t.name}</option>`
+            ).join('');
+            select.addEventListener('change', (e) => selectTense(e.target.value));
+        }
+
+        function selectTense(tenseId, autoRefreshPractice = true) {
+            const found = TENSES_DATA.find(t => t.id === tenseId);
+            if (!found) return;
+            currentTense = found;
+
+            // Update Mobile Dropdown & Exercise Dropdown
+            // Render Expanded Examples Bank with Indonesian Translations & Formula Breakdown
+            const moreExamplesContainer = document.getElementById('learn-more-examples');
+            const examplesList = found.moreExamples || [];
+            document.getElementById('examples-count-badge').textContent = `${examplesList.length} Contoh + Bedah Rumus`;
+
+            moreExamplesContainer.innerHTML = examplesList.map((ex, index) => {
+                const typeBadgeColor = ex.type.includes('Positif')
+                    ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300'
+                    : ex.type.includes('Negatif')
+                    ? 'bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300'
+                    : 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300';
+
+                const breakdownChips = (ex.breakdown || []).map(part => {
+                    const isVerbOrAux = /(V1|V2|V3|V-ing|Aux|to be|have|has|had|will|would|did|do|does|Inversi)/i.test(part.label);
+                    const chipStyle = isVerbOrAux
+                        ? 'bg-sky-50 dark:bg-sky-950/70 border-sky-200 dark:border-sky-700/80 text-sky-900 dark:text-sky-100'
+                        : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300';
+                    const labelStyle = isVerbOrAux
+                        ? 'text-sky-600 dark:text-sky-400'
+                        : 'text-slate-500 dark:text-slate-400';
+
+                    return `
+                        <div class="inline-flex flex-col px-2.5 py-1 rounded-lg border text-[11px] leading-tight ${chipStyle}">
+                            <span class="font-bold uppercase tracking-wider text-[9px] ${labelStyle}">${part.label}</span>
+                            <span class="font-mono font-semibold mt-0.5">${part.text}</span>
+                        </div>
+                    `;
+                }).join('');
+
+                return `
+                    <div class="p-4 sm:p-5 rounded-xl bg-slate-50/80 dark:bg-slate-800/50 border border-slate-200/70 dark:border-slate-700/70 flex flex-col justify-between gap-3 hover:border-ielts-400/60 transition-colors">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-2">
+                                <span class="text-[11px] font-bold uppercase tracking-wider text-ielts-600 dark:text-ielts-400">
+                                    #${index + 1} • ${ex.context}
+                                </span>
+                                <span class="px-2 py-0.5 rounded text-[10px] font-bold ${typeBadgeColor}">
+                                    ${ex.type}
+                                </span>
+                            </div>
+                            <p class="text-sm font-semibold text-slate-900 dark:text-slate-100 leading-relaxed">
+                                "${ex.en}"
+                            </p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mt-1.5">
+                                <span class="font-semibold text-slate-500 dark:text-slate-500">Artinya:</span> ${ex.id}
+                            </p>
+                        </div>
+
+                        <div class="pt-2.5 border-t border-slate-200/70 dark:border-slate-700/70">
+                            <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1.5">
+                                <i class="fa-solid fa-code-branch mr-1 text-ielts-500"></i>Bedah Struktur Rumus:
+                            </span>
+                            <div class="flex flex-wrap gap-1.5">
+                                ${breakdownChips}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Update Exercise Badge
+            document.getElementById('exercise-topic-badge').textContent = `Fokus: ${found.name}`;
+
+            renderSidebar();
+
+            // Jika user sedang berada di tab practice, otomatis muat soal baru sesuai tense yang baru dipilih
+            if (autoRefreshPractice && !document.getElementById('view-practice').classList.contains('hidden')) {
+                generateNewExercises();
+            }
+        }
+
+        function switchView(viewName) {
+            const viewLearn = document.getElementById('view-learn');
+            const viewPractice = document.getElementById('view-practice');
+            const tabLearn = document.getElementById('tab-learn');
+            const tabPractice = document.getElementById('tab-practice');
+
+            if (viewName === 'learn') {
+                viewLearn.classList.remove('hidden');
+                viewPractice.classList.add('hidden');
+                
+                tabLearn.className = 'flex-1 sm:flex-none px-5 py-2.5 rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2 bg-ielts-600 text-white shadow-md shadow-ielts-600/20';
+                tabPractice.className = 'flex-1 sm:flex-none px-5 py-2.5 rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800';
+            } else {
+                viewLearn.classList.add('hidden');
+                viewPractice.classList.remove('hidden');
+
+                tabPractice.className = 'flex-1 sm:flex-none px-5 py-2.5 rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2 bg-ielts-600 text-white shadow-md shadow-ielts-600/20';
+                tabLearn.className = 'flex-1 sm:flex-none px-5 py-2.5 rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800';
+
+                // Generate exercises on first open or if empty
+                if (currentQuestions.length === 0) {
+                    generateNewExercises();
+                }
+            }
+        }
+
+        // =========================================================================
+        // 5. DYNAMIC EXERCISE GENERATOR DENGAN GEMINI API + EXPONENTIAL BACKOFF
+        // =========================================================================
+        async function fetchWithRetry(url, options, maxRetries = 4) {
+            const delays = [1000, 2000, 4000, 8000];
+            for (let attempt = 0; attempt <= maxRetries; attempt++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    return await response.json();
+                } catch (err) {
+                    if (attempt === maxRetries) throw err;
+                    await new Promise(res => setTimeout(res, delays[attempt]));
+                }
+            }
+        }
+
+        async function generateNewExercises() {
+            const scope = document.getElementById('exercise-scope').value;
+            const refreshIcon = document.getElementById('refresh-icon');
+            const loadingEl = document.getElementById('quiz-loading');
+            const containerEl = document.getElementById('quiz-container');
+            const footerEl = document.getElementById('quiz-footer');
+            const resultBanner = document.getElementById('quiz-result-banner');
+
+            // Reset UI States
+            isQuizSubmitted = false;
+            userAnswers = {};
+            resultBanner.classList.add('hidden');
+            containerEl.classList.add('hidden');
+            footerEl.classList.add('hidden');
+            loadingEl.classList.remove('hidden');
+            refreshIcon.classList.add('fa-spin');
+
+            const selectedTenseObj = TENSES_DATA.find(t => t.id === scope) || currentTense;
+            const isMixedMode = scope === 'mixed';
+
+            // Update badge label accurately
+            document.getElementById('exercise-topic-badge').textContent = isMixedMode 
+                ? "Fokus: Campuran Semua 16 Tenses" 
+                : `Fokus: ${selectedTenseObj.name}`;
+
+            const targetDescription = !isMixedMode
+                ? `specifically testing "${selectedTenseObj.name}" (Formula: ${selectedTenseObj.formulaPos} | IELTS Context: ${selectedTenseObj.writingTip}). All 5 questions MUST require "${selectedTenseObj.name}" (active or passive) as the correct answer, with distractors using other tenses.`
+                : `testing 5 DIFFERENT tenses across all 16 English tenses (including Present, Past, Future, and Past Future families) in authentic IELTS Writing Task 1, Task 2, and Speaking contexts.`;
+
+            // Random seed topic to guarantee fresh context on every refresh
+            const ieltsThemes = [
+                "urbanization and public transport", 
+                "renewable energy and climate change", 
+                "artificial intelligence in healthcare", 
+                "global demographic shifts and aging populations", 
+                "higher education and remote employment", 
+                "biodiversity conservation and agriculture",
+                "international tourism and cultural preservation",
+                "manufacturing processes and supply chains",
+                "space exploration and satellite telecommunications",
+                "public health policies and nutritional habits"
+            ];
+            const randomTheme = ieltsThemes[Math.floor(Math.random() * ieltsThemes.length)];
+            const uniqueSeed = Date.now();
+
+            const prompt = `Create 5 brand-new, challenging multiple-choice IELTS grammar questions (Band 7.0 - 8.5 level) ${targetDescription} 
+            Use authentic IELTS Writing Task 1 (data/process descriptions), Writing Task 2 (academic essays), or Speaking Part 2/3 contexts centered around the theme: "${randomTheme}" (Variation ID: ${uniqueSeed}).
+            Ensure every question has 1 unmistakably correct answer and 3 plausible distractors.
+            Provide the explanation in clear, pedagogical Indonesian explaining WHY the tense is used in an IELTS context.`;
+
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                generationConfig: {
+                    temperature: 0.9,
+                    responseMimeType: "application/json",
+                    responseSchema: {
+                        type: "ARRAY",
+                        items: {
+                            type: "OBJECT",
+                            properties: {
+                                question: { type: "STRING", description: "Sentence with _______ blank in authentic IELTS style." },
+                                options: { 
+                                    type: "ARRAY", 
+                                    items: { type: "STRING" },
+                                    description: "Exactly 4 verb phrase options."
+                                },
+                                correctIndex: { type: "INTEGER", description: "0-based index of the correct option (0 to 3)." },
+                                tenseTag: { type: "STRING", description: "Name of the tense tested." },
+                                explanation: { type: "STRING", description: "Detailed explanation in Bahasa Indonesia." }
+                            },
+                            required: ["question", "options", "correctIndex", "tenseTag", "explanation"]
+                        }
+                    }
+                }
+            };
+
+            // Ambil API key dari penyimpanan browser pengguna (kosong di kode sumber agar aman di-hosting ke Vercel)
+            const apiKey = getStoredApiKey();
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+            try {
+                const result = await fetchWithRetry(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const rawText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (!rawText) throw new Error("Empty response");
+
+                const parsedQuestions = JSON.parse(rawText);
+                if (!Array.isArray(parsedQuestions) || parsedQuestions.length === 0) {
+                    throw new Error("Invalid format");
+                }
+
+                currentQuestions = parsedQuestions.slice(0, 5);
+                const toastLabel = isMixedMode ? "5 soal campuran 16 tenses berhasil dibuat!" : `5 soal baru ${selectedTenseObj.name} berhasil dibuat!`;
+                showToast(toastLabel, "success");
+            } catch (error) {
+                // Fallback jika terjadi gangguan jaringan: ambil dari bank soal lokal sesuai tense yang dipilih atau campuran
+                if (!isMixedMode && FALLBACK_BANK_BY_TENSE[selectedTenseObj.id]) {
+                    const specificPool = FALLBACK_BANK_BY_TENSE[selectedTenseObj.id];
+                    const otherPool = Object.entries(FALLBACK_BANK_BY_TENSE)
+                        .filter(([k]) => k !== selectedTenseObj.id)
+                        .flatMap(([, v]) => v)
+                        .sort(() => Math.random() - 0.5);
+                    currentQuestions = [...specificPool, ...otherPool].slice(0, 5);
+                } else {
+                    const allPool = Object.values(FALLBACK_BANK_BY_TENSE).flat().sort(() => Math.random() - 0.5);
+                    currentQuestions = allPool.slice(0, 5);
+                }
+                showToast("Memuat soal dari bank cadangan IELTS.", "warning");
+            } finally {
+                loadingEl.classList.add('hidden');
+                containerEl.classList.remove('hidden');
+                footerEl.classList.remove('hidden');
+                refreshIcon.classList.remove('fa-spin');
+                renderQuestions();
+                updateAnswerCounter();
+            }
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('quiz-container');
+            const optionLetters = ['A', 'B', 'C', 'D'];
+
+            container.innerHTML = currentQuestions.map((q, qIdx) => {
+                const selectedOpt = userAnswers[qIdx];
+                
+                const optionsHtml = q.options.map((optText, optIdx) => {
+                    let btnClasses = "border-slate-200 dark:border-slate-700 hover:border-ielts-400 dark:hover:border-ielts-600 bg-slate-50/50 dark:bg-slate-800/40";
+                    let badgeClasses = "bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600";
+                    let statusIcon = "";
+
+                    if (!isQuizSubmitted) {
+                        if (selectedOpt === optIdx) {
+                            btnClasses = "border-ielts-600 bg-ielts-50/80 dark:bg-ielts-900/30 ring-1 ring-ielts-600";
+                            badgeClasses = "bg-ielts-600 text-white border-ielts-600";
+                        }
+                    } else {
+                        if (optIdx === q.correctIndex) {
+                            btnClasses = "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 ring-1 ring-emerald-500";
+                            badgeClasses = "bg-emerald-600 text-white border-emerald-600";
+                            statusIcon = `<i class="fa-solid fa-circle-check text-emerald-600 dark:text-emerald-400 ml-auto"></i>`;
+                        } else if (selectedOpt === optIdx && optIdx !== q.correctIndex) {
+                            btnClasses = "border-rose-500 bg-rose-50 dark:bg-rose-950/40 ring-1 ring-rose-500";
+                            badgeClasses = "bg-rose-600 text-white border-rose-600";
+                            statusIcon = `<i class="fa-solid fa-circle-xmark text-rose-600 dark:text-rose-400 ml-auto"></i>`;
+                        } else {
+                            btnClasses = "border-slate-200/60 dark:border-slate-800 opacity-60";
+                        }
+                    }
+
+                    return `
+                        <button 
+                            type="button"
+                            ${isQuizSubmitted ? 'disabled' : ''}
+                            onclick="selectOption(${qIdx}, ${optIdx})"
+                            class="w-full text-left p-3.5 rounded-xl border transition-all flex items-center gap-3 ${btnClasses}"
+                        >
+                            <span class="w-7 h-7 rounded-lg text-xs font-bold flex items-center justify-center shrink-0 transition-colors ${badgeClasses}">
+                                ${optionLetters[optIdx]}
+                            </span>
+                            <span class="text-sm font-medium text-slate-800 dark:text-slate-200">${optText}</span>
+                            ${statusIcon}
+                        </button>
+                    `;
+                }).join('');
+
+                const explanationHtml = isQuizSubmitted ? `
+                    <div class="mt-4 p-4 rounded-xl bg-slate-100/80 dark:bg-slate-800/80 border-l-4 ${selectedOpt === q.correctIndex ? 'border-emerald-500' : 'border-amber-500'}">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                                <i class="fa-solid fa-chalkboard-user mr-1.5 text-ielts-600"></i>Pembahasan (${q.tenseTag})
+                            </span>
+                            <span class="text-xs font-bold ${selectedOpt === q.correctIndex ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}">
+                                ${selectedOpt === q.correctIndex ? 'Tepat!' : 'Kurang Tepat'}
+                            </span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">${q.explanation}</p>
+                    </div>
+                ` : '';
+
+                // Highlight blank space visually
+                const formattedQuestion = q.question.replace(/_{3,}/g, '<span class="inline-block px-3 py-0.5 mx-1 border-b-2 border-dashed border-ielts-500 font-mono text-ielts-600 dark:text-ielts-400 font-bold">_______</span>');
+
+                return `
+                    <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-5 sm:p-6 shadow-sm transition-all">
+                        <div class="flex items-center justify-between gap-2 mb-3">
+                            <span class="text-xs font-bold uppercase tracking-wider text-ielts-600 dark:text-ielts-400">
+                                Pertanyaan ${qIdx + 1} dari ${currentQuestions.length}
+                            </span>
+                            <span class="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
+                                IELTS Academic Context
+                            </span>
+                        </div>
+                        <p class="text-base sm:text-lg font-medium text-slate-900 dark:text-white leading-relaxed mb-4">
+                            ${formattedQuestion}
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                            ${optionsHtml}
+                        </div>
+                        ${explanationHtml}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function selectOption(qIdx, optIdx) {
+            if (isQuizSubmitted) return;
+            userAnswers[qIdx] = optIdx;
+            renderQuestions();
+            updateAnswerCounter();
+        }
+
+        function updateAnswerCounter() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const total = currentQuestions.length;
+            document.getElementById('answered-counter').textContent = `Terjawab: ${answeredCount} dari ${total} soal`;
+        }
+
+        function submitQuiz() {
+            const answeredCount = Object.keys(userAnswers).length;
+            if (answeredCount < currentQuestions.length) {
+                showToast(`Harap jawab semua soal terlebih dahulu (${answeredCount}/${currentQuestions.length} terjawab).`, "warning");
+                return;
+            }
+
+            isQuizSubmitted = true;
+            let score = 0;
+            currentQuestions.forEach((q, idx) => {
+                if (userAnswers[idx] === q.correctIndex) score++;
+            });
+
+            renderQuestions();
+
+            // Show Result Banner
+            const banner = document.getElementById('quiz-result-banner');
+            const scoreDisplay = document.getElementById('score-display');
+            const scoreTitle = document.getElementById('score-title');
+            const scoreFeedback = document.getElementById('score-feedback');
+
+            scoreDisplay.textContent = `${score}/${currentQuestions.length}`;
+            
+            if (score === 5) {
+                scoreTitle.textContent = "Sempurna! Akurasi Setara Band 8.5+";
+                scoreFeedback.textContent = "Penguasaan tata bahasa dan konteks IELTS Anda sangat presisi. Klik 'Refresh Soal Baru' untuk tantangan berikutnya.";
+            } else if (score >= 3) {
+                scoreTitle.textContent = "Hasil Baik! Menuju Band 7.5+";
+                scoreFeedback.textContent = "Perhatikan penanda waktu (time signals) pada pembahasan di bawah untuk menyempurnakan skor Anda.";
+            } else {
+                scoreTitle.textContent = "Terus Berlatih!";
+                scoreFeedback.textContent = "Pelajari kembali rumus dan fungsi IELTS pada tab 'Modul Belajar', lalu klik Refresh untuk mencoba soal baru.";
+            }
+
+            banner.classList.remove('hidden');
+            document.getElementById('quiz-footer').classList.add('hidden');
+            banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    </script>
+</body>
+</html>
