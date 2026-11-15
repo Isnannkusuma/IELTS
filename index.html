@@ -2194,6 +2194,33 @@
             currentTense = found;
 
             // Update Mobile Dropdown & Exercise Dropdown
+            const mobileSelect = document.getElementById('mobile-tense-select');
+            if (mobileSelect) mobileSelect.value = found.id;
+
+            const scopeSelect = document.getElementById('exercise-scope');
+            if (scopeSelect && scopeSelect.value !== 'mixed') {
+                scopeSelect.value = found.id;
+            }
+
+            // Update Hero Card Header, Rumus, Time Signals, & Tips Writing/Speaking
+            document.getElementById('learn-category-badge').textContent = found.category;
+            document.getElementById('learn-ielts-priority').innerHTML = `<i class="fa-solid fa-star text-[10px]"></i> ${found.priority}`;
+            document.getElementById('learn-title').textContent = found.name;
+            document.getElementById('learn-description').textContent = found.description;
+
+            document.getElementById('formula-pos').textContent = found.formulaPos;
+            document.getElementById('formula-neg').textContent = found.formulaNeg;
+            document.getElementById('formula-int').textContent = found.formulaInt;
+
+            document.getElementById('learn-time-signals').innerHTML = (found.timeSignals || []).map(sig => 
+                `<span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-mono font-medium border border-slate-200/70 dark:border-slate-700/70">${sig}</span>`
+            ).join('');
+
+            document.getElementById('ielts-writing-tip').textContent = found.writingTip;
+            document.getElementById('ielts-writing-example').textContent = `"${found.writingExample}"`;
+            document.getElementById('ielts-speaking-tip').textContent = found.speakingTip;
+            document.getElementById('ielts-speaking-example').textContent = `"${found.speakingExample}"`;
+
             // Render Expanded Examples Bank with Indonesian Translations & Formula Breakdown
             const moreExamplesContainer = document.getElementById('learn-more-examples');
             const examplesList = found.moreExamples || [];
