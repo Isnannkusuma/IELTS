@@ -1181,13 +1181,21 @@
             try {
                 const res = await callGeminiWithSmartFallback({
                     contents: [{ parts: [{ text: "Reply with only the word: OK" }] }],
-                    generationConfig: { maxOutputTokens: 10 }
+                    generationConfig: { 
+                        maxOutputTokens: 256,
+                        thinkingConfig: { thinkingBudget: 0 }
+                    }
                 }, testKey);
 
-                if (res?.candidates?.[0]?.content?.parts?.[0]?.text) {
+                const candidate = res?.candidates?.[0];
+                const replyText = candidate?.content?.parts?.[0]?.text;
+
+                if (replyText) {
                     localStorage.setItem(API_KEY_STORAGE_KEY, testKey);
                     updateApiKeyStatusIndicator();
                     showToast("Koneksi berhasil! API Key aktif & siap generate soal.", "success");
+                } else if (candidate?.finishReason === "MAX_TOKENS") {
+                    throw new Error("Token output habis sebelum teks terbentuk (MAX_TOKENS).");
                 } else {
                     throw new Error("Respons kosong dari server Gemini.");
                 }
