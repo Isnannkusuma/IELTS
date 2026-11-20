@@ -1564,3 +1564,791 @@ window.EXTERNAL_QUESTION_BANK = {
         }
     ]
 };
+
+// =========================================================================
+// KURIKULUM LENGKAP 32 TOPIK (16 TENSES + MODUL 1 S/D MODUL 16)
+// =========================================================================
+window.TENSES_DATA = [
+    {
+        id: "simple-present",
+        name: "Simple Present Tense",
+        category: "Present",
+        priority: "Sangat Penting untuk IELTS",
+        description: "Digunakan untuk menyatakan fakta umum, kebenaran ilmiah, kebiasaan rutin, serta mendeskripsikan grafik/proses permanen dalam IELTS Academic.",
+        formulaPos: "S + V1 (s/es) + O",
+        formulaNeg: "S + do/does + not + V1 + O",
+        formulaInt: "Do/Does + S + V1 + O?",
+        timeSignals: ["always", "usually", "often", "every day", "generally", "consistently"],
+        writingTip: "Wajib digunakan pada Writing Task 1 Process Diagram dan argumen fakta universal di Writing Task 2.",
+        writingExample: "Globalization inevitably accelerates cultural homogenization across developing nations.",
+        speakingTip: "Dominan dipakai di Speaking Part 1 saat menjelaskan rutinitas, hobi, dan tempat tinggal.",
+        speakingExample: "I generally commute to the city center by train because it spares me from traffic congestion.",
+        moreExamples: [
+            {
+                context: "Writing Task 1 (Process)",
+                type: "Passive Fact",
+                en: "First, raw clay is dug from the ground and placed onto a metal grid.",
+                id: "Pertama, tanah liat mentah digali dari tanah dan diletakkan di atas kisi logam.",
+                breakdown: [{ label: "S", text: "raw clay" }, { label: "V (Passive)", text: "is dug & placed" }]
+            },
+            {
+                context: "Writing Task 2 (Essay)",
+                type: "General Truth",
+                en: "Regular physical exercise significantly reduces the risk of chronic cardiovascular diseases.",
+                id: "Olahraga fisik yang teratur secara signifikan mengurangi risiko penyakit kardiovaskular kronis.",
+                breakdown: [{ label: "S", text: "Regular physical exercise" }, { label: "V1+s", text: "reduces" }]
+            }
+        ]
+    },
+    {
+        id: "present-continuous",
+        name: "Present Continuous Tense",
+        category: "Present",
+        priority: "Penting untuk IELTS",
+        description: "Menyatakan aktivitas yang sedang berlangsung saat ini, situasi sementara, atau tren perubahan yang sedang berkembang pesat.",
+        formulaPos: "S + am/is/are + V-ing + O",
+        formulaNeg: "S + am/is/are + not + V-ing + O",
+        formulaInt: "Am/Is/Are + S + V-ing + O?",
+        timeSignals: ["now", "at present", "currently", "these days", "nowadays", "increasingly"],
+        writingTip: "Sangat efektif untuk menggambarkan tren kontemporer yang sedang naik/turun pada pembuka esai Task 2.",
+        writingExample: "Governments worldwide are increasingly investing in renewable energy infrastructure.",
+        speakingTip: "Gunakan saat membahas proyek, studi, atau perubahan gaya hidup yang sedang Anda jalani sekarang.",
+        speakingExample: "At present, I am preparing for my postgraduate studies in environmental engineering.",
+        moreExamples: [
+            {
+                context: "Writing Task 2",
+                type: "Current Trend",
+                en: "Digital platforms are rapidly transforming how small businesses reach international consumers.",
+                id: "Platform digital dengan cepat mengubah cara bisnis kecil menjangkau konsumen internasional.",
+                breakdown: [{ label: "Aux", text: "are" }, { label: "Adv", text: "rapidly" }, { label: "V-ing", text: "transforming" }]
+            }
+        ]
+    },
+    {
+        id: "present-perfect",
+        name: "Present Perfect Tense",
+        category: "Present",
+        priority: "Sangat Penting untuk IELTS",
+        description: "Menghubungkan peristiwa masa lalu dengan masa kini (berdampak hingga sekarang) atau tren dari titik waktu lampau sampai sekarang.",
+        formulaPos: "S + have/has + V3 + O",
+        formulaNeg: "S + have/has + not + V3 + O",
+        formulaInt: "Have/Has + S + V3 + O?",
+        timeSignals: ["since", "for", "recently", "in recent years", "over the past decade", "so far"],
+        writingTip: "Kunci utama untuk mendeskripsikan tren 'from 2010 to the present' di Task 1 dan bukti empiris di Task 2.",
+        writingExample: "Over the past decade, smartphone penetration has surged dramatically across rural regions.",
+        speakingTip: "Sangat berguna di Speaking Part 1 & 2 untuk menceritakan pengalaman hidup tanpa menyebut waktu spesifik.",
+        speakingExample: "I have visited several historical landmarks across Southeast Asia, which broadened my perspective.",
+        moreExamples: [
+            {
+                context: "Writing Task 1 (Trend to Now)",
+                type: "Duration to Present",
+                en: "Since 2015, carbon emissions in the transport sector have declined by 14 percent.",
+                id: "Sejak 2015, emisi karbon di sektor transportasi telah menurun sebesar 14 persen.",
+                breakdown: [{ label: "Time", text: "Since 2015" }, { label: "Have+V3", text: "have declined" }]
+            }
+        ]
+    },
+    {
+        id: "present-perfect-continuous",
+        name: "Present Perfect Continuous",
+        category: "Present",
+        priority: "Menengah - Tinggi",
+        description: "Menekankan durasi suatu aktivitas yang dimulai di masa lalu dan masih terus berlangsung hingga detik ini.",
+        formulaPos: "S + have/has + been + V-ing + O",
+        formulaNeg: "S + have/has + not + been + V-ing",
+        formulaInt: "Have/Has + S + been + V-ing?",
+        timeSignals: ["for + duration", "since + starting point", "all day", "for years"],
+        writingTip: "Gunakan untuk menyoroti isu sosial atau riset jangka panjang yang belum selesai hingga kini.",
+        writingExample: "Climate scientists have been warning policymakers about rising sea levels for decades.",
+        speakingTip: "Bagus untuk menjawab pertanyaan 'How long have you been studying/working...?' di Speaking Part 1.",
+        speakingExample: "I have been learning academic English for nearly two years to achieve my target IELTS band.",
+        moreExamples: [
+            {
+                context: "Writing Task 2",
+                type: "Ongoing Action",
+                en: "Researchers have been developing sustainable alternatives to single-use plastics since the early 2000s.",
+                id: "Para peneliti telah mengembangkan alternatif berkelanjutan untuk plastik sekali pakai sejak awal 2000-an.",
+                breakdown: [{ label: "Aux", text: "have been" }, { label: "V-ing", text: "developing" }]
+            }
+        ]
+    },
+    {
+        id: "simple-past",
+        name: "Simple Past Tense",
+        category: "Past",
+        priority: "Sangat Penting untuk IELTS",
+        description: "Menyatakan kejadian atau data statistik yang dimulai dan selesai sepenuhnya pada waktu spesifik di masa lampau.",
+        formulaPos: "S + V2 + O",
+        formulaNeg: "S + did + not + V1 + O",
+        formulaInt: "Did + S + V1 + O?",
+        timeSignals: ["in 2010", "between 1990 and 2005", "yesterday", "last year", "ago"],
+        writingTip: "Tenses paling dominan pada IELTS Writing Task 1 (Line Graph, Bar Chart, Table, Maps) dengan tahun lampau.",
+        writingExample: "Between 2000 and 2015, expenditure on public healthcare rose sharply from 4% to 7% of GDP.",
+        speakingTip: "Wajib digunakan saat bercerita pengalaman masa lalu di Speaking Part 2 (Cue Card).",
+        speakingExample: "Two years ago, I volunteered at a local wildlife sanctuary, which taught me teamwork.",
+        moreExamples: [
+            {
+                context: "Writing Task 1 (Maps)",
+                type: "Past Transformation",
+                en: "In 2005, the municipal council demolished the old warehouse and constructed a public library.",
+                id: "Pada tahun 2005, dewan kota merobohkan gudang tua dan membangun perpustakaan umum.",
+                breakdown: [{ label: "Time", text: "In 2005" }, { label: "V2", text: "demolished & constructed" }]
+            }
+        ]
+    },
+    {
+        id: "past-continuous",
+        name: "Past Continuous Tense",
+        category: "Past",
+        priority: "Menengah",
+        description: "Menggambarkan aktivitas yang sedang berlangsung pada titik waktu tertentu di masa lalu atau dua tren paralel di masa lampau.",
+        formulaPos: "S + was/were + V-ing + O",
+        formulaNeg: "S + was/were + not + V-ing",
+        formulaInt: "Was/Were + S + V-ing?",
+        timeSignals: ["while", "when", "at this time last year", "throughout the 1990s"],
+        writingTip: "Efektif untuk membandingkan dua tren yang berjalan bersamaan di masa lalu menggunakan 'While'.",
+        writingExample: "While coal usage was falling steadily in Europe, natural gas consumption expanded rapidly.",
+        speakingTip: "Memberikan latar cerita yang hidup pada Speaking Part 2 sebelum kejadian utama muncul.",
+        speakingExample: "While I was studying at university, I also worked part-time as a research assistant.",
+        moreExamples: [
+            {
+                context: "Speaking Part 2",
+                type: "Background Context",
+                en: "When the economic downturn hit in 2008, many tech startups were expanding into overseas markets.",
+                id: "Ketika kemerosotan ekonomi melanda pada 2008, banyak startup teknologi sedang berekspansi ke pasar luar negeri.",
+                breakdown: [{ label: "Past Event", text: "hit" }, { label: "Ongoing Past", text: "were expanding" }]
+            }
+        ]
+    },
+    {
+        id: "past-perfect",
+        name: "Past Perfect Tense",
+        category: "Past",
+        priority: "Penting (Band 7.5+)",
+        description: "Menyatakan peristiwa yang sudah selesai terjadi sebelum peristiwa atau titik waktu lain di masa lampau.",
+        formulaPos: "S + had + V3 + O",
+        formulaNeg: "S + had + not + V3 + O",
+        formulaInt: "Had + S + V3 + O?",
+        timeSignals: ["by 2015", "before", "after", "prior to", "by the time"],
+        writingTip: "Sangat berkelas untuk Writing Task 1 Maps/Charts dengan frasa 'By + tahun lampau (By 2010, ... had been replaced)'.",
+        writingExample: "By 2018, the farmland in the northern district had completely been replaced by residential housing.",
+        speakingTip: "Menunjukkan rentang tata bahasa kompleks saat menceritakan kronologi masa lalu di Speaking.",
+        speakingExample: "Prior to moving to Jakarta, I had never experienced living in a bustling metropolis.",
+        moreExamples: [
+            {
+                context: "Writing Task 1 (Maps)",
+                type: "Completed Before Past Year",
+                en: "By 2020, the coastal village had undergone substantial commercial redevelopment.",
+                id: "Menjelang tahun 2020, desa pesisir tersebut telah mengalami pembangunan kembali komersial yang substansial.",
+                breakdown: [{ label: "Marker", text: "By 2020" }, { label: "Had+V3", text: "had undergone" }]
+            }
+        ]
+    },
+    {
+        id: "past-perfect-continuous",
+        name: "Past Perfect Continuous",
+        category: "Past",
+        priority: "Lanjutan (Band 8.0+)",
+        description: "Menekankan durasi suatu aktivitas yang berlangsung terus-menerus di masa lalu sebelum peristiwa lampau lainnya terjadi.",
+        formulaPos: "S + had + been + V-ing + O",
+        formulaNeg: "S + had + not + been + V-ing",
+        formulaInt: "Had + S + been + V-ing?",
+        timeSignals: ["for + duration before past event", "since ... before"],
+        writingTip: "Digunakan untuk menjelaskan latar belakang durasi suatu fenomena sebelum titik balik sejarah.",
+        writingExample: "Before regulatory approval was granted, scientists had been testing the vaccine for over a decade.",
+        speakingTip: "Sangat impresif untuk menjelaskan lamanya usaha sebelum Anda mencapai suatu pencapaian.",
+        speakingExample: "I had been practicing public speaking for months before I won the university debate competition.",
+        moreExamples: [
+            {
+                context: "Writing Task 2",
+                type: "Historical Duration",
+                en: "Environmental groups had been campaigning against deforestation for years before the ban took effect.",
+                id: "Kelompok lingkungan telah berkampanye menentang deforestasi selama bertahun-tahun sebelum larangan berlaku.",
+                breakdown: [{ label: "Duration", text: "for years" }, { label: "Had been V-ing", text: "had been campaigning" }]
+            }
+        ]
+    },
+    {
+        id: "simple-future",
+        name: "Simple Future Tense",
+        category: "Future",
+        priority: "Sangat Penting untuk IELTS",
+        description: "Menyatakan prediksi, proyeksi data masa depan, keputusan spontan, serta konsekuensi kebijakan.",
+        formulaPos: "S + will + V1 + O",
+        formulaNeg: "S + will + not + V1 + O",
+        formulaInt: "Will + S + V1 + O?",
+        timeSignals: ["tomorrow", "next decade", "in 2035", "in the future", "over the next 20 years"],
+        writingTip: "Wajib digunakan pada Writing Task 1 Projection Graphs dan kesimpulan/prediksi Writing Task 2.",
+        writingExample: "According to demographic forecasts, urban populations will rise by 30% over the next two decades.",
+        speakingTip: "Sangat sering dipakai di Speaking Part 3 saat penguji menanyakan prediksi masa depan.",
+        speakingExample: "I believe artificial intelligence will automate repetitive administrative tasks in the near future.",
+        moreExamples: [
+            {
+                context: "Writing Task 1 (Projection)",
+                type: "Future Forecast",
+                en: "Solar energy output is projected to grow, whereas coal consumption will decline steadily until 2040.",
+                id: "Output energi surya diproyeksikan tumbuh, sedangkan konsumsi batu bara akan menurun stabil hingga 2040.",
+                breakdown: [{ label: "Future", text: "will decline" }, { label: "Time", text: "until 2040" }]
+            }
+        ]
+    },
+    {
+        id: "future-continuous",
+        name: "Future Continuous Tense",
+        category: "Future",
+        priority: "Menengah - Tinggi",
+        description: "Menggambarkan aktivitas atau keadaan yang diperkirakan sedang berlangsung pada titik waktu tertentu di masa depan.",
+        formulaPos: "S + will + be + V-ing + O",
+        formulaNeg: "S + will + not + be + V-ing",
+        formulaInt: "Will + S + be + V-ing?",
+        timeSignals: ["at this time next year", "by 2040", "in ten years' time"],
+        writingTip: "Memberikan variasi gramatikal yang natural saat membayangkan gaya hidup masyarakat di masa mendatang.",
+        writingExample: "By 2040, millions of suburban commuters will be utilizing autonomous electric shuttles.",
+        speakingTip: "Bagus untuk menjawab pertanyaan tentang rencana karier atau kehidupan Anda 5–10 tahun lagi.",
+        speakingExample: "This time next year, I will hopefully be pursuing my master's degree in London.",
+        moreExamples: [
+            {
+                context: "Speaking Part 3",
+                type: "Future Lifestyle",
+                en: "In twenty years' time, most multinational companies will be operating with hybrid global teams.",
+                id: "Dalam waktu dua puluh tahun, sebagian besar perusahaan multinasional akan beroperasi dengan tim global hibrida.",
+                breakdown: [{ label: "Marker", text: "In twenty years' time" }, { label: "Will be V-ing", text: "will be operating" }]
+            }
+        ]
+    },
+    {
+        id: "future-perfect",
+        name: "Future Perfect Tense",
+        category: "Future",
+        priority: "Sangat Penting (Task 1 Projection)",
+        description: "Menyatakan tindakan atau target statistik yang akan sudah selesai tercapai sebelum titik waktu tertentu di masa depan.",
+        formulaPos: "S + will + have + V3 + O",
+        formulaNeg: "S + will + not + have + V3",
+        formulaInt: "Will + S + have + V3?",
+        timeSignals: ["by 2050", "by the end of this century", "by the time + Simple Present"],
+        writingTip: "Fitur gramatikal emas (Band 8.0+) untuk grafik proyeksi Writing Task 1 dengan penanda 'By 2050...'.",
+        writingExample: "By 2050, the proportion of elderly citizens in Japan will have reached nearly 38% of the population.",
+        speakingTip: "Gunakan saat membahas pencapaian target jangka panjang di Speaking Part 3.",
+        speakingExample: "By the end of this decade, renewable energy will have surpassed fossil fuels in several European nations.",
+        moreExamples: [
+            {
+                context: "Writing Task 1 (Projection)",
+                type: "Milestone by Future Year",
+                en: "By 2035, total global e-commerce revenue will have doubled compared to current figures.",
+                id: "Menjelang tahun 2035, total pendapatan e-commerce global akan meningkat dua kali lipat dibandingkan angka saat ini.",
+                breakdown: [{ label: "Marker", text: "By 2035" }, { label: "Will have V3", text: "will have doubled" }]
+            }
+        ]
+    },
+    {
+        id: "future-perfect-continuous",
+        name: "Future Perfect Continuous",
+        category: "Future",
+        priority: "Lanjutan (Band 8.0+)",
+        description: "Menekankan akumulasi durasi suatu tindakan hingga titik waktu tertentu di masa mendatang.",
+        formulaPos: "S + will + have + been + V-ing",
+        formulaNeg: "S + will + not + have + been + V-ing",
+        formulaInt: "Will + S + have + been + V-ing?",
+        timeSignals: ["by next year ... for 10 years", "by 2030 ... for two decades"],
+        writingTip: "Gunakan sesekali untuk menunjukkan ketepatan aspek durasi pada proyeksi jangka panjang.",
+        writingExample: "By 2030, the environmental agency will have been monitoring coastal erosion for three decades.",
+        speakingTip: "Cocok untuk menyebutkan berapa lama Anda telah menekuni profesi/hobi pada tahun tertentu nanti.",
+        speakingExample: "By next June, I will have been working as a civil engineer for exactly five years.",
+        moreExamples: [
+            {
+                context: "Academic Context",
+                type: "Future Accumulated Duration",
+                en: "By the time the space probe retires, it will have been transmitting deep-space data for fifteen years.",
+                id: "Pada saat wahana antariksa itu pensiun, ia akan telah mentransmisikan data luar angkasa selama lima belas tahun.",
+                breakdown: [{ label: "Duration", text: "for fifteen years" }, { label: "Form", text: "will have been transmitting" }]
+            }
+        ]
+    },
+    {
+        id: "simple-past-future",
+        name: "Simple Past Future",
+        category: "Past Future",
+        priority: "Sangat Penting (Hedging & Type 2)",
+        description: "Digunakan untuk menyampaikan argumen hipotesis, saran kebijakan secara akademis (hedging), dan Conditional Type 2.",
+        formulaPos: "S + would + V1 + O",
+        formulaNeg: "S + would + not + V1 + O",
+        formulaInt: "Would + S + V1 + O?",
+        timeSignals: ["if + Simple Past", "without + Noun", "in an ideal scenario"],
+        writingTip: "Sangat vital dalam Writing Task 2 untuk menghindari generalisasi berlebihan (academic hedging).",
+        writingExample: "Imposing a carbon tax would encourage corporations to adopt cleaner manufacturing technologies.",
+        speakingTip: "Kunci utama menjawab pertanyaan pengandaian Speaking Part 3 ('What would happen if...?').",
+        speakingExample: "If I had the opportunity to redesign my city, I would prioritize pedestrian zones and cycle lanes.",
+        moreExamples: [
+            {
+                context: "Writing Task 2 (Policy Proposal)",
+                type: "Academic Hedging",
+                en: "Subsidizing public transit would substantially alleviate traffic congestion in metropolitan areas.",
+                id: "Mensubsidi transportasi umum akan secara substansial mengurangi kemacetan lalu lintas di wilayah metropolitan.",
+                breakdown: [{ label: "Subject", text: "Subsidizing public transit" }, { label: "Would+V1", text: "would alleviate" }]
+            }
+        ]
+    },
+    {
+        id: "past-future-continuous",
+        name: "Past Future Continuous",
+        category: "Past Future",
+        priority: "Lanjutan (Band 8.0+)",
+        description: "Menyatakan aktivitas alternatif yang seharusnya sedang berlangsung sekarang seandainya syarat tertentu terpenuhi.",
+        formulaPos: "S + would + be + V-ing + O",
+        formulaNeg: "S + would + not + be + V-ing",
+        formulaInt: "Would + S + be + V-ing?",
+        timeSignals: ["right now (in hypothetical context)", "at this very moment"],
+        writingTip: "Berguna dalam Mixed Conditional untuk menggambarkan dampak kondisi saat ini dari keputusan masa lalu.",
+        writingExample: "Without international food aid, millions of displaced families would currently be facing severe famine.",
+        speakingTip: "Menunjukkan penguasaan tata bahasa tingkat tinggi saat berandai-andai tentang situasi saat ini.",
+        speakingExample: "Had I accepted that scholarship in Sydney, I would be studying marine biology there today.",
+        moreExamples: [
+            {
+                context: "Mixed Conditional",
+                type: "Hypothetical Present Action",
+                en: "If the coastal highway had not been closed, freight trucks would be passing through this route right now.",
+                id: "Seandainya jalan raya pesisir tidak ditutup, truk barang pasti sedang melewati rute ini sekarang.",
+                breakdown: [{ label: "Condition", text: "had not been closed" }, { label: "Result", text: "would be passing" }]
+            }
+        ]
+    },
+    {
+        id: "past-future-perfect",
+        name: "Past Future Perfect",
+        category: "Past Future",
+        priority: "Sangat Penting (Conditional Type 3)",
+        description: "Mengevaluasi peristiwa masa lalu yang tidak terjadi beserta konsekuensi alternatifnya (Conditional Type 3).",
+        formulaPos: "S + would + have + V3 + O",
+        formulaNeg: "S + would + not + have + V3",
+        formulaInt: "Would + S + have + V3?",
+        timeSignals: ["if + Past Perfect", "had + S + V3 (inversion)", "without + past event"],
+        writingTip: "Sangat efektif untuk mengevaluasi kegagalan kebijakan masa lalu secara kritis dalam Writing Task 2.",
+        writingExample: "Had the authorities upgraded drainage systems earlier, last winter's floods would have been prevented.",
+        speakingTip: "Gunakan saat merefleksikan keputusan masa lalu pada Speaking Part 2 atau Part 3.",
+        speakingExample: "Looking back, I would have chosen a multidisciplinary degree if I had known its career flexibility.",
+        moreExamples: [
+            {
+                context: "Writing Task 2 (Critical Evaluation)",
+                type: "Inversion Type 3",
+                en: "Had governments regulated social media algorithms sooner, misinformation would not have spread so rapidly.",
+                id: "Seandainya pemerintah mengatur algoritme media sosial lebih awal, misinformasi tidak akan menyebar begitu cepat.",
+                breakdown: [{ label: "Inversion", text: "Had ... regulated" }, { label: "Would have V3", text: "would not have spread" }]
+            }
+        ]
+    },
+    {
+        id: "past-future-perfect-continuous",
+        name: "Past Future Perfect Continuous",
+        category: "Past Future",
+        priority: "Lanjutan (Band 8.5+)",
+        description: "Menekankan akumulasi durasi pengandaian di masa lalu yang gagal terwujud akibat suatu interupsi.",
+        formulaPos: "S + would + have + been + V-ing",
+        formulaNeg: "S + would + not + have + been + V-ing",
+        formulaInt: "Would + S + have + been + V-ing?",
+        timeSignals: ["for + duration + by + past year"],
+        writingTip: "Menunjukkan presisi tata bahasa tertinggi saat menganalisis tren jangka panjang yang terhenti.",
+        writingExample: "Without the 2020 border closures, international tourism would have been growing steadily for twenty years.",
+        speakingTip: "Dapat digunakan untuk menceritakan pencapaian durasi yang tertunda di masa lalu.",
+        speakingExample: "If I hadn't changed majors, I would have been practicing law for five years by last month.",
+        moreExamples: [
+            {
+                context: "Economic Analysis",
+                type: "Interrupted Past Duration",
+                en: "Had the funding cut not occurred, the Arctic station would have been collecting samples for a decade by 2022.",
+                id: "Seandainya pemotongan dana tidak terjadi, stasiun Arktik akan telah mengumpulkan sampel selama satu dekade pada 2022.",
+                breakdown: [{ label: "Form", text: "would have been collecting" }, { label: "Duration", text: "for a decade" }]
+            }
+        ]
+    },
+    {
+        id: "modul-1-passive-voice",
+        name: "Modul 1: Passive Voice",
+        category: "Modul Grammar",
+        priority: "Wajib (Writing Task 1 Process)",
+        description: "Mengubah fokus kalimat dari pelaku (Agent) ke objek yang dikenai tindakan (S + to be + V3), termasuk 10 tenses pasif, Ditransitive, Stative Verbs, dan pola 'want + V-ing'.",
+        formulaPos: "S + to be (sesuai tenses) + V3 + (by Agent)",
+        formulaNeg: "S + to be + not + V3",
+        formulaInt: "To be + S + V3?",
+        timeSignals: ["be + V3", "being + V3 (Continuous)", "been + V3 (Perfect)", "want + V-ing (pasif)"],
+        writingTip: "Wajib mendominasi laporan IELTS Writing Task 1 Process Diagram karena pelaku proses umumnya tidak penting.",
+        writingExample: "After the cocoa beans are fermented and dried, they are roasted at high temperatures.",
+        speakingTip: "Gunakan kalimat pasif saat pelaku tindakan tidak diketahui atau bersifat umum.",
+        speakingExample: "A massive new cultural center is currently being constructed right next to my neighborhood.",
+        moreExamples: [
+            {
+                context: "Continuous Passive",
+                type: "is/am/are + being + V3",
+                en: "The laboratory microscopes are being calibrated by the senior technicians right now.",
+                id: "Mikroskop laboratorium sedang dikalibrasi oleh teknisi senior sekarang.",
+                breakdown: [{ label: "S Pasif", text: "microscopes" }, { label: "Passive", text: "are being calibrated" }]
+            },
+            {
+                context: "Unique Passive Form",
+                type: "want + V-ing",
+                en: "The stray puppy looks hungry; it wants feeding immediately.",
+                id: "Anak anjing liar itu tampak lapar; ia perlu segera diberi makan.",
+                breakdown: [{ label: "Verb", text: "wants" }, { label: "Passive Meaning", text: "feeding (= to be fed)" }]
+            }
+        ]
+    },
+    {
+        id: "modul-2-modal-auxiliary",
+        name: "Modul 2: Basic of Modal Auxiliary",
+        category: "Modul Grammar",
+        priority: "Wajib (Task 2 Hedging)",
+        description: "Penggunaan Pure Modals (can, could, may, might, must, shall, should, will, would) dan Similar Expressions of Modal (SEOM: be able to, have to, be supposed to) beserta 4 aturan emasnya.",
+        formulaPos: "S + Modal + V1 / S + Modal + be + Adj/Noun",
+        formulaNeg: "S + Modal + not + V1 / S + do/does/did + not + SEOM",
+        formulaInt: "Modal + S + V1? / Do/Does/Did + S + SEOM?",
+        timeSignals: ["must / have to", "can / be able to", "should / had better", "Modal + SEOM"],
+        writingTip: "Jangan pernah meletakkan dua modal murni berurutan ('will must' SALAH → 'will have to' BENAR).",
+        writingExample: "Developing nations will have to balance economic growth with environmental sustainability.",
+        speakingTip: "Gunakan 'had better' atau 'ought to' untuk memberikan saran kuat di Speaking Part 3.",
+        speakingExample: "Students had better develop critical thinking skills early rather than relying on rote memorization.",
+        moreExamples: [
+            {
+                context: "Modal + SEOM",
+                type: "Kombinasi Tepat",
+                en: "Every applicant must be able to demonstrate strong analytical skills during the assessment.",
+                id: "Setiap pelamar harus mampu menunjukkan keterampilan analitis yang kuat selama penilaian.",
+                breakdown: [{ label: "Pure Modal", text: "must" }, { label: "SEOM (V1)", text: "be able to" }]
+            }
+        ]
+    },
+    {
+        id: "modul-3-degree-of-comparison",
+        name: "Modul 3: Degree of Comparison",
+        category: "Modul Grammar",
+        priority: "Wajib (Writing Task 1 Charts)",
+        description: "Perbandingan tingkat setara (as...as), lebih (-er / more...than), paling (the -est / the most), pengecualian irregular, serta pola bertingkat 'The + Comparative, The + Comparative'.",
+        formulaPos: "Positive: as + Adj/Adv + as | Comparative: -er / more + than",
+        formulaNeg: "Superlative: the + -est / most + Noun",
+        formulaInt: "Paired: The + Comparative + S + V, the + Comparative + S + V",
+        timeSignals: ["as ... as", "more ... than", "the most / the -est", "farther vs further"],
+        writingTip: "Sangat krusial pada Writing Task 1 untuk membandingkan angka tertinggi, terendah, dan selisih antar kategori.",
+        writingExample: "The more thorough the data analysis is, the more reliable our policy conclusions will be.",
+        speakingTip: "Gunakan bentuk berulang ('more and more', 'fiercer and fiercer') untuk menggambarkan perubahan tren.",
+        speakingExample: "Urban life is becoming increasingly fast-paced and more competitive every year.",
+        moreExamples: [
+            {
+                context: "Paired Comparative",
+                type: "The + Comp, The + Comp",
+                en: "The earlier children are exposed to second languages, the more effortlessly they acquire native pronunciation.",
+                id: "Semakin dini anak-anak dikenalkan pada bahasa kedua, semakin mudah mereka menguasai pelafalan asli.",
+                breakdown: [{ label: "Clause 1", text: "The earlier" }, { label: "Clause 2", text: "the more effortlessly" }]
+            }
+        ]
+    },
+    {
+        id: "modul-4-wh-question",
+        name: "Modul 4: WH Question",
+        category: "Modul Grammar",
+        priority: "Wajib (Speaking & Noun Clause)",
+        description: "Pola pembentukan kalimat tanya menggunakan 9 Question Words, terutama perbedaan menanyakan Subject (tanpa do/does/did) vs menanyakan Object/Verb/Adverb.",
+        formulaPos: "Subject Q: Who/What + V (tunggal) + O?",
+        formulaNeg: "Object/Adv Q: QW + Aux (do/does/did/be/modal) + S + V?",
+        formulaInt: "Possession/Choice: Whose/Which + Noun + Aux + S + V?",
+        timeSignals: ["Who vs Whom", "Whose + Noun", "Which + Noun", "What ... doing (Verb Q)"],
+        writingTip: "Menguasai struktur WH-Question mencegah kesalahan urutan kata saat menulis Indirect Question dan Noun Clause.",
+        writingExample: "By whom was this landmark longitudinal study funded?",
+        speakingTip: "Gunakan pola yang tepat saat mengajukan pertanyaan balik atau klarifikasi di Speaking.",
+        speakingExample: "Which renewable energy source holds the greatest potential for island nations?",
+        moreExamples: [
+            {
+                context: "Subject Question",
+                type: "Tanpa Do/Does/Did",
+                en: "Who teaches Advanced Academic Writing in your department every Tuesday?",
+                id: "Siapa yang mengajar Penulisan Akademik Lanjutan di departemen Anda setiap hari Selasa?",
+                breakdown: [{ label: "QW (Subject)", text: "Who" }, { label: "V+es", text: "teaches" }]
+            }
+        ]
+    },
+    {
+        id: "modul-5-question-tag",
+        name: "Modul 5: Question Tag",
+        category: "Modul Grammar",
+        priority: "Penting (Akurasi Grammar)",
+        description: "Pertanyaan penegas di akhir kalimat dengan aturan polaritas terbalik, pengecualian ('aren't I', 'shall we'), kata bermakna negatif (seldom, hardly ever, nobody), dan indefinite pronouns.",
+        formulaPos: "Statement (+), Auxiliary + not + Pronoun?",
+        formulaNeg: "Statement (- / seldom / nobody), Auxiliary (+) + Pronoun?",
+        formulaInt: "Special: I am -> aren't I? | Let's -> shall we? | Imperative -> will you?",
+        timeSignals: ["aren't I", "shall we", "hardly ever / seldom (+ tag)", "nobody / someone -> they"],
+        writingTip: "Lebih sering muncul dalam dialog/Speaking, namun sering diujikan dalam tes akurasi tata bahasa tingkat lanjut.",
+        writingExample: "Nobody attended the optional seminar yesterday, did they?",
+        speakingTip: "Membuat percakapan Speaking terdengar jauh lebih natural dan idiomatis seperti penutur asli.",
+        speakingExample: "Public transportation has improved dramatically over the last few years, hasn't it?",
+        moreExamples: [
+            {
+                context: "Negative Adverb Trap",
+                type: "Hardly ever = Negatif",
+                en: "She hardly ever misses an international conference, does she?",
+                id: "Dia hampir tidak pernah melewatkan konferensi internasional, bukan?",
+                breakdown: [{ label: "Neg Marker", text: "hardly ever" }, { label: "Positive Tag", text: "does she?" }]
+            }
+        ]
+    },
+    {
+        id: "modul-6-conditional-sentences",
+        name: "Modul 6: Conditional Sentences",
+        category: "Modul Grammar",
+        priority: "Sangat Penting (Band 7.5 - 8.5)",
+        description: "Kalimat pengandaian Type 0 (fakta ilmiah), Type 1 (kemungkinan nyata), Type 2 (khayalan kini dengan 'were'), Type 3 (penyesalan lampau), serta Mixed Conditional.",
+        formulaPos: "Type 1: If + S + V1, S + will + V1 | Type 2: If + S + V2/were, S + would + V1",
+        formulaNeg: "Type 3: If + S + had + V3, S + would + have + V3",
+        formulaInt: "Mixed: If + S + had + V3, S + would + V1 (now)",
+        timeSignals: ["If", "Unless (= if not)", "Were I...", "Had + S + V3..."],
+        writingTip: "Wajib dikuasai untuk argumen sebab-akibat dan evaluasi kebijakan pada Writing Task 2.",
+        writingExample: "If governments invested more heavily in preventive healthcare, hospital overcrowding would decline.",
+        speakingTip: "Gunakan struktur 'If I were...' atau 'Had I known...' untuk meraih skor tinggi pada Grammatical Range.",
+        speakingExample: "If I had studied urban planning at university, I would probably be working for the city council now.",
+        moreExamples: [
+            {
+                context: "Mixed Conditional",
+                type: "Past Condition -> Present Result",
+                en: "If he were more fluent in Mandarin, he would have secured that diplomatic post in Beijing last year.",
+                id: "Seandainya dia lebih fasih berbahasa Mandarin, dia pasti sudah mendapatkan posisi diplomatik di Beijing tahun lalu.",
+                breakdown: [{ label: "Type 2", text: "If he were" }, { label: "Type 3", text: "would have secured" }]
+            }
+        ]
+    },
+    {
+        id: "modul-7-adjective-clause",
+        name: "Modul 7: Adjective Clause",
+        category: "Modul Grammar",
+        priority: "Sangat Penting (Complex Sentences)",
+        description: "Anak kalimat penjelas Noun menggunakan Relative Pronouns (who, whom, which, that, whose) dan Relative Adverbs (where, when, why).",
+        formulaPos: "Person: Noun + who (+ V) / whom (+ S + V) / whose (+ Noun)",
+        formulaNeg: "Thing: Noun + which / that | Place/Time: where / when",
+        formulaInt: "Preposition + whom / which (Formal Academic)",
+        timeSignals: ["who (Subjek)", "whom (Objek)", "whose (Milik)", "where / when"],
+        writingTip: "Kunci utama menggabungkan dua kalimat pendek menjadi Complex Sentence yang kohesif di Writing Task 1 & 2.",
+        writingExample: "Countries which prioritize vocational education consistently maintain lower youth unemployment rates.",
+        speakingTip: "Membantu Anda memberikan deskripsi detail tentang orang, tempat, atau benda pada Speaking Part 2.",
+        speakingExample: "The botanical garden where rare orchids are cultivated attracts thousands of visitors annually.",
+        moreExamples: [
+            {
+                context: "Possessive Relative",
+                type: "whose + Noun",
+                en: "The economist whose latest book became an international bestseller delivered the keynote lecture.",
+                id: "Ekonom yang buku terbarunya menjadi buku terlaris internasional menyampaikan kuliah utama.",
+                breakdown: [{ label: "Antecedent", text: "The economist" }, { label: "Possession", text: "whose latest book" }]
+            }
+        ]
+    },
+    {
+        id: "modul-8-noun-clause",
+        name: "Modul 8: Noun Clause",
+        category: "Modul Grammar",
+        priority: "Sangat Penting (Academic Writing)",
+        description: "Anak kalimat yang berfungsi sebagai kata benda (Subject, Object of Verb, Object of Preposition, Complement) dengan susunan pernyataan (Conjunction + S + V) dan peringkasan Abridgment (Conj + to + V1).",
+        formulaPos: "Conjunction (that / QW / whether / if) + S + V (Pernyataan)",
+        formulaNeg: "Subject Position: Whether + S + V + V_singular (bukan 'If')",
+        formulaInt: "Abridgment: QW + to + V1 (contoh: what to do, how to solve)",
+        timeSignals: ["that", "whether ... or not", "what / why / how + S + V", "QW + to V1"],
+        writingTip: "Jangan pernah memakai susunan kalimat tanya di dalam Noun Clause ('explain why did it happen' SALAH → 'explain why it happened' BENAR).",
+        writingExample: "Whether the proposed carbon tax will significantly curb industrial emissions remains uncertain.",
+        speakingTip: "Sangat berguna untuk membuka opini kompleks ('What concerns me most is that...').",
+        speakingExample: "Many fresh graduates do not know how to negotiate their starting salaries effectively.",
+        moreExamples: [
+            {
+                context: "Abridgment",
+                type: "QW + to + V1",
+                en: "The committee is still discussing how to allocate the emergency research grant fairly.",
+                id: "Komite masih mendiskusikan bagaimana cara mengalokasikan hibah penelitian darurat secara adil.",
+                breakdown: [{ label: "Verb", text: "discussing" }, { label: "Abridged NC", text: "how to allocate" }]
+            }
+        ]
+    },
+    {
+        id: "modul-9-reported-speech",
+        name: "Modul 9: Reported Speech",
+        category: "Modul Grammar",
+        priority: "Penting (Paraphrasing & Grammar)",
+        description: "Mengubah kalimat langsung (Direct) menjadi tidak langsung (Indirect): aturan Statement 1 (Main Clause Present: tenses tetap) vs Statement 2 (Main Clause Past: backshift tenses & time signal), Yes/No (if/whether), WH-Question, dan Imperative (to V1 / not to V1).",
+        formulaPos: "Statement (Past): S + said (that) + S + V (mundur 1 tenses)",
+        formulaNeg: "Question: S + asked + (O) + if/whether/QW + S + V (pernyataan)",
+        formulaInt: "Imperative: S + told/asked + O + to V1 / not to V1",
+        timeSignals: ["today -> that day", "yesterday -> the day before", "tomorrow -> the following day", "not to + V1"],
+        writingTip: "Sangat berguna saat mengutip temuan peneliti atau pernyataan pejabat dalam esai.",
+        writingExample: "The report concluded that urban air quality had deteriorated substantially over the previous decade.",
+        speakingTip: "Sering digunakan di Speaking Part 2 saat menceritakan nasihat atau percakapan berkesan.",
+        speakingExample: "My university mentor advised me not to fear making mistakes when speaking a foreign language.",
+        moreExamples: [
+            {
+                context: "Prohibition Indirect",
+                type: "not to + V1",
+                en: "The laboratory supervisor told the students not to touch the chemical reagents without gloves.",
+                id: "Pengawas laboratorium memberi tahu para siswa untuk tidak menyentuh reagen kimia tanpa sarung tangan.",
+                breakdown: [{ label: "Reporting Verb", text: "told" }, { label: "Prohibition", text: "not to touch" }]
+            }
+        ]
+    },
+    {
+        id: "modul-10-subjunctive",
+        name: "Modul 10: Subjunctive",
+        category: "Modul Grammar",
+        priority: "Lanjutan (Band 8.0+)",
+        description: "Bentuk pengandaian harapan atau situasi yang bertentangan dengan fakta nyata menggunakan 'wish', 'would rather', 'as if/as though', dan 'if only' (Present Subjunctive vs Past Subjunctive).",
+        formulaPos: "Present Subjunctive: S + wish/would rather + S + V2/were (Fact: Simple Present)",
+        formulaNeg: "Past Subjunctive: S + wished/would rather + S + had + V3 (Fact: Simple Past)",
+        formulaInt: "If only + S + V2/were (Present) | If only + S + had + V3 (Past)",
+        timeSignals: ["wish", "would rather", "as if / as though", "if only", "were (semua subjek)"],
+        writingTip: "Menggunakan 'as though' atau 'if only' secara akurat menunjukkan kontrol tata bahasa tingkat mahir.",
+        writingExample: "Some corporations continue polluting rivers as though environmental resources were infinite.",
+        speakingTip: "Sangat ekspresif untuk menyampaikan harapan atau penyesalan di Speaking Part 2 & 3.",
+        speakingExample: "I wish municipal authorities invested more heavily in dedicated bicycle infrastructure.",
+        moreExamples: [
+            {
+                context: "Past Subjunctive",
+                type: "Contrary to Past Fact",
+                en: "If only the engineers had detected the software bug yesterday, the server would not have crashed.",
+                id: "Seandainya saja para insinyur mendeteksi bug perangkat lunak kemarin, server tidak akan mengalami crash.",
+                breakdown: [{ label: "Subjunctive", text: "had detected" }, { label: "Fact", text: "did not detect" }]
+            }
+        ]
+    },
+    {
+        id: "modul-11-causative-verb",
+        name: "Modul 11: Causative Verb",
+        category: "Modul Grammar",
+        priority: "Penting (Band 7.5+)",
+        description: "Kata kerja yang menunjukkan subjek meminta, memaksa, mengizinkan, atau menyuruh orang lain melakukan suatu tindakan (Active Causative: make/have/let + O + V1, get + O + to V1, help + O + V1/to V1; Passive Causative: have/get + O + V3).",
+        formulaPos: "Active 1: S + make/have/let + O (orang) + V1",
+        formulaNeg: "Active 2: S + get + O (orang) + to + V1 | help + O + (to) V1",
+        formulaInt: "Passive: S + have/get + O (benda/pasif) + V3",
+        timeSignals: ["make/have/let + V1", "get + to V1", "have/get + Object + V3 (Passive)"],
+        writingTip: "Sangat berguna untuk menjelaskan dampak kebijakan ('Strict regulations make companies reduce emissions').",
+        writingExample: "Carbon pricing mechanisms compel heavy industries to have their facilities upgraded.",
+        speakingTip: "Gunakan Passive Causative ('have my hair cut', 'get my laptop repaired') secara natural di Speaking.",
+        speakingExample: "Before submitting my dissertation, I had the entire manuscript proofread by a professional editor.",
+        moreExamples: [
+            {
+                context: "Active vs Passive Causative",
+                type: "get + to V1 vs get + V3",
+                en: "She managed to get the technician to repair her laptop, so she finally got her device fixed.",
+                id: "Dia berhasil meminta teknisi memperbaiki laptopnya, sehingga akhirnya perangkatnya diperbaiki.",
+                breakdown: [{ label: "Active", text: "get + technician + to repair" }, { label: "Passive", text: "got + device + fixed" }]
+            }
+        ]
+    },
+    {
+        id: "modul-12-elliptical-structure",
+        name: "Modul 12: Elliptical Structure",
+        category: "Modul Grammar",
+        priority: "Penting (Cohesion & S-V Agreement)",
+        description: "Pemendekan dua kalimat setara atau berlawanan untuk menghindari pengulangan kata menggunakan Adverb (so/too, either/neither) dan Paired Conjunctions (both...and, not only...but also, either...or, neither...nor).",
+        formulaPos: "Positif: ..., and + S + Aux + too / ..., and + so + Aux + S",
+        formulaNeg: "Negatif: ..., and + S + Aux(not) + either / ..., and + neither + Aux + S",
+        formulaInt: "Agreement: Not only S1 but also S2 -> Verb mengikuti S2 (subjek terakhir)",
+        timeSignals: ["so / too", "either / neither", "both ... and (Plural)", "not only ... but also", "neither ... nor"],
+        writingTip: "Perhatikan Subject-Verb Agreement pada 'Neither S1 nor S2' dan 'Not only S1 but also S2' (verb mengikuti S2).",
+        writingExample: "Not only do green spaces reduce urban heat islands, but they also enhance community well-being.",
+        speakingTip: "Menghindari pengulangan kata yang membosankan saat membandingkan dua hal di Speaking.",
+        speakingExample: "Solar power reduces greenhouse emissions, and wind energy does too.",
+        moreExamples: [
+            {
+                context: "Subject-Verb Agreement",
+                type: "Neither ... nor",
+                en: "Neither the lead researcher nor his assistants were aware of the sensor calibration error.",
+                id: "Baik peneliti utama maupun para asistennya tidak menyadari kesalahan kalibrasi sensor tersebut.",
+                breakdown: [{ label: "S2 (Plural)", text: "his assistants" }, { label: "Plural Verb", text: "were" }]
+            }
+        ]
+    },
+    {
+        id: "modul-13-word-order",
+        name: "Modul 13: Word Order (Noun Phrase)",
+        category: "Modul Grammar",
+        priority: "Penting (Lexical & Grammar Precision)",
+        description: "Susunan baku frasa kata benda dalam bahasa Inggris: Pre-Modifier (Determiner -> Ordinative -> Epithet [OSASCOMP] -> Classifier) + Head + Post-Modifier.",
+        formulaPos: "Determiner + Ordinative + Epithet (OSASCOMP) + Classifier + HEAD",
+        formulaNeg: "OSASCOMP: Opinion - Size - Age - Shape - Color - Origin - Material - Purpose",
+        formulaInt: "Post-Modifier: Prepositional / Participle / Infinitive Phrase / Adj Clause",
+        timeSignals: ["Determiner (a/the/my)", "Ordinative (first/three)", "OSASCOMP", "Classifier + Head"],
+        writingTip: "Menggunakan rangkaian Noun Phrase yang padat dan tepat urutan meningkatkan skor Lexical Resource di IELTS.",
+        writingExample: "The museum recently acquired an exquisite ancient Ming porcelain vase.",
+        speakingTip: "Pastikan urutan kata sifat mengalir alami saat mendeskripsikan benda di Speaking Part 2.",
+        speakingExample: "We stayed in a cozy small Swiss wooden cottage overlooking the alpine lake.",
+        moreExamples: [
+            {
+                context: "OSASCOMP + Classifier",
+                type: "Complete Noun Phrase",
+                en: "My father has just purchased three luxurious red Italian racing cars.",
+                id: "Ayah saya baru saja membeli tiga mobil balap Italia berwarna merah yang mewah.",
+                breakdown: [{ label: "Ord", text: "three" }, { label: "Op-Col-Ori", text: "luxurious red Italian" }, { label: "Class+H", text: "racing cars" }]
+            }
+        ]
+    },
+    {
+        id: "modul-14-gerund",
+        name: "Modul 14: Gerund (V-ing as Noun)",
+        category: "Modul Grammar",
+        priority: "Sangat Penting (Academic Style)",
+        description: "Kata kerja berbentuk V-ing yang berfungsi sebagai Noun (Subject, Object of Verb tertentu seperti avoid/admit/consider/suggest, Object of Preposition, dan Passive Gerund 'being + V3').",
+        formulaPos: "Subject: V-ing (phrase) + V_tunggal | Object: Verb tertentu + V-ing",
+        formulaNeg: "Bound Preposition: Preposition (in, of, for, to, about) + V-ing",
+        formulaInt: "Passive Gerund: being + V3 (contoh: dislikes being criticized)",
+        timeSignals: ["avoid / admit / consider / suggest + V-ing", "be opposed to + V-ing", "go + V-ing", "being + V3"],
+        writingTip: "Memulai kalimat dengan Gerund Subject ('Subsidizing public transit...') adalah teknik klasik esai Band 8.0+.",
+        writingExample: "Implementing stricter emission standards is essential for safeguarding urban public health.",
+        speakingTip: "Gunakan setelah preposisi ('interested in learning', 'capable of solving') tanpa ragu.",
+        speakingExample: "I am genuinely interested in exploring sustainable architectural designs.",
+        moreExamples: [
+            {
+                context: "Bound Preposition 'to'",
+                type: "Preposition + V-ing",
+                en: "Several board members are strongly opposed to reducing the annual research budget.",
+                id: "Beberapa anggota dewan sangat menentang pengurangan anggaran penelitian tahunan.",
+                breakdown: [{ label: "Preposition", text: "opposed to" }, { label: "Gerund", text: "reducing" }]
+            }
+        ]
+    },
+    {
+        id: "modul-15-participle",
+        name: "Modul 15: Participle (V-ing & V3)",
+        category: "Modul Grammar",
+        priority: "Sangat Penting (Reduced Clauses)",
+        description: "Bentuk V-ing (Present/Active Participle) dan V3 (Past/Passive Participle) yang berperan sebagai Adjective/Modifier atau meringkas Adjective Clause (Reduction) agar kalimat lebih ringkas dan akademis.",
+        formulaPos: "Active Modifier: V-ing (menyebabkan / melakukan aksi)",
+        formulaNeg: "Passive Modifier: V3 (merasakan / dikenai aksi)",
+        formulaInt: "Reduction: Noun + who/which + be + V-ing/V3 -> Noun + V-ing/V3",
+        timeSignals: ["boring vs bored", "exciting vs excited", "Reduced Adjective Clause", "Hindari Double Verb"],
+        writingTip: "Reduction Adjective Clause ('The data collected from 500 respondents...') membuat tulisan akademik jauh lebih ringkas.",
+        writingExample: "The financial aid provided by the international foundation enabled hundreds of scholars to conduct fieldwork.",
+        speakingTip: "Bedakan dengan teliti antara V-ing untuk sifat benda ('an exhausting job') dan V3 untuk perasaan orang ('exhausted workers').",
+        speakingExample: "The audience was deeply moved by the documentary's thought-provoking portrayal of climate refugees.",
+        moreExamples: [
+            {
+                context: "Adjective Clause Reduction",
+                type: "Passive Reduction (V3)",
+                en: "The experiment conducted at the University of Chicago yielded groundbreaking results.",
+                id: "Eksperimen yang dilakukan di Universitas Chicago menghasilkan temuan yang inovatif.",
+                breakdown: [{ label: "Asal", text: "which was conducted" }, { label: "Reduced", text: "conducted (V3)" }]
+            }
+        ]
+    },
+    {
+        id: "modul-16-infinitive",
+        name: "Modul 16: Infinitive (to + V1)",
+        category: "Modul Grammar",
+        priority: "Sangat Penting (Purpose & Verb Patterns)",
+        description: "Bentuk 'to + V1' yang berfungsi sebagai Noun, Adjective, atau Adverb (tujuan, setelah Adjective, serta pola 'too + Adj + to V1' vs 'Adj + enough + to V1'), ditambah perbedaan makna pada remember, forget, regret, dan try.",
+        formulaPos: "As Adverb (Purpose): S + V + to + V1 | Adjective + enough + to + V1",
+        formulaNeg: "As Adjective: Noun + to + V1 (contoh: the key to unlock the door)",
+        formulaInt: "Meaning Shift: remember/forget/regret/try + V-ing (lampau/eksperimen) vs to V1 (tugas/usaha)",
+        timeSignals: ["in order to / to + V1", "Adj + enough + to V1", "too + Adj + to V1", "regret to inform vs regret doing"],
+        writingTip: "Pastikan posisi 'enough' selalu diletakkan SETELAH kata sifat ('clear enough to understand', bukan 'enough clear').",
+        writingExample: "Governments must allocate sufficient funding to accelerate the transition toward clean energy.",
+        speakingTip: "Gunakan 'to + V1' secara lugas untuk menjelaskan alasan atau tujuan tindakan Anda.",
+        speakingExample: "I moved to the capital city to pursue better career opportunities in software engineering.",
+        moreExamples: [
+            {
+                context: "Meaning Contrast",
+                type: "Try + V-ing vs Try + to V1",
+                en: "The lock was jammed, so I tried lubricating it with oil after trying to force it open.",
+                id: "Kuncinya macet, jadi saya mencoba melumasinya dengan minyak setelah berusaha membukanya secara paksa.",
+                breakdown: [{ label: "Experiment", text: "tried lubricating" }, { label: "Effort", text: "trying to force" }]
+            }
+        ]
+    }
+];
