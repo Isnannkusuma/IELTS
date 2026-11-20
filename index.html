@@ -1259,7 +1259,37 @@
 
             // DETEKSI OTOMATIS GROQ API KEY (awalan gsk_)
             if (apiKey.startsWith("gsk_")) {
-                const groqModels = ["llama-3.3-70b-versatile", "llama-3.1-8b-instant", "mixtral-8x7b-32768"];
+                // Gunakan model produksi Groq terbaru (serta fallback dinamis ke /v1/models jika ada perubahan)
+                let groqModels = [
+                    "openai/gpt-oss-120b",
+                    "openai/gpt-oss-20b",
+                    "qwen/qwen3.8-27b"
+                ];
+
+                try {
+                    const modelsRes = await fetchWithTimeout("https://api.groq.com/openai/v1/models", {
+                        method: "GET",
+                        headers: { "Authorization": `Bearer ${apiKey}` }
+                    }, 8000);
+                    const modelsData = await modelsRes.json().catch(() => null);
+                    if (modelsRes.ok && Array.isArray(modelsData?.data) && modelsData.data.length > 0) {
+                        const liveChatIds = modelsData.data
+                            .map(m => m.id)
+                            .filter(id =>
+                                typeof id === "string" &&
+                                !id.includes("whisper") &&
+                                !id.includes("orpheus") &&
+                                !id.includes("guard") &&
+                                !id.includes("safeguard")
+                            );
+                        if (liveChatIds.length > 0) {
+                            groqModels = [...new Set([...groqModels, ...liveChatIds])];
+                        }
+                    }
+                } catch (_) {
+                    // Lanjut menggunakan daftar default groqModels bila /v1/models gagal diakses
+                }
+
                 let lastGroqError = new Error("Gagal menghubungi Groq API.");
 
                 for (const model of groqModels) {
