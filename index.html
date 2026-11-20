@@ -123,7 +123,7 @@
                         <i class="fa-solid fa-shield-halved text-lg"></i>
                     </div>
                     <div>
-                        <h3 class="font-display font-bold text-base text-slate-900 dark:text-white">Pengaturan Gemini API Key</h3>
+                        <h3 class="font-display font-bold text-base text-slate-900 dark:text-white">Pengaturan AI API Key (Gemini / Groq)</h3>
                         <p class="text-xs text-slate-500 dark:text-slate-400">Aman untuk hosting publik (Vercel / GitHub)</p>
                     </div>
                 </div>
@@ -133,16 +133,19 @@
             </div>
 
             <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/80 dark:border-slate-700/70 text-xs text-slate-600 dark:text-slate-300 space-y-1.5 leading-relaxed">
-                <p><strong>Mengapa fitur ini ada?</strong> API Key Anda tidak pernah disimpan di dalam file kode HTML, melainkan hanya tersimpan secara lokal di browser perangkat Anda.</p>
-                <p>Dapatkan API Key gratis di <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="text-ielts-600 dark:text-ielts-400 font-semibold underline hover:text-ielts-700">Google AI Studio <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>.</p>
+                <p><strong>Mendukung 2 Provider AI Otomatis:</strong></p>
+                <ul class="list-disc pl-4 space-y-1">
+                    <li><strong>Groq API Key</strong> (awalan <code class="font-mono text-amber-600 dark:text-amber-400">gsk_...</code>) — Gratis & super cepat di <a href="https://console.groq.com/keys" target="_blank" rel="noopener noreferrer" class="text-ielts-600 dark:text-ielts-400 font-semibold underline">Groq Console</a>.</li>
+                    <li><strong>Gemini API Key</strong> (awalan <code class="font-mono text-amber-600 dark:text-amber-400">AIza...</code>) — Dapatkan gratis di <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="text-ielts-600 dark:text-ielts-400 font-semibold underline">Google AI Studio</a>.</li>
+                </ul>
             </div>
 
             <div class="space-y-2">
                 <label for="input-gemini-apikey" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">
-                    Masukkan Gemini API Key Anda
+                    Masukkan API Key (Groq atau Gemini)
                 </label>
                 <div class="relative">
-                    <input type="password" id="input-gemini-apikey" placeholder="AIzaSy..." class="w-full pl-3.5 pr-10 py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-sm font-mono text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-ielts-500 outline-none">
+                    <input type="password" id="input-gemini-apikey" placeholder="gsk_... atau AIzaSy..." class="w-full pl-3.5 pr-10 py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-sm font-mono text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-ielts-500 outline-none">
                     <button type="button" onclick="toggleApiKeyVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200" title="Tampilkan/Sembunyikan">
                         <i id="apikey-eye-icon" class="fa-solid fa-eye text-xs"></i>
                     </button>
@@ -1170,7 +1173,7 @@
             const btn = document.getElementById('btn-test-apikey');
 
             if (!testKey) {
-                showToast("Masukkan Gemini API Key terlebih dahulu sebelum mengetes.", "warning");
+                showToast("Masukkan API Key (Groq atau Gemini) terlebih dahulu sebelum mengetes.", "warning");
                 return;
             }
 
@@ -1179,25 +1182,15 @@
             btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1"></i> Mengecek...`;
 
             try {
-                const res = await callGeminiWithSmartFallback({
-                    contents: [{ parts: [{ text: "Reply with only the word: OK" }] }],
-                    generationConfig: { 
-                        maxOutputTokens: 256,
-                        thinkingConfig: { thinkingBudget: 0 }
-                    }
-                }, testKey);
-
-                const candidate = res?.candidates?.[0];
-                const replyText = candidate?.content?.parts?.[0]?.text;
+                const isGroq = testKey.startsWith('gsk_');
+                const replyText = await generateAITextWithSmartFallback("Reply with only the word: OK", false, testKey);
 
                 if (replyText) {
                     localStorage.setItem(API_KEY_STORAGE_KEY, testKey);
                     updateApiKeyStatusIndicator();
-                    showToast("Koneksi berhasil! API Key aktif & siap generate soal.", "success");
-                } else if (candidate?.finishReason === "MAX_TOKENS") {
-                    throw new Error("Token output habis sebelum teks terbentuk (MAX_TOKENS).");
+                    showToast(`Koneksi ${isGroq ? 'Groq' : 'Gemini'} berhasil! API Key aktif & siap digunakan.`, "success");
                 } else {
-                    throw new Error("Respons kosong dari server Gemini.");
+                    throw new Error("Respons kosong dari server AI.");
                 }
             } catch (err) {
                 showToast(`Tes Gagal: ${err.message}`, "warning");
@@ -1241,102 +1234,236 @@
         }
 
         // =========================================================================
-        // 4. NAVIGATION, SIDEBAR, MOBILE SELECT & LEARN CONTENT RENDERING
+        // 5. DYNAMIC EXERCISE GENERATOR (MULTI-PROVIDER: GROQ + GEMINI + FALLBACK)
         // =========================================================================
-        function renderSidebar(filter = 'all') {
-            const listEl = document.getElementById('tense-sidebar-list');
-            if (!listEl) return;
-
-            const filtered = filter === 'all'
-                ? TENSES_DATA
-                : TENSES_DATA.filter(t => t.category === filter);
-
-            listEl.innerHTML = filtered.map((t, idx) => {
-                const isActive = t.id === currentTense.id;
-                return `
-                    <button
-                        type="button"
-                        onclick="selectTense('${t.id}')"
-                        class="w-full text-left px-3 py-2.5 rounded-xl text-xs transition-all flex items-center justify-between gap-2 ${
-                            isActive
-                                ? 'bg-ielts-600 text-white font-bold shadow-sm'
-                                : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/70 font-medium'
-                        }"
-                    >
-                        <span class="truncate">${idx + 1}. ${t.name}</span>
-                        <span class="text-[10px] px-1.5 py-0.5 rounded ${
-                            isActive
-                                ? 'bg-white/20 text-white'
-                                : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
-                        } shrink-0">${t.category === 'Modul Grammar' ? 'Modul' : t.category}</span>
-                    </button>
-                `;
-            }).join('');
-        }
-
-        function filterSidebar(category) {
-            currentSidebarFilter = category;
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                const btnText = btn.textContent.trim();
-                const matches =
-                    (category === 'all' && btnText.startsWith('Semua')) ||
-                    (category === 'Present' && btnText === 'Present') ||
-                    (category === 'Past' && btnText === 'Past') ||
-                    (category === 'Future' && btnText === 'Future') ||
-                    (category === 'Past Future' && btnText === 'P.Future') ||
-                    (category === 'Modul Grammar' && btnText === 'Modul 1-16');
-
-                if (matches) {
-                    btn.classList.add('active', 'border-ielts-600', 'text-ielts-600', 'dark:text-ielts-400');
-                    btn.classList.remove('border-transparent', 'text-slate-500');
-                } else {
-                    btn.classList.remove('active', 'border-ielts-600', 'text-ielts-600', 'dark:text-ielts-400');
-                    btn.classList.add('border-transparent', 'text-slate-500');
+        async function fetchWithTimeout(url, options, timeoutMs = 15000) {
+            const controller = new AbortController();
+            const id = setTimeout(() => controller.abort(), timeoutMs);
+            try {
+                const response = await fetch(url, { ...options, signal: controller.signal });
+                clearTimeout(id);
+                return response;
+            } catch (err) {
+                clearTimeout(id);
+                if (err.name === 'AbortError') {
+                    throw new Error("Timeout (koneksi terlalu lama > 15 detik).");
                 }
-            });
-            renderSidebar(category);
+                throw err;
+            }
         }
 
-        function renderMobileSelect(filter = 'all') {
-            const selectEl = document.getElementById('mobile-tense-select');
-            const countEl = document.getElementById('mobile-filter-count');
-            if (!selectEl) return;
+        // Helper universal untuk memanggil Groq (gsk_...) atau Gemini (AIza...)
+        async function generateAITextWithSmartFallback(promptText, expectJson = true, explicitApiKey = null, responseSchema = null) {
+            const apiKey = (explicitApiKey !== null ? explicitApiKey : getStoredApiKey()).trim();
+            if (!apiKey) throw new Error("API Key belum diisi.");
 
-            const filtered = filter === 'all'
-                ? TENSES_DATA
-                : TENSES_DATA.filter(t => t.category === filter);
+            // DETEKSI OTOMATIS GROQ API KEY (awalan gsk_)
+            if (apiKey.startsWith("gsk_")) {
+                const groqModels = ["llama-3.3-70b-versatile", "llama-3.1-8b-instant", "mixtral-8x7b-32768"];
+                let lastGroqError = new Error("Gagal menghubungi Groq API.");
 
-            if (countEl) {
-                const label = filter === 'all' ? 'Semua' : (filter === 'Modul Grammar' ? 'Modul 1–16' : filter);
-                countEl.textContent = `${label} (${filtered.length})`;
+                for (const model of groqModels) {
+                    try {
+                        const bodyPayload = {
+                            model: model,
+                            messages: [
+                                {
+                                    role: "system",
+                                    content: expectJson
+                                        ? "You are an expert IELTS & English Grammar test creator. Output ONLY valid JSON matching the requested schema, with no markdown fences or extra commentary."
+                                        : "You are a helpful assistant."
+                                },
+                                { role: "user", content: promptText }
+                            ],
+                            temperature: expectJson ? 0.85 : 0.2
+                        };
+
+                        if (expectJson) {
+                            bodyPayload.response_format = { type: "json_object" };
+                        }
+
+                        const response = await fetchWithTimeout("https://api.groq.com/openai/v1/chat/completions", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Authorization": `Bearer ${apiKey}`
+                            },
+                            body: JSON.stringify(bodyPayload)
+                        }, 18000);
+
+                        const data = await response.json().catch(() => ({}));
+                        if (!response.ok) {
+                            throw new Error(data?.error?.message || `Groq HTTP ${response.status}`);
+                        }
+
+                        const text = data?.choices?.[0]?.message?.content;
+                        if (text) return text;
+                    } catch (err) {
+                        lastGroqError = err;
+                        if (err.message && err.message.toLowerCase().includes("invalid api key")) {
+                            throw err;
+                        }
+                    }
+                }
+                throw lastGroqError;
             }
 
-            selectEl.innerHTML = filtered.map(t =>
-                `<option value="${t.id}" ${t.id === currentTense.id ? 'selected' : ''}>${t.name}</option>`
-            ).join('');
+            // DEFAULT: GOOGLE GEMINI API KEY (awalan AIza...)
+            const geminiModels = ["gemini-2.5-flash", "gemini-2.5-flash-lite", "gemini-2.0-flash"];
+            let lastGeminiError = new Error("Gagal menghubungi Gemini API.");
+
+            for (const model of geminiModels) {
+                try {
+                    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`;
+                    const genConfig = expectJson
+                        ? {
+                            temperature: 0.88,
+                            responseMimeType: "application/json",
+                            ...(responseSchema ? { responseSchema } : {})
+                        }
+                        : { maxOutputTokens: 64 };
+
+                    const response = await fetchWithTimeout(url, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            contents: [{ parts: [{ text: promptText }] }],
+                            generationConfig: genConfig
+                        })
+                    }, 18000);
+
+                    const data = await response.json().catch(() => ({}));
+                    if (!response.ok) {
+                        throw new Error(data?.error?.message || `Gemini HTTP ${response.status}`);
+                    }
+
+                    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+                    if (text) return text;
+                } catch (err) {
+                    lastGeminiError = err;
+                    if (err.message && err.message.toLowerCase().includes("api key not valid")) {
+                        throw err;
+                    }
+                }
+            }
+            throw lastGeminiError;
         }
 
-        function filterMobileCategory(category) {
-            document.querySelectorAll('.mobile-cat-btn').forEach(btn => {
-                const txt = btn.textContent.trim();
-                const isMatch =
-                    (category === 'all' && txt === 'Semua') ||
-                    (category === 'Present' && txt === 'Present') ||
-                    (category === 'Past' && txt === 'Past') ||
-                    (category === 'Future' && txt === 'Future') ||
-                    (category === 'Past Future' && txt === 'P. Future') ||
-                    (category === 'Modul Grammar' && txt === 'Modul 1–16');
+        // Ekstraktor JSON tangguh (mendukung format array langsung maupun objek pembungkus { questions: [...] } dari Groq)
+        function parseAIQuestionsArray(rawText) {
+            const cleaned = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
+            const parsed = JSON.parse(cleaned);
+            if (Array.isArray(parsed)) return parsed;
+            if (parsed && typeof parsed === 'object') {
+                const arrayProp = Object.values(parsed).find(v => Array.isArray(v));
+                if (arrayProp) return arrayProp;
+            }
+            throw new Error("Format JSON soal tidak valid.");
+        }
 
-                if (isMatch) {
-                    btn.className = 'mobile-cat-btn active px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap bg-ielts-600 text-white shadow-sm';
+        async function generateNewExercises() {
+            const scope = document.getElementById('exercise-scope')?.value || 'mixed';
+            const loadingEl = document.getElementById('quiz-loading');
+            const containerEl = document.getElementById('quiz-container');
+            const footerEl = document.getElementById('quiz-footer');
+            const resultBanner = document.getElementById('quiz-result-banner');
+            const refreshIcon = document.getElementById('refresh-icon');
+            const topicBadge = document.getElementById('exercise-topic-badge');
+
+            const targetTopic = scope === 'mixed'
+                ? null
+                : (TENSES_DATA.find(t => t.id === scope) || currentTense);
+
+            if (topicBadge) {
+                topicBadge.textContent = targetTopic
+                    ? `Fokus: ${targetTopic.name}`
+                    : `Fokus: Campuran 32 Materi`;
+            }
+
+            isQuizSubmitted = false;
+            userAnswers = {};
+            resultBanner.classList.add('hidden');
+            containerEl.classList.add('hidden');
+            footerEl.classList.add('hidden');
+            loadingEl.classList.remove('hidden');
+            if (refreshIcon) refreshIcon.classList.add('fa-spin');
+
+            const fallbackBank = getCombinedFallbackBank();
+            const getLocalQuizSet = () => {
+                let pool = [];
+                if (targetTopic && fallbackBank[targetTopic.id]) {
+                    pool = [...fallbackBank[targetTopic.id]];
                 } else {
-                    btn.className = 'mobile-cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300';
+                    pool = Object.values(fallbackBank).flat();
                 }
-            });
-            renderMobileSelect(category);
-            const selectEl = document.getElementById('mobile-tense-select');
-            if (selectEl && selectEl.value && selectEl.value !== currentTense.id) {
-                selectTense(selectEl.value);
+                return pool.sort(() => Math.random() - 0.5).slice(0, 5);
+            };
+
+            const apiKey = getStoredApiKey().trim();
+            if (!apiKey) {
+                currentQuestions = getLocalQuizSet();
+                loadingEl.classList.add('hidden');
+                containerEl.classList.remove('hidden');
+                footerEl.classList.remove('hidden');
+                if (refreshIcon) refreshIcon.classList.remove('fa-spin');
+                renderQuestions();
+                updateAnswerCounter();
+                showToast("Memuat 5 soal latihan dari Bank Soal Lokal.", "info");
+                return;
+            }
+
+            const topicInstruction = targetTopic
+                ? `Focus specifically on "${targetTopic.name}" (${targetTopic.description}).`
+                : `Mix 5 different advanced English grammar & IELTS topics (16 Tenses, Passive Voice, Conditionals, Clauses, Reported Speech, Causative, Subjunctive, Gerund/Participle/Infinitive).`;
+
+            const prompt = `Create exactly 5 high-quality IELTS Academic & Advanced Grammar multiple-choice questions (Seed: ${Date.now()}).
+${topicInstruction}
+Return a JSON object with a single key "questions" containing an array of 5 objects. Each object MUST have:
+- "question": string (sentence with _______ blank)
+- "options": array of 4 strings
+- "correctIndex": integer (0 to 3)
+- "tenseTag": string (topic name)
+- "explanation": string (clear explanation in Bahasa Indonesia)`;
+
+            const geminiSchema = {
+                type: "OBJECT",
+                properties: {
+                    questions: {
+                        type: "ARRAY",
+                        items: {
+                            type: "OBJECT",
+                            properties: {
+                                question: { type: "STRING" },
+                                options: { type: "ARRAY", items: { type: "STRING" } },
+                                correctIndex: { type: "INTEGER" },
+                                tenseTag: { type: "STRING" },
+                                explanation: { type: "STRING" }
+                            },
+                            required: ["question", "options", "correctIndex", "tenseTag", "explanation"]
+                        }
+                    }
+                },
+                required: ["questions"]
+            };
+
+            try {
+                const rawText = await generateAITextWithSmartFallback(prompt, true, apiKey, geminiSchema);
+                const parsedList = parseAIQuestionsArray(rawText);
+                if (!parsedList.length) throw new Error("Daftar soal kosong.");
+
+                currentQuestions = parsedList.slice(0, 5);
+                const providerName = apiKey.startsWith("gsk_") ? "Groq AI" : "Gemini AI";
+                showToast(`5 soal baru berhasil di-generate oleh ${providerName}!`, "success");
+            } catch (error) {
+                currentQuestions = getLocalQuizSet();
+                showToast(`AI fallback (${error.message}) — Memuat soal dari Bank Cadangan.`, "warning");
+            } finally {
+                loadingEl.classList.add('hidden');
+                containerEl.classList.remove('hidden');
+                footerEl.classList.remove('hidden');
+                if (refreshIcon) refreshIcon.classList.remove('fa-spin');
+                renderQuestions();
+                updateAnswerCounter();
             }
         }
 
@@ -1469,224 +1596,81 @@
         }
 
         // =========================================================================
-        // 5. DYNAMIC EXERCISE GENERATOR DENGAN GEMINI API + SMART FALLBACK
+        // 4. SIDEBAR & MOBILE CATEGORY FILTER NAVIGATION
         // =========================================================================
-        async function fetchWithTimeout(url, options, timeoutMs = 15000) {
-            const controller = new AbortController();
-            const id = setTimeout(() => controller.abort(), timeoutMs);
-            try {
-                const response = await fetch(url, { ...options, signal: controller.signal });
-                clearTimeout(id);
-                return response;
-            } catch (err) {
-                clearTimeout(id);
-                if (err.name === 'AbortError') {
-                    throw new Error("Timeout (koneksi terlalu lama > 15 detik).");
-                }
-                throw err;
-            }
+        function renderSidebar(filterCategory = 'all') {
+            currentSidebarFilter = filterCategory;
+            const listEl = document.getElementById('tense-sidebar-list');
+            if (!listEl) return;
+
+            const filtered = filterCategory === 'all'
+                ? TENSES_DATA
+                : TENSES_DATA.filter(t => t.category === filterCategory);
+
+            listEl.innerHTML = filtered.map(t => {
+                const isActive = currentTense && currentTense.id === t.id;
+                const activeClasses = isActive
+                    ? 'bg-ielts-50 dark:bg-ielts-950/60 text-ielts-700 dark:text-ielts-300 border-ielts-500 font-bold shadow-sm'
+                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60 border-transparent font-medium';
+
+                return `
+                    <button type="button" onclick="selectTense('${t.id}')" class="w-full text-left px-3 py-2.5 rounded-xl border-l-4 text-xs transition-all flex items-center justify-between gap-2 ${activeClasses}">
+                        <span class="truncate">${t.name}</span>
+                        <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 shrink-0">${t.category === 'Modul Grammar' ? 'Modul' : t.category}</span>
+                    </button>
+                `;
+            }).join('');
         }
 
-        async function callGeminiWithSmartFallback(payload, explicitApiKey = null) {
-            const apiKey = (explicitApiKey !== null ? explicitApiKey : getStoredApiKey()).trim();
-            // Prioritaskan gemini-3-flash-preview, lalu otomatis fallback ke gemini-2.5-flash jika limit/tidak tersedia pada free tier
-            const models = ["gemini-3-flash-preview", "gemini-2.5-flash"];
-            let lastError = new Error("Gagal menghubungi Gemini API.");
-
-            for (const model of models) {
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`;
-                
-                for (let attempt = 0; attempt < 2; attempt++) {
-                    try {
-                        const response = await fetchWithTimeout(apiUrl, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(payload)
-                        }, 15000);
-
-                        const data = await response.json().catch(() => ({}));
-
-                        if (!response.ok) {
-                            const apiMsg = data?.error?.message || `HTTP ${response.status}`;
-                            // Jika API Key tidak valid atau belum diisi, langsung hentikan tanpa retry lama
-                            if (response.status === 400 || response.status === 403) {
-                                if (apiMsg.toLowerCase().includes("api key")) {
-                                    throw new Error("API Key tidak valid atau belum diisi. Klik tombol 'API Key' di atas.");
-                                }
-                                throw new Error(`Akses ditolak (${response.status}): ${apiMsg}`);
-                            }
-                            // Jika 429 (Rate limit Free Tier) atau 404 (Model belum tersedia), coba model berikutnya
-                            if (response.status === 429) {
-                                lastError = new Error("Batas kuota gratis (Rate Limit) tercapai. Tunggu sebentar atau coba lagi.");
-                                break;
-                            }
-                            if (response.status === 404) {
-                                lastError = new Error(`Model ${model} tidak tersedia untuk key ini.`);
-                                break;
-                            }
-                            throw new Error(apiMsg);
-                        }
-
-                        return data;
-                    } catch (err) {
-                        lastError = err;
-                        if (err.message.includes("API Key tidak valid") || err.message.includes("Akses ditolak")) {
-                            throw err;
-                        }
-                        if (attempt === 0) {
-                            await new Promise(res => setTimeout(res, 1000));
-                        }
-                    }
+        function filterSidebar(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                const isMatch = (category === 'all' && btn.textContent.includes('Semua')) ||
+                    (category !== 'all' && btn.getAttribute('onclick')?.includes(`'${category}'`));
+                if (isMatch) {
+                    btn.classList.add('active', 'border-ielts-600', 'text-ielts-600', 'dark:text-ielts-400');
+                    btn.classList.remove('border-transparent', 'text-slate-500');
+                } else {
+                    btn.classList.remove('active', 'border-ielts-600', 'text-ielts-600', 'dark:text-ielts-400');
+                    btn.classList.add('border-transparent', 'text-slate-500');
                 }
-            }
-            throw lastError;
+            });
+            renderSidebar(category);
         }
 
-        async function generateNewExercises() {
-            const scope = document.getElementById('exercise-scope').value;
-            const refreshIcon = document.getElementById('refresh-icon');
-            const loadingEl = document.getElementById('quiz-loading');
-            const containerEl = document.getElementById('quiz-container');
-            const footerEl = document.getElementById('quiz-footer');
-            const resultBanner = document.getElementById('quiz-result-banner');
+        function renderMobileSelect(filterCategory = 'all') {
+            const selectEl = document.getElementById('mobile-tense-select');
+            const countEl = document.getElementById('mobile-filter-count');
+            if (!selectEl) return;
 
-            // Reset UI States
-            isQuizSubmitted = false;
-            userAnswers = {};
-            resultBanner.classList.add('hidden');
-            containerEl.classList.add('hidden');
-            footerEl.classList.add('hidden');
-            loadingEl.classList.remove('hidden');
-            refreshIcon.classList.add('fa-spin');
+            const filtered = filterCategory === 'all'
+                ? TENSES_DATA
+                : TENSES_DATA.filter(t => t.category === filterCategory);
 
-            const selectedTenseObj = TENSES_DATA.find(t => t.id === scope) || currentTense;
-            const isMixedMode = scope === 'mixed';
-
-            // Update badge label accurately
-            document.getElementById('exercise-topic-badge').textContent = isMixedMode 
-                ? "Fokus: Campuran Semua 25 Topik" 
-                : `Fokus: ${selectedTenseObj.name}`;
-
-            const targetDescription = !isMixedMode
-                ? `specifically testing "${selectedTenseObj.name}" (Pattern: ${selectedTenseObj.formulaPos} | Key Rules: ${selectedTenseObj.writingTip}). All 5 questions MUST specifically test "${selectedTenseObj.name}", with 3 plausible distractors.`
-                : `testing 5 DIFFERENT topics across English Tenses and Advanced Grammar (Passive Voice, Modal Auxiliary & SEOM, Degree of Comparison, WH Questions, Question Tags, Conditional Sentences, Adjective Clause, Noun Clause, Reported Speech, Subjunctive, Causative Verb, Elliptical Structure, Word Order, Gerund, Participle, and Infinitive).`;
-
-            // Random seed topic to guarantee fresh context on every refresh
-            const ieltsThemes = [
-                "urbanization and public transport", 
-                "renewable energy and climate change", 
-                "artificial intelligence in healthcare", 
-                "global demographic shifts and aging populations", 
-                "higher education and remote employment", 
-                "biodiversity conservation and agriculture",
-                "international tourism and cultural preservation",
-                "manufacturing processes and supply chains",
-                "space exploration and satellite telecommunications",
-                "public health policies and nutritional habits"
-            ];
-            const randomTheme = ieltsThemes[Math.floor(Math.random() * ieltsThemes.length)];
-            const uniqueSeed = Date.now();
-
-            const prompt = `Create 5 brand-new, challenging multiple-choice IELTS grammar questions (Band 7.0 - 8.5 level) ${targetDescription} 
-            Use authentic IELTS Writing Task 1 (data/process descriptions), Writing Task 2 (academic essays), or Speaking Part 2/3 contexts centered around the theme: "${randomTheme}" (Variation ID: ${uniqueSeed}).
-            Ensure every question has 1 unmistakably correct answer and 3 plausible distractors.
-            Provide the explanation in clear, pedagogical Indonesian explaining WHY the tense is used in an IELTS context.`;
-
-            const payload = {
-                contents: [{ parts: [{ text: prompt }] }],
-                generationConfig: {
-                    temperature: 0.9,
-                    responseMimeType: "application/json",
-                    responseSchema: {
-                        type: "ARRAY",
-                        items: {
-                            type: "OBJECT",
-                            properties: {
-                                question: { type: "STRING", description: "Sentence with _______ blank in authentic IELTS style." },
-                                options: { 
-                                    type: "ARRAY", 
-                                    items: { type: "STRING" },
-                                    description: "Exactly 4 verb phrase options."
-                                },
-                                correctIndex: { type: "INTEGER", description: "0-based index of the correct option (0 to 3)." },
-                                tenseTag: { type: "STRING", description: "Name of the tense tested." },
-                                explanation: { type: "STRING", description: "Detailed explanation in Bahasa Indonesia." }
-                            },
-                            required: ["question", "options", "correctIndex", "tenseTag", "explanation"]
-                        }
-                    }
-                }
-            };
-
-            // Ambil API key dari penyimpanan browser pengguna (kosong di kode sumber agar aman di-hosting ke Vercel)
-            const apiKey = getStoredApiKey();
-            const fallbackBank = getCombinedFallbackBank();
-            if (!apiKey) {
-                // Jika API Key belum diatur di hosting publik, langsung gunakan bank soal gabungan (Internal + question-bank.js)
-                if (!isMixedMode && fallbackBank[selectedTenseObj.id]) {
-                    const specificPool = [...fallbackBank[selectedTenseObj.id]].sort(() => Math.random() - 0.5);
-                    if (specificPool.length >= 5) {
-                        currentQuestions = specificPool.slice(0, 5);
-                    } else {
-                        const otherPool = Object.entries(fallbackBank)
-                            .filter(([k]) => k !== selectedTenseObj.id)
-                            .flatMap(([, v]) => v)
-                            .sort(() => Math.random() - 0.5);
-                        currentQuestions = [...specificPool, ...otherPool].slice(0, 5);
-                    }
-                } else {
-                    const allPool = Object.values(fallbackBank).flat().sort(() => Math.random() - 0.5);
-                    currentQuestions = allPool.slice(0, 5);
-                }
-                loadingEl.classList.add('hidden');
-                containerEl.classList.remove('hidden');
-                footerEl.classList.remove('hidden');
-                refreshIcon.classList.remove('fa-spin');
-                renderQuestions();
-                updateAnswerCounter();
-                showToast("Memuat 5 soal acak dari Bank Soal (200+ soal siap pakai).", "info");
-                return;
+            if (countEl) {
+                const label = filterCategory === 'all' ? 'Semua' : filterCategory;
+                countEl.textContent = `${label} (${filtered.length})`;
             }
 
-            try {
-                const result = await callGeminiWithSmartFallback(payload, apiKey);
+            selectEl.innerHTML = filtered.map(t =>
+                `<option value="${t.id}" ${currentTense && currentTense.id === t.id ? 'selected' : ''}>${t.name}</option>`
+            ).join('');
+        }
 
-                const rawText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
-                if (!rawText) throw new Error("Respons kosong dari AI.");
-
-                const parsedQuestions = JSON.parse(rawText);
-                if (!Array.isArray(parsedQuestions) || parsedQuestions.length === 0) {
-                    throw new Error("Format soal tidak sesuai.");
-                }
-
-                currentQuestions = parsedQuestions.slice(0, 5);
-                const toastLabel = isMixedMode ? "5 soal campuran berhasil dibuat AI!" : `5 soal baru ${selectedTenseObj.name} berhasil dibuat AI!`;
-                showToast(toastLabel, "success");
-            } catch (error) {
-                // Fallback jika terjadi gangguan jaringan: ambil dari bank soal gabungan sesuai tense yang dipilih atau campuran
-                if (!isMixedMode && fallbackBank[selectedTenseObj.id]) {
-                    const specificPool = [...fallbackBank[selectedTenseObj.id]].sort(() => Math.random() - 0.5);
-                    if (specificPool.length >= 5) {
-                        currentQuestions = specificPool.slice(0, 5);
-                    } else {
-                        const otherPool = Object.entries(fallbackBank)
-                            .filter(([k]) => k !== selectedTenseObj.id)
-                            .flatMap(([, v]) => v)
-                            .sort(() => Math.random() - 0.5);
-                        currentQuestions = [...specificPool, ...otherPool].slice(0, 5);
-                    }
+        function filterMobileCategory(category) {
+            document.querySelectorAll('.mobile-cat-btn').forEach(btn => {
+                const isMatch = btn.getAttribute('onclick')?.includes(`'${category}'`);
+                if (isMatch) {
+                    btn.classList.add('active', 'bg-ielts-600', 'text-white', 'shadow-sm', 'font-bold');
+                    btn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300', 'font-semibold');
                 } else {
-                    const allPool = Object.values(fallbackBank).flat().sort(() => Math.random() - 0.5);
-                    currentQuestions = allPool.slice(0, 5);
+                    btn.classList.remove('active', 'bg-ielts-600', 'text-white', 'shadow-sm', 'font-bold');
+                    btn.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300', 'font-semibold');
                 }
-                showToast(`AI Gagal (${error.message}) — Menggunakan bank soal cadangan.`, "warning");
-            } finally {
-                loadingEl.classList.add('hidden');
-                containerEl.classList.remove('hidden');
-                footerEl.classList.remove('hidden');
-                refreshIcon.classList.remove('fa-spin');
-                renderQuestions();
-                updateAnswerCounter();
+            });
+            renderMobileSelect(category);
+            const selectEl = document.getElementById('mobile-tense-select');
+            if (selectEl && selectEl.value) {
+                selectTense(selectEl.value);
             }
         }
 
@@ -1901,38 +1885,35 @@
             - Part I: Gerund, Participle & Infinitive (bound prepositions + V-ing, passive gerund being V3, reduced adjective clauses V-ing/V3, remember/forget/regret/try + V-ing vs to V1)
             - Part J: Elliptical Structure & Word Order (so/too/either/neither, not only...but also / neither...nor agreement, and OSASCOMP Noun Phrase order)
 
-            Rules:
-            1. Each question must have a clear section label in "partLabel" (e.g. "Part A: Passive Voice", "Part D: Reported Speech", etc.).
-            2. Provide 4 plausible options (A, B, C, D) with only 1 unmistakably correct grammatical answer.
-            3. Provide a clear, detailed pedagogical explanation in Bahasa Indonesia explaining WHY the correct answer is right AND why the common traps/distractors are wrong.`;
+            Return a JSON object with a single key "questions" containing an array of ${count} objects. Each object MUST have:
+            - "partLabel": string (e.g. "Part A: Passive Voice")
+            - "question": string (exam question prompt or sentence with _______ blank)
+            - "options": array of 4 strings
+            - "correctIndex": integer (0 to 3)
+            - "explanation": string (detailed pedagogical explanation in Bahasa Indonesia)`;
 
-            const payload = {
-                contents: [{ parts: [{ text: prompt }] }],
-                generationConfig: {
-                    temperature: 0.92,
-                    responseMimeType: "application/json",
-                    responseSchema: {
+            const geminiExamSchema = {
+                type: "OBJECT",
+                properties: {
+                    questions: {
                         type: "ARRAY",
                         items: {
                             type: "OBJECT",
                             properties: {
-                                partLabel: { type: "STRING", description: "Section name e.g. 'Part A: Passive Voice'" },
-                                question: { type: "STRING", description: "Exam question prompt or sentence with _______ blank." },
-                                options: {
-                                    type: "ARRAY",
-                                    items: { type: "STRING" },
-                                    description: "Exactly 4 answer choices."
-                                },
-                                correctIndex: { type: "INTEGER", description: "0-based index of the correct option (0 to 3)." },
-                                explanation: { type: "STRING", description: "Detailed explanation in Bahasa Indonesia." }
+                                partLabel: { type: "STRING" },
+                                question: { type: "STRING" },
+                                options: { type: "ARRAY", items: { type: "STRING" } },
+                                correctIndex: { type: "INTEGER" },
+                                explanation: { type: "STRING" }
                             },
                             required: ["partLabel", "question", "options", "correctIndex", "explanation"]
                         }
                     }
-                }
+                },
+                required: ["questions"]
             };
 
-            const apiKey = getStoredApiKey();
+            const apiKey = getStoredApiKey().trim();
             const fallbackBank = getCombinedFallbackBank();
             if (!apiKey) {
                 const allFallback = Object.values(fallbackBank).flat().sort(() => Math.random() - 0.5);
@@ -1955,16 +1936,13 @@
             }
 
             try {
-                const result = await callGeminiWithSmartFallback(payload, apiKey);
-
-                const rawText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
-                if (!rawText) throw new Error("Respons kosong dari AI.");
-
-                const parsed = JSON.parse(rawText);
+                const rawText = await generateAITextWithSmartFallback(prompt, true, apiKey, geminiExamSchema);
+                const parsed = parseAIQuestionsArray(rawText);
                 if (!Array.isArray(parsed) || parsed.length === 0) throw new Error("Format ujian tidak sesuai.");
 
                 examQuestions = parsed.slice(0, count);
-                showToast(`Paket Ujian Simulasi (${examQuestions.length} soal) berhasil di-generate oleh AI!`, "success");
+                const providerName = apiKey.startsWith("gsk_") ? "Groq AI" : "Gemini AI";
+                showToast(`Paket Ujian Simulasi (${examQuestions.length} soal) berhasil di-generate oleh ${providerName}!`, "success");
             } catch (error) {
                 // Fallback komprehensif dari seluruh bank gabungan (200+ soal: 16 Tenses + Modul 1-16)
                 const allFallback = Object.values(fallbackBank).flat().sort(() => Math.random() - 0.5);
@@ -1975,39 +1953,7 @@
                     correctIndex: item.correctIndex,
                     explanation: item.explanation
                 }));
-                loadingEl.classList.add('hidden');
-                containerEl.classList.remove('hidden');
-                footerEl.classList.remove('hidden');
-                refreshIcon.classList.remove('fa-spin');
-                renderExamQuestions();
-                updateExamProgress();
-                startExamTimer(examMinutes);
-                showToast("API Key belum diisi (memakai bank ujian). Klik tombol 'API Key' di atas untuk AI.", "info");
-                return;
-            }
-
-            try {
-                const result = await callGeminiWithSmartFallback(payload, apiKey);
-
-                const rawText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
-                if (!rawText) throw new Error("Respons kosong dari AI.");
-
-                const parsed = JSON.parse(rawText);
-                if (!Array.isArray(parsed) || parsed.length === 0) throw new Error("Format ujian tidak sesuai.");
-
-                examQuestions = parsed.slice(0, count);
-                showToast(`Paket Ujian Simulasi (${examQuestions.length} soal) berhasil di-generate oleh AI!`, "success");
-            } catch (error) {
-                // Fallback komprehensif dari seluruh bank lokal (16 Tenses + Modul 1-16)
-                const allFallback = Object.values(FALLBACK_BANK_BY_TENSE).flat().sort(() => Math.random() - 0.5);
-                examQuestions = allFallback.slice(0, count).map((item, idx) => ({
-                    partLabel: `Section ${idx + 1}: ${item.tenseTag}`,
-                    question: item.question,
-                    options: item.options,
-                    correctIndex: item.correctIndex,
-                    explanation: item.explanation
-                }));
-                showToast(`AI Gagal (${error.message}) — Memuat ujian dari bank cadangan.`, "warning");
+                showToast(`AI fallback (${error.message}) — Memuat ${examQuestions.length} soal dari Bank Cadangan.`, "warning");
             } finally {
                 loadingEl.classList.add('hidden');
                 containerEl.classList.remove('hidden');
