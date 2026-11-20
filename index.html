@@ -148,9 +148,14 @@
             </div>
 
             <div class="flex flex-wrap items-center justify-between gap-2 pt-2">
-                <button type="button" onclick="clearSavedApiKey()" class="px-3.5 py-2 rounded-xl text-xs font-semibold text-rose-600 hover:bg-rose-50 dark:text-rose-400 dark:hover:bg-rose-950/40 transition-colors">
-                    <i class="fa-solid fa-trash-can mr-1"></i> Hapus Key
-                </button>
+                <div class="flex items-center gap-1.5">
+                    <button type="button" onclick="clearSavedApiKey()" class="px-3 py-2 rounded-xl text-xs font-semibold text-rose-600 hover:bg-rose-50 dark:text-rose-400 dark:hover:bg-rose-950/40 transition-colors">
+                        <i class="fa-solid fa-trash-can mr-1"></i> Hapus
+                    </button>
+                    <button type="button" id="btn-test-apikey" onclick="testGeminiApiKey()" class="px-3 py-2 rounded-xl text-xs font-semibold bg-emerald-50 text-emerald-700 hover:bg-emerald-100 dark:bg-emerald-950/50 dark:text-emerald-300 dark:hover:bg-emerald-900/60 border border-emerald-200/70 dark:border-emerald-800/60 transition-colors">
+                        <i class="fa-solid fa-plug-circle-check mr-1"></i> Tes Koneksi
+                    </button>
+                </div>
                 <div class="flex items-center gap-2">
                     <button type="button" onclick="closeApiKeyModal()" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
                         Batal
@@ -3798,6 +3803,41 @@
             }
         }
 
+        async function testGeminiApiKey() {
+            const input = document.getElementById('input-gemini-apikey');
+            const testKey = (input?.value || getStoredApiKey()).trim();
+            const btn = document.getElementById('btn-test-apikey');
+
+            if (!testKey) {
+                showToast("Masukkan Gemini API Key terlebih dahulu sebelum mengetes.", "warning");
+                return;
+            }
+
+            const originalHtml = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1"></i> Mengecek...`;
+
+            try {
+                const res = await callGeminiWithSmartFallback({
+                    contents: [{ parts: [{ text: "Reply with only the word: OK" }] }],
+                    generationConfig: { maxOutputTokens: 10 }
+                }, testKey);
+
+                if (res?.candidates?.[0]?.content?.parts?.[0]?.text) {
+                    localStorage.setItem(API_KEY_STORAGE_KEY, testKey);
+                    updateApiKeyStatusIndicator();
+                    showToast("Koneksi berhasil! API Key aktif & siap generate soal.", "success");
+                } else {
+                    throw new Error("Respons kosong dari server Gemini.");
+                }
+            } catch (err) {
+                showToast(`Tes Gagal: ${err.message}`, "warning");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalHtml;
+            }
+        }
+
         function initTheme() {
             if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                 document.documentElement.classList.add('dark');
@@ -3829,6 +3869,203 @@
                 selectTense(scope, false);
             }
             generateNewExercises();
+        }
+
+        // =========================================================================
+        // 4. NAVIGATION, SIDEBAR, MOBILE SELECT & LEARN CONTENT RENDERING
+        // =========================================================================
+        function renderSidebar(filter = 'all') {
+            const listEl = document.getElementById('tense-sidebar-list');
+            if (!listEl) return;
+
+            const filtered = filter === 'all'
+                ? TENSES_DATA
+                : TENSES_DATA.filter(t => t.category === filter);
+
+            listEl.innerHTML = filtered.map((t, idx) => {
+                const isActive = t.id === currentTense.id;
+                return `
+                    <button
+                        type="button"
+                        onclick="selectTense('${t.id}')"
+                        class="w-full text-left px-3 py-2.5 rounded-xl text-xs transition-all flex items-center justify-between gap-2 ${
+                            isActive
+                                ? 'bg-ielts-600 text-white font-bold shadow-sm'
+                                : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/70 font-medium'
+                        }"
+                    >
+                        <span class="truncate">${idx + 1}. ${t.name}</span>
+                        <span class="text-[10px] px-1.5 py-0.5 rounded ${
+                            isActive
+                                ? 'bg-white/20 text-white'
+                                : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
+                        } shrink-0">${t.category === 'Modul Grammar' ? 'Modul' : t.category}</span>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function filterSidebar(category) {
+            currentSidebarFilter = category;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                const btnText = btn.textContent.trim();
+                const matches =
+                    (category === 'all' && btnText.startsWith('Semua')) ||
+                    (category === 'Present' && btnText === 'Present') ||
+                    (category === 'Past' && btnText === 'Past') ||
+                    (category === 'Future' && btnText === 'Future') ||
+                    (category === 'Past Future' && btnText === 'P.Future') ||
+                    (category === 'Modul Grammar' && btnText === 'Modul 1-16');
+
+                if (matches) {
+                    btn.classList.add('active', 'border-ielts-600', 'text-ielts-600', 'dark:text-ielts-400');
+                    btn.classList.remove('border-transparent', 'text-slate-500');
+                } else {
+                    btn.classList.remove('active', 'border-ielts-600', 'text-ielts-600', 'dark:text-ielts-400');
+                    btn.classList.add('border-transparent', 'text-slate-500');
+                }
+            });
+            renderSidebar(category);
+        }
+
+        function renderMobileSelect(filter = 'all') {
+            const selectEl = document.getElementById('mobile-tense-select');
+            const countEl = document.getElementById('mobile-filter-count');
+            if (!selectEl) return;
+
+            const filtered = filter === 'all'
+                ? TENSES_DATA
+                : TENSES_DATA.filter(t => t.category === filter);
+
+            if (countEl) {
+                const label = filter === 'all' ? 'Semua' : (filter === 'Modul Grammar' ? 'Modul 1–16' : filter);
+                countEl.textContent = `${label} (${filtered.length})`;
+            }
+
+            selectEl.innerHTML = filtered.map(t =>
+                `<option value="${t.id}" ${t.id === currentTense.id ? 'selected' : ''}>${t.name}</option>`
+            ).join('');
+        }
+
+        function filterMobileCategory(category) {
+            document.querySelectorAll('.mobile-cat-btn').forEach(btn => {
+                const txt = btn.textContent.trim();
+                const isMatch =
+                    (category === 'all' && txt === 'Semua') ||
+                    (category === 'Present' && txt === 'Present') ||
+                    (category === 'Past' && txt === 'Past') ||
+                    (category === 'Future' && txt === 'Future') ||
+                    (category === 'Past Future' && txt === 'P. Future') ||
+                    (category === 'Modul Grammar' && txt === 'Modul 1–16');
+
+                if (isMatch) {
+                    btn.className = 'mobile-cat-btn active px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap bg-ielts-600 text-white shadow-sm';
+                } else {
+                    btn.className = 'mobile-cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300';
+                }
+            });
+            renderMobileSelect(category);
+            const selectEl = document.getElementById('mobile-tense-select');
+            if (selectEl && selectEl.value && selectEl.value !== currentTense.id) {
+                selectTense(selectEl.value);
+            }
+        }
+
+        function selectTense(tenseId, autoRefreshPractice = true) {
+            const found = TENSES_DATA.find(t => t.id === tenseId);
+            if (!found) return;
+            currentTense = found;
+
+            renderSidebar(currentSidebarFilter);
+            const mobileSelect = document.getElementById('mobile-tense-select');
+            if (mobileSelect && mobileSelect.value !== tenseId) {
+                mobileSelect.value = tenseId;
+            }
+
+            const exerciseScope = document.getElementById('exercise-scope');
+            if (exerciseScope && exerciseScope.value !== 'mixed') {
+                exerciseScope.value = tenseId;
+            }
+
+            renderLearnContent(found);
+
+            const practiceView = document.getElementById('view-practice');
+            if (autoRefreshPractice && practiceView && !practiceView.classList.contains('hidden')) {
+                generateNewExercises();
+            }
+        }
+
+        function renderLearnContent(t) {
+            document.getElementById('learn-category-badge').textContent = t.category;
+            document.getElementById('learn-ielts-priority').innerHTML = `<i class="fa-solid fa-star text-[10px]"></i> ${t.priority}`;
+            document.getElementById('learn-title').textContent = t.name;
+            document.getElementById('learn-description').textContent = t.description;
+            document.getElementById('formula-pos').textContent = t.formulaPos;
+            document.getElementById('formula-neg').textContent = t.formulaNeg;
+            document.getElementById('formula-int').textContent = t.formulaInt;
+
+            const signalsEl = document.getElementById('learn-time-signals');
+            signalsEl.innerHTML = (t.timeSignals || []).map(sig =>
+                `<span class="px-2.5 py-1 rounded-lg text-xs font-mono font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700">${sig}</span>`
+            ).join('');
+
+            document.getElementById('ielts-writing-tip').textContent = t.writingTip;
+            document.getElementById('ielts-writing-example').textContent = `"${t.writingExample}"`;
+            document.getElementById('ielts-speaking-tip').textContent = t.speakingTip;
+            document.getElementById('ielts-speaking-example').textContent = `"${t.speakingExample}"`;
+
+            const examples = t.moreExamples || [];
+            document.getElementById('examples-count-badge').textContent = `${examples.length} Contoh Lengkap`;
+            const examplesContainer = document.getElementById('learn-more-examples');
+            examplesContainer.innerHTML = examples.map(ex => {
+                const breakdownHtml = (ex.breakdown || []).map(b =>
+                    `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-[11px]">
+                        <strong class="text-ielts-600 dark:text-ielts-400">${b.label}:</strong>
+                        <span class="text-slate-700 dark:text-slate-300 font-mono">${b.text}</span>
+                    </span>`
+                ).join('');
+
+                return `
+                    <div class="p-4 rounded-xl bg-slate-50/80 dark:bg-slate-800/50 border border-slate-200/70 dark:border-slate-700/70 space-y-2.5 flex flex-col justify-between">
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between gap-2">
+                                <span class="text-[11px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">${ex.context}</span>
+                                <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-200/70 dark:bg-slate-700 text-slate-700 dark:text-slate-300">${ex.type}</span>
+                            </div>
+                            <p class="text-xs sm:text-sm font-semibold text-slate-900 dark:text-white leading-relaxed break-words">"${ex.en}"</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">${ex.id}</p>
+                        </div>
+                        <div class="pt-2 border-t border-slate-200/60 dark:border-slate-700/60 flex flex-wrap gap-1.5">
+                            ${breakdownHtml}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function switchView(viewName) {
+            const views = ['learn', 'practice', 'exam'];
+            views.forEach(v => {
+                const section = document.getElementById(`view-${v}`);
+                const tab = document.getElementById(`tab-${v}`);
+                if (!section || !tab) return;
+
+                if (v === viewName) {
+                    section.classList.remove('hidden');
+                    tab.classList.add('bg-ielts-600', 'text-white', 'shadow-md', 'shadow-ielts-600/20');
+                    tab.classList.remove('text-slate-600', 'dark:text-slate-300', 'hover:bg-slate-100', 'dark:hover:bg-slate-800');
+                } else {
+                    section.classList.add('hidden');
+                    tab.classList.remove('bg-ielts-600', 'text-white', 'shadow-md', 'shadow-ielts-600/20');
+                    tab.classList.add('text-slate-600', 'dark:text-slate-300', 'hover:bg-slate-100', 'dark:hover:bg-slate-800');
+                }
+            });
+
+            if (viewName === 'practice' && currentQuestions.length === 0) {
+                generateNewExercises();
+            } else if (viewName === 'exam' && examQuestions.length === 0) {
+                startNewSimulationExam();
+            }
         }
 
         // Toast Notification Utility (Replaces alert())
@@ -3863,265 +4100,77 @@
         }
 
         // =========================================================================
-        // 4. NAVIGATION & MODULE RENDERING
+        // 5. DYNAMIC EXERCISE GENERATOR DENGAN GEMINI API + SMART FALLBACK
         // =========================================================================
-        function renderSidebar() {
-            const listEl = document.getElementById('tense-sidebar-list');
-            if (!listEl) return;
-
-            const filtered = currentSidebarFilter === 'all'
-                ? TENSES_DATA
-                : TENSES_DATA.filter(t => t.category === currentSidebarFilter);
-
-            listEl.innerHTML = filtered.map(t => {
-                const isActive = t.id === currentTense.id;
-                const badgeLabel = t.category === 'Modul Grammar' ? 'Modul' : t.category;
-                return `
-                    <button 
-                        type="button"
-                        onclick="selectTense('${t.id}')"
-                        class="w-full text-left px-3 py-2.5 rounded-xl text-xs transition-all flex items-center justify-between gap-2 ${
-                            isActive 
-                            ? 'bg-ielts-600 text-white font-bold shadow-sm' 
-                            : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-medium'
-                        }"
-                    >
-                        <span class="truncate">${t.name}</span>
-                        <span class="text-[10px] px-1.5 py-0.5 rounded shrink-0 ${
-                            isActive 
-                            ? 'bg-white/20 text-white' 
-                            : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
-                        }">${badgeLabel}</span>
-                    </button>
-                `;
-            }).join('');
-        }
-
-        function filterSidebar(category) {
-            currentSidebarFilter = category;
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                const text = btn.textContent.trim();
-                const isMatch = (category === 'all' && text.startsWith('Semua')) ||
-                                (category === 'Past Future' && text === 'P.Future') ||
-                                (category === 'Modul Grammar' && text === 'Modul 1-16') ||
-                                text === category;
-                btn.className = isMatch
-                    ? 'filter-btn active py-2 text-center border-b-2 border-ielts-600 text-ielts-600 dark:text-ielts-400'
-                    : 'filter-btn py-2 text-center border-b-2 border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200';
-            });
-            renderSidebar();
-        }
-
-        function renderMobileSelect(category = 'all') {
-            const select = document.getElementById('mobile-tense-select');
-            const countBadge = document.getElementById('mobile-filter-count');
-            const filtered = category === 'all'
-                ? TENSES_DATA
-                : TENSES_DATA.filter(t => t.category === category);
-
-            if (countBadge) {
-                const labelMap = {
-                    'all': `Semua (${filtered.length})`,
-                    'Present': `Present (${filtered.length})`,
-                    'Past': `Past (${filtered.length})`,
-                    'Future': `Future (${filtered.length})`,
-                    'Past Future': `Past Future (${filtered.length})`,
-                    'Modul Grammar': `Modul 1–16 (${filtered.length})`
-                };
-                countBadge.textContent = labelMap[category] || `${filtered.length} Topik`;
-            }
-
-            select.innerHTML = filtered.map(t => 
-                `<option value="${t.id}">[${t.category === 'Modul Grammar' ? 'Modul' : t.category}] ${t.name}</option>`
-            ).join('');
-
-            // Ensure currentTense is kept selected if present in filtered list
-            if (filtered.some(t => t.id === currentTense.id)) {
-                select.value = currentTense.id;
-            }
-        }
-
-        function filterMobileCategory(category) {
-            document.querySelectorAll('.mobile-cat-btn').forEach(btn => {
-                const label = btn.textContent.trim();
-                const isMatch = (category === 'all' && label === 'Semua') ||
-                                (category === 'Past Future' && label === 'P. Future') ||
-                                (category === 'Modul Grammar' && label === 'Modul 1–16') ||
-                                label === category;
-                btn.className = isMatch
-                    ? 'mobile-cat-btn active px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap bg-ielts-600 text-white shadow-sm'
-                    : 'mobile-cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300';
-            });
-
-            renderMobileSelect(category);
-
-            // Auto-select first topic in filtered category if current topic isn't in it
-            const filtered = category === 'all'
-                ? TENSES_DATA
-                : TENSES_DATA.filter(t => t.category === category);
-            if (filtered.length > 0 && !filtered.some(t => t.id === currentTense.id)) {
-                selectTense(filtered[0].id);
-            }
-        }
-
-        function selectTense(tenseId, autoRefreshPractice = true) {
-            const found = TENSES_DATA.find(t => t.id === tenseId);
-            if (!found) return;
-            currentTense = found;
-
-            // Update Mobile Dropdown & Exercise Dropdown
-            const mobileSelect = document.getElementById('mobile-tense-select');
-            if (mobileSelect) mobileSelect.value = found.id;
-
-            const scopeSelect = document.getElementById('exercise-scope');
-            if (scopeSelect && scopeSelect.value !== 'mixed') {
-                scopeSelect.value = found.id;
-            }
-
-            // Update Hero Card Header, Rumus, Time Signals, & Tips Writing/Speaking
-            document.getElementById('learn-category-badge').textContent = found.category;
-            document.getElementById('learn-ielts-priority').innerHTML = `<i class="fa-solid fa-star text-[10px]"></i> ${found.priority}`;
-            document.getElementById('learn-title').textContent = found.name;
-            document.getElementById('learn-description').textContent = found.description;
-
-            document.getElementById('formula-pos').textContent = found.formulaPos;
-            document.getElementById('formula-neg').textContent = found.formulaNeg;
-            document.getElementById('formula-int').textContent = found.formulaInt;
-
-            document.getElementById('learn-time-signals').innerHTML = (found.timeSignals || []).map(sig => 
-                `<span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-mono font-medium border border-slate-200/70 dark:border-slate-700/70">${sig}</span>`
-            ).join('');
-
-            document.getElementById('ielts-writing-tip').textContent = found.writingTip;
-            document.getElementById('ielts-writing-example').textContent = `"${found.writingExample}"`;
-            document.getElementById('ielts-speaking-tip').textContent = found.speakingTip;
-            document.getElementById('ielts-speaking-example').textContent = `"${found.speakingExample}"`;
-
-            // Render Expanded Examples Bank with Indonesian Translations & Formula Breakdown
-            const moreExamplesContainer = document.getElementById('learn-more-examples');
-            const examplesList = found.moreExamples || [];
-            document.getElementById('examples-count-badge').textContent = `${examplesList.length} Contoh + Bedah Rumus`;
-
-            moreExamplesContainer.innerHTML = examplesList.map((ex, index) => {
-                const typeBadgeColor = ex.type.includes('Positif')
-                    ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300'
-                    : ex.type.includes('Negatif')
-                    ? 'bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300'
-                    : 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300';
-
-                const breakdownChips = (ex.breakdown || []).map(part => {
-                    const isVerbOrAux = /(V1|V2|V3|V-ing|Aux|to be|have|has|had|will|would|did|do|does|Inversi)/i.test(part.label);
-                    const chipStyle = isVerbOrAux
-                        ? 'bg-sky-50 dark:bg-sky-950/70 border-sky-200 dark:border-sky-700/80 text-sky-900 dark:text-sky-100'
-                        : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300';
-                    const labelStyle = isVerbOrAux
-                        ? 'text-sky-600 dark:text-sky-400'
-                        : 'text-slate-500 dark:text-slate-400';
-
-                    return `
-                        <div class="inline-flex flex-col px-2.5 py-1 rounded-lg border text-[11px] leading-tight ${chipStyle}">
-                            <span class="font-bold uppercase tracking-wider text-[9px] ${labelStyle}">${part.label}</span>
-                            <span class="font-mono font-semibold mt-0.5">${part.text}</span>
-                        </div>
-                    `;
-                }).join('');
-
-                return `
-                    <div class="p-4 sm:p-5 rounded-xl bg-slate-50/80 dark:bg-slate-800/50 border border-slate-200/70 dark:border-slate-700/70 flex flex-col justify-between gap-3 hover:border-ielts-400/60 transition-colors">
-                        <div>
-                            <div class="flex items-center justify-between gap-2 mb-2">
-                                <span class="text-[11px] font-bold uppercase tracking-wider text-ielts-600 dark:text-ielts-400">
-                                    #${index + 1} • ${ex.context}
-                                </span>
-                                <span class="px-2 py-0.5 rounded text-[10px] font-bold ${typeBadgeColor}">
-                                    ${ex.type}
-                                </span>
-                            </div>
-                            <p class="text-sm font-semibold text-slate-900 dark:text-slate-100 leading-relaxed">
-                                "${ex.en}"
-                            </p>
-                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mt-1.5">
-                                <span class="font-semibold text-slate-500 dark:text-slate-500">Artinya:</span> ${ex.id}
-                            </p>
-                        </div>
-
-                        <div class="pt-2.5 border-t border-slate-200/70 dark:border-slate-700/70">
-                            <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1.5">
-                                <i class="fa-solid fa-code-branch mr-1 text-ielts-500"></i>Bedah Struktur Rumus:
-                            </span>
-                            <div class="flex flex-wrap gap-1.5">
-                                ${breakdownChips}
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-
-            // Update Exercise Badge
-            document.getElementById('exercise-topic-badge').textContent = `Fokus: ${found.name}`;
-
-            renderSidebar();
-
-            // Jika user sedang berada di tab practice, otomatis muat soal baru sesuai tense yang baru dipilih
-            if (autoRefreshPractice && !document.getElementById('view-practice').classList.contains('hidden')) {
-                generateNewExercises();
-            }
-        }
-
-        function switchView(viewName) {
-            const viewLearn = document.getElementById('view-learn');
-            const viewPractice = document.getElementById('view-practice');
-            const viewExam = document.getElementById('view-exam');
-            const tabLearn = document.getElementById('tab-learn');
-            const tabPractice = document.getElementById('tab-practice');
-            const tabExam = document.getElementById('tab-exam');
-
-            const activeBtnClass = 'px-3 sm:px-4 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 sm:gap-2 bg-ielts-600 text-white shadow-md shadow-ielts-600/20 min-h-[42px]';
-            const inactiveBtnClass = 'px-3 sm:px-4 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 sm:gap-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 min-h-[42px]';
-
-            viewLearn.classList.add('hidden');
-            viewPractice.classList.add('hidden');
-            viewExam.classList.add('hidden');
-
-            tabLearn.className = inactiveBtnClass;
-            tabPractice.className = inactiveBtnClass;
-            tabExam.className = 'col-span-2 sm:col-span-1 ' + inactiveBtnClass;
-
-            if (viewName === 'learn') {
-                viewLearn.classList.remove('hidden');
-                tabLearn.className = activeBtnClass;
-            } else if (viewName === 'practice') {
-                viewPractice.classList.remove('hidden');
-                tabPractice.className = activeBtnClass;
-
-                if (currentQuestions.length === 0) {
-                    generateNewExercises();
+        async function fetchWithTimeout(url, options, timeoutMs = 15000) {
+            const controller = new AbortController();
+            const id = setTimeout(() => controller.abort(), timeoutMs);
+            try {
+                const response = await fetch(url, { ...options, signal: controller.signal });
+                clearTimeout(id);
+                return response;
+            } catch (err) {
+                clearTimeout(id);
+                if (err.name === 'AbortError') {
+                    throw new Error("Timeout (koneksi terlalu lama > 15 detik).");
                 }
-            } else if (viewName === 'exam') {
-                viewExam.classList.remove('hidden');
-                tabExam.className = 'col-span-2 sm:col-span-1 px-3 sm:px-4 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 sm:gap-2 bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 shadow-md min-h-[42px]';
+                throw err;
+            }
+        }
 
-                if (examQuestions.length === 0) {
-                    startNewSimulationExam();
+        async function callGeminiWithSmartFallback(payload, explicitApiKey = null) {
+            const apiKey = (explicitApiKey !== null ? explicitApiKey : getStoredApiKey()).trim();
+            // Prioritaskan gemini-3-flash-preview, lalu otomatis fallback ke gemini-2.5-flash jika limit/tidak tersedia pada free tier
+            const models = ["gemini-3-flash-preview", "gemini-2.5-flash"];
+            let lastError = new Error("Gagal menghubungi Gemini API.");
+
+            for (const model of models) {
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`;
+                
+                for (let attempt = 0; attempt < 2; attempt++) {
+                    try {
+                        const response = await fetchWithTimeout(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        }, 15000);
+
+                        const data = await response.json().catch(() => ({}));
+
+                        if (!response.ok) {
+                            const apiMsg = data?.error?.message || `HTTP ${response.status}`;
+                            // Jika API Key tidak valid atau belum diisi, langsung hentikan tanpa retry lama
+                            if (response.status === 400 || response.status === 403) {
+                                if (apiMsg.toLowerCase().includes("api key")) {
+                                    throw new Error("API Key tidak valid atau belum diisi. Klik tombol 'API Key' di atas.");
+                                }
+                                throw new Error(`Akses ditolak (${response.status}): ${apiMsg}`);
+                            }
+                            // Jika 429 (Rate limit Free Tier) atau 404 (Model belum tersedia), coba model berikutnya
+                            if (response.status === 429) {
+                                lastError = new Error("Batas kuota gratis (Rate Limit) tercapai. Tunggu sebentar atau coba lagi.");
+                                break;
+                            }
+                            if (response.status === 404) {
+                                lastError = new Error(`Model ${model} tidak tersedia untuk key ini.`);
+                                break;
+                            }
+                            throw new Error(apiMsg);
+                        }
+
+                        return data;
+                    } catch (err) {
+                        lastError = err;
+                        if (err.message.includes("API Key tidak valid") || err.message.includes("Akses ditolak")) {
+                            throw err;
+                        }
+                        if (attempt === 0) {
+                            await new Promise(res => setTimeout(res, 1000));
+                        }
+                    }
                 }
             }
-        }
-
-        // =========================================================================
-        // 5. DYNAMIC EXERCISE GENERATOR DENGAN GEMINI API + EXPONENTIAL BACKOFF
-        // =========================================================================
-        async function fetchWithRetry(url, options, maxRetries = 4) {
-            const delays = [1000, 2000, 4000, 8000];
-            for (let attempt = 0; attempt <= maxRetries; attempt++) {
-                try {
-                    const response = await fetch(url, options);
-                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                    return await response.json();
-                } catch (err) {
-                    if (attempt === maxRetries) throw err;
-                    await new Promise(res => setTimeout(res, delays[attempt]));
-                }
-            }
+            throw lastError;
         }
 
         async function generateNewExercises() {
@@ -4202,25 +4251,42 @@
 
             // Ambil API key dari penyimpanan browser pengguna (kosong di kode sumber agar aman di-hosting ke Vercel)
             const apiKey = getStoredApiKey();
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+            if (!apiKey) {
+                // Jika API Key belum diatur di hosting publik, langsung gunakan bank soal cadangan tanpa menunggu lama
+                if (!isMixedMode && FALLBACK_BANK_BY_TENSE[selectedTenseObj.id]) {
+                    const specificPool = FALLBACK_BANK_BY_TENSE[selectedTenseObj.id];
+                    const otherPool = Object.entries(FALLBACK_BANK_BY_TENSE)
+                        .filter(([k]) => k !== selectedTenseObj.id)
+                        .flatMap(([, v]) => v)
+                        .sort(() => Math.random() - 0.5);
+                    currentQuestions = [...specificPool, ...otherPool].slice(0, 5);
+                } else {
+                    const allPool = Object.values(FALLBACK_BANK_BY_TENSE).flat().sort(() => Math.random() - 0.5);
+                    currentQuestions = allPool.slice(0, 5);
+                }
+                loadingEl.classList.add('hidden');
+                containerEl.classList.remove('hidden');
+                footerEl.classList.remove('hidden');
+                refreshIcon.classList.remove('fa-spin');
+                renderQuestions();
+                updateAnswerCounter();
+                showToast("API Key belum diisi (memakai bank soal). Klik tombol 'API Key' untuk aktivasi AI.", "info");
+                return;
+            }
 
             try {
-                const result = await fetchWithRetry(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
+                const result = await callGeminiWithSmartFallback(payload, apiKey);
 
                 const rawText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
-                if (!rawText) throw new Error("Empty response");
+                if (!rawText) throw new Error("Respons kosong dari AI.");
 
                 const parsedQuestions = JSON.parse(rawText);
                 if (!Array.isArray(parsedQuestions) || parsedQuestions.length === 0) {
-                    throw new Error("Invalid format");
+                    throw new Error("Format soal tidak sesuai.");
                 }
 
                 currentQuestions = parsedQuestions.slice(0, 5);
-                const toastLabel = isMixedMode ? "5 soal campuran 16 tenses berhasil dibuat!" : `5 soal baru ${selectedTenseObj.name} berhasil dibuat!`;
+                const toastLabel = isMixedMode ? "5 soal campuran berhasil dibuat AI!" : `5 soal baru ${selectedTenseObj.name} berhasil dibuat AI!`;
                 showToast(toastLabel, "success");
             } catch (error) {
                 // Fallback jika terjadi gangguan jaringan: ambil dari bank soal lokal sesuai tense yang dipilih atau campuran
@@ -4235,7 +4301,7 @@
                     const allPool = Object.values(FALLBACK_BANK_BY_TENSE).flat().sort(() => Math.random() - 0.5);
                     currentQuestions = allPool.slice(0, 5);
                 }
-                showToast("Memuat soal dari bank cadangan IELTS.", "warning");
+                showToast(`AI Gagal (${error.message}) — Menggunakan bank soal cadangan.`, "warning");
             } finally {
                 loadingEl.classList.add('hidden');
                 containerEl.classList.remove('hidden');
@@ -4489,20 +4555,34 @@
             };
 
             const apiKey = getStoredApiKey();
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+            if (!apiKey) {
+                const allFallback = Object.values(FALLBACK_BANK_BY_TENSE).flat().sort(() => Math.random() - 0.5);
+                examQuestions = allFallback.slice(0, count).map((item, idx) => ({
+                    partLabel: `Section ${idx + 1}: ${item.tenseTag}`,
+                    question: item.question,
+                    options: item.options,
+                    correctIndex: item.correctIndex,
+                    explanation: item.explanation
+                }));
+                loadingEl.classList.add('hidden');
+                containerEl.classList.remove('hidden');
+                footerEl.classList.remove('hidden');
+                refreshIcon.classList.remove('fa-spin');
+                renderExamQuestions();
+                updateExamProgress();
+                startExamTimer(examMinutes);
+                showToast("API Key belum diisi (memakai bank ujian). Klik tombol 'API Key' di atas untuk AI.", "info");
+                return;
+            }
 
             try {
-                const result = await fetchWithRetry(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
+                const result = await callGeminiWithSmartFallback(payload, apiKey);
 
                 const rawText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
-                if (!rawText) throw new Error("Empty response");
+                if (!rawText) throw new Error("Respons kosong dari AI.");
 
                 const parsed = JSON.parse(rawText);
-                if (!Array.isArray(parsed) || parsed.length === 0) throw new Error("Invalid array");
+                if (!Array.isArray(parsed) || parsed.length === 0) throw new Error("Format ujian tidak sesuai.");
 
                 examQuestions = parsed.slice(0, count);
                 showToast(`Paket Ujian Simulasi (${examQuestions.length} soal) berhasil di-generate oleh AI!`, "success");
@@ -4516,7 +4596,7 @@
                     correctIndex: item.correctIndex,
                     explanation: item.explanation
                 }));
-                showToast("Memuat soal ujian simulasi dari bank cadangan lengkap.", "warning");
+                showToast(`AI Gagal (${error.message}) — Memuat ujian dari bank cadangan.`, "warning");
             } finally {
                 loadingEl.classList.add('hidden');
                 containerEl.classList.remove('hidden');
@@ -4691,6 +4771,7 @@
             initTheme();
             updateApiKeyStatusIndicator();
             populateExerciseScopeSelect();
+            renderSidebar('all');
             renderMobileSelect('all');
             const mobileSelectEl = document.getElementById('mobile-tense-select');
             if (mobileSelectEl) {
