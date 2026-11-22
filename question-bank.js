@@ -1567,6 +1567,7 @@ window.EXTERNAL_QUESTION_BANK = {
 
 // =========================================================================
 // KURIKULUM LENGKAP 32 TOPIK (16 TENSES + MODUL 1 S/D MODUL 16)
+// Masing-masing dilengkapi minimal 6 contoh kalimat & bedah struktur rumus
 // =========================================================================
 window.TENSES_DATA = [
     {
@@ -1593,10 +1594,38 @@ window.TENSES_DATA = [
             },
             {
                 context: "Writing Task 2 (Essay)",
-                type: "General Truth",
+                type: "General Truth (+)",
                 en: "Regular physical exercise significantly reduces the risk of chronic cardiovascular diseases.",
                 id: "Olahraga fisik yang teratur secara signifikan mengurangi risiko penyakit kardiovaskular kronis.",
-                breakdown: [{ label: "S", text: "Regular physical exercise" }, { label: "V1+s", text: "reduces" }]
+                breakdown: [{ label: "S (Singular)", text: "Regular physical exercise" }, { label: "V1+s", text: "reduces" }]
+            },
+            {
+                context: "Writing Task 2 (Negative)",
+                type: "Negative Statement (-)",
+                en: "Renewable energy sources do not emit harmful greenhouse gases during daily electricity generation.",
+                id: "Sumber energi terbarukan tidak memancarkan gas rumah kaca berbahaya selama pembangkitan listrik harian.",
+                breakdown: [{ label: "S (Plural)", text: "sources" }, { label: "Aux Neg", text: "do not emit" }]
+            },
+            {
+                context: "Speaking Part 3",
+                type: "Interrogative (?)",
+                en: "How does rapid urbanization affect mental well-being among young professionals?",
+                id: "Bagaimana urbanisasi yang cepat memengaruhi kesejahteraan mental di kalangan profesional muda?",
+                breakdown: [{ label: "QW+Aux", text: "How does" }, { label: "S", text: "rapid urbanization" }, { label: "V1", text: "affect" }]
+            },
+            {
+                context: "Nominal Sentence",
+                type: "To Be (is/am/are)",
+                en: "Access to clean drinking water is a fundamental human right in every modern society.",
+                id: "Akses terhadap air minum bersih adalah hak asasi manusia yang mendasar di setiap masyarakat modern.",
+                breakdown: [{ label: "S", text: "Access" }, { label: "To Be", text: "is" }, { label: "Complement", text: "a fundamental human right" }]
+            },
+            {
+                context: "Speaking Part 1",
+                type: "Habitual Routine",
+                en: "Every weekend, my colleagues and I review academic journals to broaden our analytical vocabulary.",
+                id: "Setiap akhir pekan, rekan-rekan saya dan saya mengulas jurnal akademik untuk memperluas kosakata analitis kami.",
+                breakdown: [{ label: "Time", text: "Every weekend" }, { label: "S (Plural)", text: "my colleagues and I" }, { label: "V1", text: "review" }]
             }
         ]
     },
@@ -1617,10 +1646,45 @@ window.TENSES_DATA = [
         moreExamples: [
             {
                 context: "Writing Task 2",
-                type: "Current Trend",
+                type: "Current Trend (+)",
                 en: "Digital platforms are rapidly transforming how small businesses reach international consumers.",
                 id: "Platform digital dengan cepat mengubah cara bisnis kecil menjangkau konsumen internasional.",
                 breakdown: [{ label: "Aux", text: "are" }, { label: "Adv", text: "rapidly" }, { label: "V-ing", text: "transforming" }]
+            },
+            {
+                context: "Environmental Essay",
+                type: "Ongoing Change",
+                en: "Global sea levels are rising at an unprecedented pace due to accelerated polar ice melting.",
+                id: "Permukaan laut global sedang meningkat pada kecepatan yang belum pernah terjadi sebelumnya akibat mencairnya es kutub.",
+                breakdown: [{ label: "S (Plural)", text: "Global sea levels" }, { label: "Prog Verb", text: "are rising" }]
+            },
+            {
+                context: "Writing Task 2 (Negative)",
+                type: "Negative Trend (-)",
+                en: "Traditional print newspapers are not attracting younger demographics as effectively as online media.",
+                id: "Surat kabar cetak tradisional tidak lagi menarik demografi muda seefektif media daring.",
+                breakdown: [{ label: "Aux Neg", text: "are not" }, { label: "V-ing", text: "attracting" }]
+            },
+            {
+                context: "Speaking Part 3",
+                type: "Interrogative (?)",
+                en: "Why are more university graduates choosing freelance careers over conventional office jobs nowadays?",
+                id: "Mengapa semakin banyak lulusan universitas memilih karier lepas dibandingkan pekerjaan kantoran konvensional saat ini?",
+                breakdown: [{ label: "QW+Aux", text: "Why are" }, { label: "S", text: "more university graduates" }, { label: "V-ing", text: "choosing" }]
+            },
+            {
+                context: "Speaking Part 1",
+                type: "Temporary Situation",
+                en: "I am currently staying with my aunt in Jakarta while completing my three-month internship.",
+                id: "Saya saat ini tinggal bersama bibi saya di Jakarta selagi menyelesaikan magang tiga bulan saya.",
+                breakdown: [{ label: "S+Aux", text: "I am" }, { label: "Adv", text: "currently" }, { label: "V-ing", text: "staying" }]
+            },
+            {
+                context: "Passive Continuous",
+                type: "is/are + being + V3",
+                en: "New bicycle lanes are currently being constructed across the downtown business district.",
+                id: "Jalur sepeda baru saat ini sedang dibangun di seluruh distrik bisnis pusat kota.",
+                breakdown: [{ label: "S Pasif", text: "New bicycle lanes" }, { label: "Passive Prog", text: "are being constructed" }]
             }
         ]
     },
@@ -1641,10 +1705,45 @@ window.TENSES_DATA = [
         moreExamples: [
             {
                 context: "Writing Task 1 (Trend to Now)",
-                type: "Duration to Present",
+                type: "Since + Past Year",
                 en: "Since 2015, carbon emissions in the transport sector have declined by 14 percent.",
                 id: "Sejak 2015, emisi karbon di sektor transportasi telah menurun sebesar 14 persen.",
                 breakdown: [{ label: "Time", text: "Since 2015" }, { label: "Have+V3", text: "have declined" }]
+            },
+            {
+                context: "Writing Task 2",
+                type: "Over the Past Decade",
+                en: "Over the past two decades, rapid urbanization has placed immense pressure on public housing.",
+                id: "Selama dua dekade terakhir, urbanisasi yang cepat telah memberikan tekanan besar pada perumahan umum.",
+                breakdown: [{ label: "S (Singular)", text: "rapid urbanization" }, { label: "Has+V3", text: "has placed" }]
+            },
+            {
+                context: "Writing Task 2 (Negative)",
+                type: "Negative Statement (-)",
+                en: "Despite numerous climate summits, global deforestation rates have not decreased significantly.",
+                id: "Meskipun banyak konferensi iklim diadakan, laju deforestasi global belum menurun secara signifikan.",
+                breakdown: [{ label: "S (Plural)", text: "rates" }, { label: "Have not+V3", text: "have not decreased" }]
+            },
+            {
+                context: "Speaking Part 3",
+                type: "Interrogative (?)",
+                en: "How has social media altered interpersonal communication among teenagers in your country?",
+                id: "Bagaimana media sosial telah mengubah komunikasi interpersonal di kalangan remaja di negara Anda?",
+                breakdown: [{ label: "QW+Has", text: "How has" }, { label: "S", text: "social media" }, { label: "V3", text: "altered" }]
+            },
+            {
+                context: "Nominal Present Perfect",
+                type: "have/has + been",
+                en: "Telemedicine has been an indispensable healthcare solution for isolated rural communities.",
+                id: "Telemedisin telah menjadi solusi layanan kesehatan yang tak tergantikan bagi komunitas pedesaan terpencil.",
+                breakdown: [{ label: "S", text: "Telemedicine" }, { label: "Has+been", text: "has been" }]
+            },
+            {
+                context: "Passive Present Perfect",
+                type: "have/has + been + V3",
+                en: "Three new underground metro lines have recently been inaugurated to ease traffic congestion.",
+                id: "Tiga jalur metro bawah tanah baru baru-baru ini telah diresmikan untuk mengurangi kemacetan lalu lintas.",
+                breakdown: [{ label: "S Pasif", text: "Three new lines" }, { label: "Passive", text: "have been inaugurated" }]
             }
         ]
     },
@@ -1665,10 +1764,45 @@ window.TENSES_DATA = [
         moreExamples: [
             {
                 context: "Writing Task 2",
-                type: "Ongoing Action",
+                type: "Ongoing Research (+)",
                 en: "Researchers have been developing sustainable alternatives to single-use plastics since the early 2000s.",
                 id: "Para peneliti telah mengembangkan alternatif berkelanjutan untuk plastik sekali pakai sejak awal 2000-an.",
-                breakdown: [{ label: "Aux", text: "have been" }, { label: "V-ing", text: "developing" }]
+                breakdown: [{ label: "Aux", text: "have been" }, { label: "V-ing", text: "developing" }, { label: "Since", text: "since the early 2000s" }]
+            },
+            {
+                context: "Environmental Context",
+                type: "Duration with 'For'",
+                en: "Marine biologists have been monitoring coral reef bleaching in the Pacific Ocean for over thirty years.",
+                id: "Ahli biologi kelautan telah memantau pemutihan terumbu karang di Samudra Pasifik selama lebih dari tiga puluh tahun.",
+                breakdown: [{ label: "S", text: "Marine biologists" }, { label: "Form", text: "have been monitoring" }]
+            },
+            {
+                context: "Negative Form (-)",
+                type: "Ongoing Neglect",
+                en: "The municipal council has not been maintaining drainage canals properly, resulting in seasonal floods.",
+                id: "Dewan kota belum merawat saluran drainase dengan baik, sehingga mengakibatkan banjir musiman.",
+                breakdown: [{ label: "S (Singular)", text: "The municipal council" }, { label: "Neg Form", text: "has not been maintaining" }]
+            },
+            {
+                context: "Speaking Part 1",
+                type: "Interrogative (?)",
+                en: "How long have you been working as a software architect in your current firm?",
+                id: "Sudah berapa lama Anda bekerja sebagai arsitek perangkat lunak di perusahaan Anda saat ini?",
+                breakdown: [{ label: "QW", text: "How long" }, { label: "Have+S", text: "have you" }, { label: "Been+V-ing", text: "been working" }]
+            },
+            {
+                context: "Social Issue",
+                type: "Continuous Advocacy",
+                en: "Non-profit organizations have been campaigning for equal access to digital education in remote villages.",
+                id: "Organisasi nirlaba telah berkampanye untuk akses yang setara terhadap pendidikan digital di desa-desa terpencil.",
+                breakdown: [{ label: "S (Plural)", text: "organizations" }, { label: "Form", text: "have been campaigning" }]
+            },
+            {
+                context: "Academic Study",
+                type: "Personal Effort",
+                en: "I have been practicing academic essay writing every morning to refine my grammatical accuracy.",
+                id: "Saya telah berlatih menulis esai akademik setiap pagi untuk menyempurnakan akurasi tata bahasa saya.",
+                breakdown: [{ label: "S", text: "I" }, { label: "Form", text: "have been practicing" }]
             }
         ]
     },
@@ -1689,10 +1823,45 @@ window.TENSES_DATA = [
         moreExamples: [
             {
                 context: "Writing Task 1 (Maps)",
-                type: "Past Transformation",
+                type: "Past Transformation (+)",
                 en: "In 2005, the municipal council demolished the old warehouse and constructed a public library.",
                 id: "Pada tahun 2005, dewan kota merobohkan gudang tua dan membangun perpustakaan umum.",
                 breakdown: [{ label: "Time", text: "In 2005" }, { label: "V2", text: "demolished & constructed" }]
+            },
+            {
+                context: "Writing Task 1 (Line Graph)",
+                type: "Peak Figure",
+                en: "International tourist arrivals reached an all-time peak of 3.2 million visitors in 2019.",
+                id: "Kedatangan wisatawan internasional mencapai puncak tertinggi sepanjang masa sebesar 3,2 juta pengunjung pada tahun 2019.",
+                breakdown: [{ label: "S", text: "arrivals" }, { label: "V2", text: "reached" }, { label: "Year", text: "in 2019" }]
+            },
+            {
+                context: "Writing Task 1 (Negative)",
+                type: "Negative Statement (-)",
+                en: "Sales of physical compact discs did not recover after streaming services entered the market in 2012.",
+                id: "Penjualan cakram padat fisik tidak pulih setelah layanan streaming memasuki pasar pada tahun 2012.",
+                breakdown: [{ label: "Aux Neg", text: "did not" }, { label: "V1", text: "recover" }, { label: "Time", text: "in 2012" }]
+            },
+            {
+                context: "Speaking Part 2",
+                type: "Interrogative (?)",
+                en: "What inspired you to pursue an international scholarship two years ago?",
+                id: "Apa yang menginspirasi Anda untuk mengejar beasiswa internasional dua tahun lalu?",
+                breakdown: [{ label: "QW (Subject)", text: "What" }, { label: "V2", text: "inspired" }, { label: "Time", text: "two years ago" }]
+            },
+            {
+                context: "Nominal Simple Past",
+                type: "Was / Were",
+                en: "Unemployment rates were substantially higher in rural provinces than in major industrial hubs in 1998.",
+                id: "Tingkat pengangguran jauh lebih tinggi di provinsi pedesaan dibandingkan di pusat industri utama pada tahun 1998.",
+                breakdown: [{ label: "S (Plural)", text: "rates" }, { label: "To Be Past", text: "were" }]
+            },
+            {
+                context: "Passive Simple Past",
+                type: "was/were + V3",
+                en: "The historic suspension bridge was inaugurated by the Ministry of Transport in October 2014.",
+                id: "Jembatan gantung bersejarah tersebut diresmikan oleh Kementerian Perhubungan pada Oktober 2014.",
+                breakdown: [{ label: "S Pasif", text: "bridge" }, { label: "Passive Past", text: "was inaugurated" }]
             }
         ]
     },
@@ -1713,10 +1882,45 @@ window.TENSES_DATA = [
         moreExamples: [
             {
                 context: "Speaking Part 2",
-                type: "Background Context",
+                type: "Background Context (+)",
                 en: "When the economic downturn hit in 2008, many tech startups were expanding into overseas markets.",
                 id: "Ketika kemerosotan ekonomi melanda pada 2008, banyak startup teknologi sedang berekspansi ke pasar luar negeri.",
                 breakdown: [{ label: "Past Event", text: "hit" }, { label: "Ongoing Past", text: "were expanding" }]
+            },
+            {
+                context: "Writing Task 1",
+                type: "Parallel Past Trends",
+                en: "Throughout the 1990s, manufacturing output was declining in Western Europe while Asian economies grew.",
+                id: "Sepanjang tahun 1990-an, hasil manufaktur sedang menurun di Eropa Barat sementara ekonomi Asia tumbuh.",
+                breakdown: [{ label: "Period", text: "Throughout the 1990s" }, { label: "Form", text: "was declining" }]
+            },
+            {
+                context: "Negative Form (-)",
+                type: "Contrast in Past",
+                en: "Even though GDP was rising, average household wages were not growing at the same rate.",
+                id: "Meskipun PDB sedang meningkat, upah rata-rata rumah tangga tidak tumbuh pada tingkat yang sama.",
+                breakdown: [{ label: "S (Plural)", text: "wages" }, { label: "Neg Form", text: "were not growing" }]
+            },
+            {
+                context: "Speaking Part 2",
+                type: "Interrogative (?)",
+                en: "What were local authorities doing to protect coastal wetlands when the industrial leak occurred?",
+                id: "Apa yang sedang dilakukan pemerintah daerah untuk melindungi lahan basah pesisir ketika kebocoran industri terjadi?",
+                breakdown: [{ label: "QW+Were", text: "What were" }, { label: "S", text: "authorities" }, { label: "V-ing", text: "doing" }]
+            },
+            {
+                context: "Personal Narrative",
+                type: "Interrupted Action",
+                en: "I was conducting field interviews in rural Bali when I received the acceptance letter from my university.",
+                id: "Saya sedang melakukan wawancara lapangan di pedesaan Bali ketika saya menerima surat penerimaan dari universitas saya.",
+                breakdown: [{ label: "Ongoing", text: "was conducting" }, { label: "Interrupting V2", text: "received" }]
+            },
+            {
+                context: "Passive Past Continuous",
+                type: "was/were + being + V3",
+                en: "The old railway station was still being renovated when we visited the city last summer.",
+                id: "Stasiun kereta api tua itu masih sedang direnovasi ketika kami mengunjungi kota tersebut musim panas lalu.",
+                breakdown: [{ label: "S Pasif", text: "station" }, { label: "Passive Prog", text: "was being renovated" }]
             }
         ]
     },
@@ -1741,6 +1945,41 @@ window.TENSES_DATA = [
                 en: "By 2020, the coastal village had undergone substantial commercial redevelopment.",
                 id: "Menjelang tahun 2020, desa pesisir tersebut telah mengalami pembangunan kembali komersial yang substansial.",
                 breakdown: [{ label: "Marker", text: "By 2020" }, { label: "Had+V3", text: "had undergone" }]
+            },
+            {
+                context: "Writing Task 1 (Passive)",
+                type: "had + been + V3",
+                en: "By the end of 2015, all coal-fired power plants in the region had been decommissioned.",
+                id: "Menjelang akhir tahun 2015, semua pembangkit listrik tenaga batu bara di wilayah tersebut telah dinonaktifkan.",
+                breakdown: [{ label: "Time", text: "By the end of 2015" }, { label: "Passive", text: "had been decommissioned" }]
+            },
+            {
+                context: "Negative Past Perfect (-)",
+                type: "Before Past Event",
+                en: "Before the 2018 data privacy law took effect, many platforms had not obtained explicit user consent.",
+                id: "Sebelum undang-undang privasi data 2018 berlaku, banyak platform belum memperoleh persetujuan eksplisit pengguna.",
+                breakdown: [{ label: "Neg Form", text: "had not obtained" }, { label: "Past Event", text: "took effect" }]
+            },
+            {
+                context: "Speaking Part 2",
+                type: "Interrogative (?)",
+                en: "Had you ever traveled abroad independently before you enrolled in the exchange program?",
+                id: "Apakah Anda pernah bepergian ke luar negeri secara mandiri sebelum mendaftar di program pertukaran pelajar?",
+                breakdown: [{ label: "Had+S", text: "Had you" }, { label: "V3", text: "traveled" }]
+            },
+            {
+                context: "Chronological Sequence",
+                type: "By the time + V2",
+                en: "By the time emergency responders arrived at the valley, residents had already evacuated to higher ground.",
+                id: "Pada saat petugas tanggap darurat tiba di lembah, warga sudah mengungsi ke tempat yang lebih tinggi.",
+                breakdown: [{ label: "Earlier Action", text: "had already evacuated" }, { label: "Later V2", text: "arrived" }]
+            },
+            {
+                context: "Nominal Past Perfect",
+                type: "had + been",
+                en: "Prior to the discovery of penicillin, minor bacterial infections had often been fatal.",
+                id: "Sebelum penemuan penisilin, infeksi bakteri ringan sering kali berakibat fatal.",
+                breakdown: [{ label: "Marker", text: "Prior to" }, { label: "Had+been", text: "had often been" }]
             }
         ]
     },
@@ -1761,10 +2000,45 @@ window.TENSES_DATA = [
         moreExamples: [
             {
                 context: "Writing Task 2",
-                type: "Historical Duration",
+                type: "Historical Duration (+)",
                 en: "Environmental groups had been campaigning against deforestation for years before the ban took effect.",
                 id: "Kelompok lingkungan telah berkampanye menentang deforestasi selama bertahun-tahun sebelum larangan berlaku.",
                 breakdown: [{ label: "Duration", text: "for years" }, { label: "Had been V-ing", text: "had been campaigning" }]
+            },
+            {
+                context: "Cause & Effect in Past",
+                type: "Negative Form (-)",
+                en: "The aging bridge collapsed because engineers had not been conducting routine structural inspections.",
+                id: "Jembatan tua itu runtuh karena para insinyur tidak melakukan inspeksi struktural rutin.",
+                breakdown: [{ label: "Past Result", text: "collapsed" }, { label: "Neg Duration", text: "had not been conducting" }]
+            },
+            {
+                context: "Academic Research",
+                type: "Before Past Milestone",
+                en: "Our team had been analyzing satellite imagery for eighteen months before publishing the climate report.",
+                id: "Tim kami telah menganalisis citra satelit selama delapan belas bulan sebelum menerbitkan laporan iklim.",
+                breakdown: [{ label: "Form", text: "had been analyzing" }, { label: "Duration", text: "for eighteen months" }]
+            },
+            {
+                context: "Speaking Part 2",
+                type: "Interrogative (?)",
+                en: "How long had you been preparing for the IELTS exam before you achieved Band 8.0?",
+                id: "Sudah berapa lama Anda mempersiapkan ujian IELTS sebelum Anda meraih Band 8.0?",
+                breakdown: [{ label: "QW+Had", text: "How long had" }, { label: "S", text: "you" }, { label: "Been+V-ing", text: "been preparing" }]
+            },
+            {
+                context: "Economic History",
+                type: "By the time + V2",
+                en: "By the time the trade agreement was signed, both nations had been negotiating tariffs for two years.",
+                id: "Pada saat perjanjian perdagangan ditandatangani, kedua negara telah menegosiasikan tarif selama dua tahun.",
+                breakdown: [{ label: "Form", text: "had been negotiating" }, { label: "Duration", text: "for two years" }]
+            },
+            {
+                context: "Personal Achievement",
+                type: "Sustained Effort",
+                en: "She had been training with the national athletics squad since 2019 before qualifying for the Olympics.",
+                id: "Dia telah berlatih bersama skuad atletik nasional sejak 2019 sebelum lolos kualifikasi Olimpiade.",
+                breakdown: [{ label: "Start", text: "since 2019" }, { label: "Form", text: "had been training" }]
             }
         ]
     },
@@ -1785,10 +2059,45 @@ window.TENSES_DATA = [
         moreExamples: [
             {
                 context: "Writing Task 1 (Projection)",
-                type: "Future Forecast",
+                type: "Future Forecast (+)",
                 en: "Solar energy output is projected to grow, whereas coal consumption will decline steadily until 2040.",
                 id: "Output energi surya diproyeksikan tumbuh, sedangkan konsumsi batu bara akan menurun stabil hingga 2040.",
                 breakdown: [{ label: "Future", text: "will decline" }, { label: "Time", text: "until 2040" }]
+            },
+            {
+                context: "Conditional Type 1",
+                type: "Policy Consequence",
+                en: "If governments subsidize electric public transit, urban air pollution will decrease noticeably.",
+                id: "Jika pemerintah mensubsidi transportasi umum listrik, polusi udara perkotaan akan berkurang secara nyata.",
+                breakdown: [{ label: "If-Clause", text: "subsidize (V1)" }, { label: "Main Clause", text: "will decrease" }]
+            },
+            {
+                context: "Writing Task 2 (Negative)",
+                type: "Negative Prediction (-)",
+                en: "Technological innovation alone will not solve climate change without strict international regulations.",
+                id: "Inovasi teknologi saja tidak akan menyelesaikan perubahan iklim tanpa regulasi internasional yang ketat.",
+                breakdown: [{ label: "Will not + V1", text: "will not solve" }]
+            },
+            {
+                context: "Speaking Part 3",
+                type: "Interrogative (?)",
+                en: "How will remote work reshape residential architecture in major metropolitan cities?",
+                id: "Bagaimana kerja jarak jauh akan membentuk ulang arsitektur hunian di kota-kota metropolitan besar?",
+                breakdown: [{ label: "QW+Will", text: "How will" }, { label: "S", text: "remote work" }, { label: "V1", text: "reshape" }]
+            },
+            {
+                context: "Nominal Simple Future",
+                type: "will + be",
+                en: "Digital literacy will be an essential requirement for almost every profession in the coming decade.",
+                id: "Literasi digital akan menjadi persyaratan penting bagi hampir setiap profesi dalam dekade mendatang.",
+                breakdown: [{ label: "Future To Be", text: "will be" }]
+            },
+            {
+                context: "Passive Simple Future",
+                type: "will + be + V3",
+                en: "Single-use plastic packaging will be phased out across all major supermarkets by next year.",
+                id: "Kemasan plastik sekali pakai akan dihapuskan secara bertahap di semua supermarket besar menjelang tahun depan.",
+                breakdown: [{ label: "S Pasif", text: "packaging" }, { label: "Passive Future", text: "will be phased out" }]
             }
         ]
     },
@@ -1809,10 +2118,45 @@ window.TENSES_DATA = [
         moreExamples: [
             {
                 context: "Speaking Part 3",
-                type: "Future Lifestyle",
+                type: "Future Lifestyle (+)",
                 en: "In twenty years' time, most multinational companies will be operating with hybrid global teams.",
                 id: "Dalam waktu dua puluh tahun, sebagian besar perusahaan multinasional akan beroperasi dengan tim global hibrida.",
                 breakdown: [{ label: "Marker", text: "In twenty years' time" }, { label: "Will be V-ing", text: "will be operating" }]
+            },
+            {
+                context: "Urban Planning Essay",
+                type: "Future Infrastructure",
+                en: "By 2045, coastal megacities will be enforcing much stricter flood-resilient building codes.",
+                id: "Menjelang tahun 2045, kota-kota mega pesisir akan memberlakukan peraturan bangunan tahan banjir yang jauh lebih ketat.",
+                breakdown: [{ label: "S", text: "megacities" }, { label: "Form", text: "will be enforcing" }]
+            },
+            {
+                context: "Negative Form (-)",
+                type: "Future Shift",
+                en: "Within three decades, developed nations will no longer be relying on coal-fired power plants.",
+                id: "Dalam tiga dekade, negara-negara maju tidak akan lagi bergantung pada pembangkit listrik tenaga batu bara.",
+                breakdown: [{ label: "Neg Form", text: "will no longer be relying" }]
+            },
+            {
+                context: "Speaking Part 3",
+                type: "Interrogative (?)",
+                en: "What kind of skills will university graduates be applying in an AI-driven economy?",
+                id: "Keterampilan seperti apa yang akan diterapkan lulusan universitas dalam ekonomi yang digerakkan oleh AI?",
+                breakdown: [{ label: "QW+Will", text: "What kind of skills will" }, { label: "S", text: "graduates" }, { label: "Be+V-ing", text: "be applying" }]
+            },
+            {
+                context: "Speaking Part 1",
+                type: "Personal Milestone",
+                en: "This time next semester, I will be conducting laboratory experiments for my final thesis.",
+                id: "Pada waktu seperti ini semester depan, saya akan sedang melakukan eksperimen laboratorium untuk tesis akhir saya.",
+                breakdown: [{ label: "Time", text: "This time next semester" }, { label: "Form", text: "will be conducting" }]
+            },
+            {
+                context: "Global Collaboration",
+                type: "Parallel Future Action",
+                en: "As space agencies expand lunar bases, astronauts will be testing closed-loop life support systems.",
+                id: "Seiring badan antariksa memperluas pangkalan bulan, para astronot akan menguji sistem pendukung kehidupan tertutup.",
+                breakdown: [{ label: "S", text: "astronauts" }, { label: "Form", text: "will be testing" }]
             }
         ]
     },
@@ -1837,6 +2181,41 @@ window.TENSES_DATA = [
                 en: "By 2035, total global e-commerce revenue will have doubled compared to current figures.",
                 id: "Menjelang tahun 2035, total pendapatan e-commerce global akan meningkat dua kali lipat dibandingkan angka saat ini.",
                 breakdown: [{ label: "Marker", text: "By 2035" }, { label: "Will have V3", text: "will have doubled" }]
+            },
+            {
+                context: "Writing Task 1 (Passive)",
+                type: "will + have + been + V3",
+                en: "By 2040, over 70% of urban bus fleets will have been converted to zero-emission electric vehicles.",
+                id: "Menjelang tahun 2040, lebih dari 70% armada bus kota akan telah dikonversi menjadi kendaraan listrik tanpa emisi.",
+                breakdown: [{ label: "Time", text: "By 2040" }, { label: "Passive", text: "will have been converted" }]
+            },
+            {
+                context: "Negative Future Perfect (-)",
+                type: "Missed Target",
+                en: "Without urgent policy reforms, many countries will not have achieved their 2030 carbon reduction targets.",
+                id: "Tanpa reformasi kebijakan yang mendesak, banyak negara belum akan mencapai target pengurangan karbon 2030 mereka.",
+                breakdown: [{ label: "Neg Form", text: "will not have achieved" }]
+            },
+            {
+                context: "Speaking Part 3",
+                type: "Interrogative (?)",
+                en: "Will autonomous vehicles have replaced human-driven taxis in major cities by 2040?",
+                id: "Apakah kendaraan otonom akan telah menggantikan taksi yang dikemudikan manusia di kota-kota besar pada tahun 2040?",
+                breakdown: [{ label: "Will+S", text: "Will vehicles" }, { label: "Have+V3", text: "have replaced" }]
+            },
+            {
+                context: "By the time + V1",
+                type: "Completion Sequence",
+                en: "By the time the new high-speed railway opens, total construction expenditure will have exceeded $12 billion.",
+                id: "Pada saat kereta api berkecepatan tinggi yang baru dibuka, total biaya konstruksi akan telah melampaui $12 miliar.",
+                breakdown: [{ label: "Time Clause", text: "By the time ... opens" }, { label: "Main", text: "will have exceeded" }]
+            },
+            {
+                context: "Nominal Future Perfect",
+                type: "will + have + been",
+                en: "By next September, Dr. Hartono will have been the head of the marine research institute for ten years.",
+                id: "Menjelang September depan, Dr. Hartono akan telah menjadi kepala lembaga penelitian kelautan selama sepuluh tahun.",
+                breakdown: [{ label: "Form", text: "will have been" }, { label: "Duration", text: "for ten years" }]
             }
         ]
     },
@@ -1861,6 +2240,41 @@ window.TENSES_DATA = [
                 en: "By the time the space probe retires, it will have been transmitting deep-space data for fifteen years.",
                 id: "Pada saat wahana antariksa itu pensiun, ia akan telah mentransmisikan data luar angkasa selama lima belas tahun.",
                 breakdown: [{ label: "Duration", text: "for fifteen years" }, { label: "Form", text: "will have been transmitting" }]
+            },
+            {
+                context: "Urban Infrastructure",
+                type: "By + Future Year",
+                en: "By 2032, residents of the eastern district will have been using the expanded subway network for a decade.",
+                id: "Menjelang tahun 2032, penduduk distrik timur akan telah menggunakan jaringan kereta bawah tanah yang diperluas selama satu dekade.",
+                breakdown: [{ label: "Time", text: "By 2032" }, { label: "Form", text: "will have been using" }]
+            },
+            {
+                context: "Negative Form (-)",
+                type: "Insufficient Duration",
+                en: "By the end of this month, the newly hired trainees will not have been practicing long enough to work solo.",
+                id: "Menjelang akhir bulan ini, peserta pelatihan yang baru direkrut belum akan berlatih cukup lama untuk bekerja sendiri.",
+                breakdown: [{ label: "Neg Form", text: "will not have been practicing" }]
+            },
+            {
+                context: "Speaking Part 1",
+                type: "Interrogative (?)",
+                en: "How long will you have been living in your current city by the time you graduate?",
+                id: "Sudah berapa lama Anda akan tinggal di kota Anda saat ini pada saat Anda lulus?",
+                breakdown: [{ label: "QW+Will", text: "How long will" }, { label: "S", text: "you" }, { label: "Form", text: "have been living" }]
+            },
+            {
+                context: "Scientific Research",
+                type: "Long-Term Study",
+                en: "Next November, our university will have been collaborating with European climate labs for twenty years.",
+                id: "November mendatang, universitas kami akan telah berkolaborasi dengan laboratorium iklim Eropa selama dua puluh tahun.",
+                breakdown: [{ label: "Future Point", text: "Next November" }, { label: "Form", text: "will have been collaborating" }]
+            },
+            {
+                context: "Career Milestone",
+                type: "Personal Projection",
+                en: "By the time I apply for senior fellowship, I will have been publishing peer-reviewed papers for seven years.",
+                id: "Pada saat saya melamar beasiswa senior, saya akan telah menerbitkan makalah tinjauan sejawat selama tujuh tahun.",
+                breakdown: [{ label: "Form", text: "will have been publishing" }, { label: "Duration", text: "for seven years" }]
             }
         ]
     },
@@ -1881,10 +2295,45 @@ window.TENSES_DATA = [
         moreExamples: [
             {
                 context: "Writing Task 2 (Policy Proposal)",
-                type: "Academic Hedging",
+                type: "Academic Hedging (+)",
                 en: "Subsidizing public transit would substantially alleviate traffic congestion in metropolitan areas.",
                 id: "Mensubsidi transportasi umum akan secara substansial mengurangi kemacetan lalu lintas di wilayah metropolitan.",
                 breakdown: [{ label: "Subject", text: "Subsidizing public transit" }, { label: "Would+V1", text: "would alleviate" }]
+            },
+            {
+                context: "Conditional Type 2",
+                type: "If + V2, Would + V1",
+                en: "If schools integrated financial literacy into the core curriculum, young adults would manage debt more wisely.",
+                id: "Jika sekolah mengintegrasikan literasi keuangan ke dalam kurikulum inti, kaum muda akan mengelola utang dengan lebih bijak.",
+                breakdown: [{ label: "If-Clause", text: "integrated (V2)" }, { label: "Main", text: "would manage" }]
+            },
+            {
+                context: "Writing Task 2 (Negative)",
+                type: "Negative Hypothetical (-)",
+                en: "Without strict enforcement mechanisms, voluntary corporate pledges alone would not curb industrial pollution.",
+                id: "Tanpa mekanisme penegakan yang ketat, janji sukarela perusahaan saja tidak akan mengekang polusi industri.",
+                breakdown: [{ label: "Condition", text: "Without..." }, { label: "Would not+V1", text: "would not curb" }]
+            },
+            {
+                context: "Speaking Part 3",
+                type: "Interrogative (?)",
+                en: "How would urban life change if private cars were banned from city centers?",
+                id: "Bagaimana kehidupan perkotaan akan berubah jika mobil pribadi dilarang masuk ke pusat kota?",
+                breakdown: [{ label: "QW+Would", text: "How would" }, { label: "S", text: "urban life" }, { label: "V1", text: "change" }]
+            },
+            {
+                context: "Nominal Past Future",
+                type: "would + be",
+                en: "A universal four-day workweek would be beneficial for employee mental health and work-life balance.",
+                id: "Empat hari kerja seminggu secara universal akan bermanfaat bagi kesehatan mental karyawan dan keseimbangan kerja-hidup.",
+                breakdown: [{ label: "Form", text: "would be" }, { label: "Adj", text: "beneficial" }]
+            },
+            {
+                context: "Passive Past Future",
+                type: "would + be + V3",
+                en: "Millions of tons of plastic waste would be prevented from entering oceans if single-use packaging were taxed.",
+                id: "Jutaan ton sampah plastik akan dicegah masuk ke lautan jika kemasan sekali pakai dikenai pajak.",
+                breakdown: [{ label: "Passive", text: "would be prevented" }]
             }
         ]
     },
@@ -1909,6 +2358,41 @@ window.TENSES_DATA = [
                 en: "If the coastal highway had not been closed, freight trucks would be passing through this route right now.",
                 id: "Seandainya jalan raya pesisir tidak ditutup, truk barang pasti sedang melewati rute ini sekarang.",
                 breakdown: [{ label: "Condition", text: "had not been closed" }, { label: "Result", text: "would be passing" }]
+            },
+            {
+                context: "Humanitarian Context",
+                type: "Without + Noun",
+                en: "Without emergency medical relief, thousands of flood victims would currently be struggling without clean water.",
+                id: "Tanpa bantuan medis darurat, ribuan korban banjir saat ini pasti sedang berjuang tanpa air bersih.",
+                breakdown: [{ label: "Form", text: "would currently be struggling" }]
+            },
+            {
+                context: "Negative Form (-)",
+                type: "Alternative Reality",
+                en: "If renewable grids had been built earlier, our city would not be experiencing rolling blackouts today.",
+                id: "Seandainya jaringan energi terbarukan dibangun lebih awal, kota kita tidak akan mengalami pemadaman bergilir hari ini.",
+                breakdown: [{ label: "Neg Form", text: "would not be experiencing" }]
+            },
+            {
+                context: "Speaking Part 3",
+                type: "Interrogative (?)",
+                en: "What would you be working on right now if you had chosen a career in biomedical engineering?",
+                id: "Apa yang akan sedang Anda kerjakan sekarang seandainya Anda memilih karier di bidang teknik biomedis?",
+                breakdown: [{ label: "QW+Would", text: "What would" }, { label: "S", text: "you" }, { label: "Be+V-ing", text: "be working on" }]
+            },
+            {
+                context: "Academic Regret",
+                type: "Inversion Condition",
+                en: "Had I submitted my visa application on time, I would be attending orientation week in Melbourne today.",
+                id: "Seandainya saya mengajukan permohonan visa tepat waktu, saya pasti sedang menghadiri pekan orientasi di Melbourne hari ini.",
+                breakdown: [{ label: "Inversion", text: "Had I submitted" }, { label: "Form", text: "would be attending" }]
+            },
+            {
+                context: "Economic Scenario",
+                type: "Hypothetical Present",
+                en: "If interest rates had remained low, small enterprises would still be borrowing capital aggressively.",
+                id: "Seandainya suku bunga tetap rendah, usaha kecil pasti masih meminjam modal secara agresif.",
+                breakdown: [{ label: "Form", text: "would still be borrowing" }]
             }
         ]
     },
@@ -1929,10 +2413,45 @@ window.TENSES_DATA = [
         moreExamples: [
             {
                 context: "Writing Task 2 (Critical Evaluation)",
-                type: "Inversion Type 3",
+                type: "Inversion Type 3 (+)",
                 en: "Had governments regulated social media algorithms sooner, misinformation would not have spread so rapidly.",
                 id: "Seandainya pemerintah mengatur algoritme media sosial lebih awal, misinformasi tidak akan menyebar begitu cepat.",
                 breakdown: [{ label: "Inversion", text: "Had ... regulated" }, { label: "Would have V3", text: "would not have spread" }]
+            },
+            {
+                context: "Passive Past Future Perfect",
+                type: "would + have + been + V3",
+                en: "Severe economic losses would have been avoided if early warning systems had been activated.",
+                id: "Kerugian ekonomi yang parah pasti dapat dihindari seandainya sistem peringatan dini telah diaktifkan.",
+                breakdown: [{ label: "Passive", text: "would have been avoided" }]
+            },
+            {
+                context: "Medical History",
+                type: "Without + Past Event",
+                en: "Without the rapid development of mRNA vaccines, global recovery would have taken several years longer.",
+                id: "Tanpa pengembangan cepat vaksin mRNA, pemulihan global pasti akan memakan waktu beberapa tahun lebih lama.",
+                breakdown: [{ label: "Form", text: "would have taken" }]
+            },
+            {
+                context: "Speaking Part 3",
+                type: "Interrogative (?)",
+                en: "How would modern communication have evolved without the invention of fiber-optic cables?",
+                id: "Bagaimana komunikasi modern akan berevolusi tanpa penemuan kabel serat optik?",
+                breakdown: [{ label: "QW+Would", text: "How would" }, { label: "S", text: "communication" }, { label: "Have+V3", text: "have evolved" }]
+            },
+            {
+                context: "Speaking Part 2",
+                type: "Personal Reflection",
+                en: "If I had prepared more systematically for my first mock test, I would have felt much calmer.",
+                id: "Seandainya saya mempersiapkan tes simulasi pertama saya dengan lebih sistematis, saya pasti merasa jauh lebih tenang.",
+                breakdown: [{ label: "If-Clause", text: "had prepared" }, { label: "Main", text: "would have felt" }]
+            },
+            {
+                context: "Nominal Past Future Perfect",
+                type: "would + have + been",
+                en: "The infrastructure project would have been completed on schedule if heavy monsoon rains had not delayed excavation.",
+                id: "Proyek infrastruktur tersebut pasti telah selesai sesuai jadwal seandainya hujan monsun lebat tidak menunda penggalian.",
+                breakdown: [{ label: "Form", text: "would have been completed" }]
             }
         ]
     },
@@ -1953,10 +2472,45 @@ window.TENSES_DATA = [
         moreExamples: [
             {
                 context: "Economic Analysis",
-                type: "Interrupted Past Duration",
+                type: "Interrupted Past Duration (+)",
                 en: "Had the funding cut not occurred, the Arctic station would have been collecting samples for a decade by 2022.",
                 id: "Seandainya pemotongan dana tidak terjadi, stasiun Arktik akan telah mengumpulkan sampel selama satu dekade pada 2022.",
                 breakdown: [{ label: "Form", text: "would have been collecting" }, { label: "Duration", text: "for a decade" }]
+            },
+            {
+                context: "International Trade",
+                type: "Inversion + Duration",
+                en: "Had the peace treaty not been violated, both nations would have been trading peacefully for fifteen years by 2021.",
+                id: "Seandainya perjanjian damai tidak dilanggar, kedua negara akan telah berdagang dengan damai selama lima belas tahun pada 2021.",
+                breakdown: [{ label: "Form", text: "would have been trading" }]
+            },
+            {
+                context: "Negative Form (-)",
+                type: "Avoided Hardship",
+                en: "If the metro expansion had finished on time, commuters would not have been enduring daily gridlock for years.",
+                id: "Seandainya perluasan metro selesai tepat waktu, para komuter tidak akan mengalami kemacetan harian selama bertahun-tahun.",
+                breakdown: [{ label: "Neg Form", text: "would not have been enduring" }]
+            },
+            {
+                context: "Academic Critique",
+                type: "Interrogative (?)",
+                en: "How long would the manufacturing plant have been operating illegally if inspectors had not intervened?",
+                id: "Sudah berapa lama pabrik manufaktur tersebut akan beroperasi secara ilegal seandainya inspektur tidak turun tangan?",
+                breakdown: [{ label: "QW+Would", text: "How long would" }, { label: "Form", text: "have been operating" }]
+            },
+            {
+                context: "Career Path",
+                type: "Personal Hypothetical",
+                en: "Without the corporate restructuring in 2023, I would have been leading the regional analytics team for four years.",
+                id: "Tanpa restrukturisasi perusahaan pada 2023, saya akan telah memimpin tim analitik regional selama empat tahun.",
+                breakdown: [{ label: "Form", text: "would have been leading" }]
+            },
+            {
+                context: "Environmental Study",
+                type: "Interrupted Conservation",
+                en: "If the marine sanctuary had retained its grant, biologists would have been tracking sea turtles for two decades.",
+                id: "Seandainya suaka laut itu mempertahankan hibahnya, para ahli biologi akan telah melacak penyu selama dua dekade.",
+                breakdown: [{ label: "Form", text: "would have been tracking" }]
             }
         ]
     },
@@ -1988,6 +2542,34 @@ window.TENSES_DATA = [
                 en: "The stray puppy looks hungry; it wants feeding immediately.",
                 id: "Anak anjing liar itu tampak lapar; ia perlu segera diberi makan.",
                 breakdown: [{ label: "Verb", text: "wants" }, { label: "Passive Meaning", text: "feeding (= to be fed)" }]
+            },
+            {
+                context: "Ditransitive Passive (2 Objek)",
+                type: "Indirect Object as Subject",
+                en: "We were awarded a full research grant by the Ministry of Education last semester.",
+                id: "Kami dianugerahi hibah penelitian penuh oleh Kementerian Pendidikan semester lalu.",
+                breakdown: [{ label: "S (Person)", text: "We" }, { label: "Passive V3", text: "were awarded" }, { label: "Direct Obj", text: "a full research grant" }]
+            },
+            {
+                context: "Modal Passive",
+                type: "Modal + be + V3",
+                en: "All confidential patient records must be encrypted before being uploaded to the cloud server.",
+                id: "Semua catatan rahasia pasien harus dienkripsi sebelum diunggah ke server cloud.",
+                breakdown: [{ label: "Modal", text: "must" }, { label: "Be+V3", text: "be encrypted" }]
+            },
+            {
+                context: "Stative Verb Exception",
+                type: "Hindari 'is had'",
+                en: "That vintage electric sports car belongs to our visiting professor (bukan 'is had by').",
+                id: "Mobil sport listrik antik itu milik profesor tamu kami.",
+                breakdown: [{ label: "S", text: "sports car" }, { label: "Stative Fix", text: "belongs to" }]
+            },
+            {
+                context: "Passive Interrogative",
+                type: "Was/Were + S + being + V3?",
+                en: "Was your thesis proposal being reviewed by the committee when you emailed them yesterday?",
+                id: "Apakah proposal tesis Anda sedang ditinjau oleh komite ketika Anda mengirim email kepada mereka kemarin?",
+                breakdown: [{ label: "Aux", text: "Was" }, { label: "S Pasif", text: "your thesis proposal" }, { label: "Being+V3", text: "being reviewed" }]
             }
         ]
     },
@@ -2012,6 +2594,41 @@ window.TENSES_DATA = [
                 en: "Every applicant must be able to demonstrate strong analytical skills during the assessment.",
                 id: "Setiap pelamar harus mampu menunjukkan keterampilan analitis yang kuat selama penilaian.",
                 breakdown: [{ label: "Pure Modal", text: "must" }, { label: "SEOM (V1)", text: "be able to" }]
+            },
+            {
+                context: "SEOM + SEOM",
+                type: "Dua SEOM Berurutan",
+                en: "Graduate researchers are supposed to be able to present their methodology concisely.",
+                id: "Peneliti pascasarjana seharusnya mampu mempresentasikan metodologi mereka secara ringkas.",
+                breakdown: [{ label: "SEOM 1", text: "are supposed to" }, { label: "SEOM 2", text: "be able to" }]
+            },
+            {
+                context: "SEOM Negative (Present)",
+                type: "doesn't/don't + have to",
+                en: "International students do not have to pay extra library fees to access digital journals.",
+                id: "Mahasiswa internasional tidak harus membayar biaya perpustakaan tambahan untuk mengakses jurnal digital.",
+                breakdown: [{ label: "Aux Neg", text: "do not" }, { label: "Base SEOM", text: "have to pay" }]
+            },
+            {
+                context: "SEOM Interrogative (Past)",
+                type: "Did + S + have to + V1?",
+                en: "Did you have to submit a separate portfolio when you applied for the architecture program?",
+                id: "Apakah Anda harus menyerahkan portofolio terpisah ketika melamar program arsitektur?",
+                breakdown: [{ label: "Aux Past", text: "Did" }, { label: "S", text: "you" }, { label: "Base SEOM", text: "have to submit" }]
+            },
+            {
+                context: "Nominal Modal",
+                type: "Modal + be + Adjective",
+                en: "Public transportation must be punctual and affordable to discourage private car ownership.",
+                id: "Transportasi umum harus tepat waktu dan terjangkau untuk mengurangi kepemilikan mobil pribadi.",
+                breakdown: [{ label: "Modal", text: "must" }, { label: "Be+Adj", text: "be punctual" }]
+            },
+            {
+                context: "Spontaneity: Advisability",
+                type: "had better + V1",
+                en: "We had better back up all survey datasets before updating the laboratory operating system.",
+                id: "Kita sebaiknya mencadangkan semua kumpulan data survei sebelum memperbarui sistem operasi laboratorium.",
+                breakdown: [{ label: "Modal Advice", text: "had better" }, { label: "V1", text: "back up" }]
             }
         ]
     },
@@ -2036,6 +2653,41 @@ window.TENSES_DATA = [
                 en: "The earlier children are exposed to second languages, the more effortlessly they acquire native pronunciation.",
                 id: "Semakin dini anak-anak dikenalkan pada bahasa kedua, semakin mudah mereka menguasai pelafalan asli.",
                 breakdown: [{ label: "Clause 1", text: "The earlier" }, { label: "Clause 2", text: "the more effortlessly" }]
+            },
+            {
+                context: "Positive Degree (Equal)",
+                type: "as + Adjective + as",
+                en: "Offline workshops are just as interactive as in-person university seminars when properly facilitated.",
+                id: "Lokakarya luring sama interaktifnya dengan seminar universitas tatap muka apabila difasilitasi dengan baik.",
+                breakdown: [{ label: "Marker 1", text: "as" }, { label: "Adj", text: "interactive" }, { label: "Marker 2", text: "as" }]
+            },
+            {
+                context: "Parallel Possessive Comparison",
+                type: "Noun's / Pronouns",
+                en: "Your statistical methodology is substantially more rigorous than your colleague's.",
+                id: "Metodologi statistik Anda jauh lebih ketat dibandingkan metodologi milik rekan kerja Anda.",
+                breakdown: [{ label: "Comp", text: "more rigorous than" }, { label: "Parallel", text: "your colleague's" }]
+            },
+            {
+                context: "Superlative Degree",
+                type: "the + -est / the most",
+                en: "Singapore consistently ranks among the most efficient public transit networks in the world.",
+                id: "Singapura secara konsisten menempati peringkat di antara jaringan transportasi umum paling efisien di dunia.",
+                breakdown: [{ label: "Superlative", text: "the most efficient" }, { label: "Scope", text: "in the world" }]
+            },
+            {
+                context: "Continuous Change",
+                type: "Comparative and Comparative",
+                en: "Global competition for skilled renewable-energy engineers is becoming fiercer and fiercer.",
+                id: "Persaingan global untuk insinyur energi terbarukan yang terampil menjadi semakin sengit dari waktu ke waktu.",
+                breakdown: [{ label: "Repeated Comp", text: "fiercer and fiercer" }]
+            },
+            {
+                context: "Irregular: Farther vs Further",
+                type: "Informasi Lebih Lanjut",
+                en: "The ethics committee requested further clarification regarding how participant anonymity was protected.",
+                id: "Komite etik meminta klarifikasi lebih lanjut mengenai bagaimana anonimitas peserta dilindungi.",
+                breakdown: [{ label: "Abstract Comp", text: "further" }, { label: "Noun", text: "clarification" }]
             }
         ]
     },
@@ -2060,6 +2712,41 @@ window.TENSES_DATA = [
                 en: "Who teaches Advanced Academic Writing in your department every Tuesday?",
                 id: "Siapa yang mengajar Penulisan Akademik Lanjutan di departemen Anda setiap hari Selasa?",
                 breakdown: [{ label: "QW (Subject)", text: "Who" }, { label: "V+es", text: "teaches" }]
+            },
+            {
+                context: "Object Question (Person)",
+                type: "Whom + Aux + S + V1?",
+                en: "Whom did the university invite to deliver the annual graduation keynote speech?",
+                id: "Siapa yang diundang universitas untuk menyampaikan pidato utama kelulusan tahunan?",
+                breakdown: [{ label: "QW (Obj)", text: "Whom" }, { label: "Aux+S", text: "did the university" }, { label: "V1", text: "invite" }]
+            },
+            {
+                context: "Verb / Activity Question",
+                type: "What + Aux + S + doing?",
+                en: "What were the marine biologists doing when the underwater sensor malfunctioned?",
+                id: "Apa yang sedang dilakukan para ahli biologi kelautan ketika sensor bawah air mengalami malfungsi?",
+                breakdown: [{ label: "QW", text: "What" }, { label: "Aux+S", text: "were the biologists" }, { label: "Verb Sub", text: "doing" }]
+            },
+            {
+                context: "Possession Question",
+                type: "Whose + Noun + Aux + S + V?",
+                en: "Whose research paper did the professor cite during yesterday's macroeconomics lecture?",
+                id: "Makalah penelitian milik siapa yang dikutip profesor selama kuliah makroekonomi kemarin?",
+                breakdown: [{ label: "Whose+Noun", text: "Whose research paper" }, { label: "Aux+S+V1", text: "did the professor cite" }]
+            },
+            {
+                context: "Specific Choice Question",
+                type: "Which + Noun + Aux + S + V?",
+                en: "Which statistical software package do you prefer for analyzing longitudinal survey data?",
+                id: "Paket perangkat lunak statistik yang mana yang lebih Anda sukai untuk menganalisis data survei longitudinal?",
+                breakdown: [{ label: "Which+Noun", text: "Which statistical software package" }, { label: "Aux+S+V1", text: "do you prefer" }]
+            },
+            {
+                context: "Passive WH-Question",
+                type: "By whom + was/were + S + V3?",
+                en: "By whom was this ancient astronomical manuscript translated into modern English?",
+                id: "Oleh siapa manuskrip astronomi kuno ini diterjemahkan ke dalam bahasa Inggris modern?",
+                breakdown: [{ label: "Agent Q", text: "By whom" }, { label: "Aux+S", text: "was this manuscript" }, { label: "V3", text: "translated" }]
             }
         ]
     },
@@ -2084,6 +2771,41 @@ window.TENSES_DATA = [
                 en: "She hardly ever misses an international conference, does she?",
                 id: "Dia hampir tidak pernah melewatkan konferensi internasional, bukan?",
                 breakdown: [{ label: "Neg Marker", text: "hardly ever" }, { label: "Positive Tag", text: "does she?" }]
+            },
+            {
+                context: "Special Exception: I am",
+                type: "I am -> aren't I?",
+                en: "I am scheduled to present my findings in the morning session, aren't I?",
+                id: "Saya dijadwalkan untuk mempresentasikan temuan saya pada sesi pagi, bukan?",
+                breakdown: [{ label: "Statement", text: "I am scheduled" }, { label: "Special Tag", text: "aren't I?" }]
+            },
+            {
+                context: "Invitation with Let's",
+                type: "Let's -> shall we?",
+                en: "Let's double-check the bibliography formatting before submitting the manuscript, shall we?",
+                id: "Mari kita periksa kembali format daftar pustaka sebelum menyerahkan naskah, yuk?",
+                breakdown: [{ label: "Invitation", text: "Let's" }, { label: "Tag", text: "shall we?" }]
+            },
+            {
+                context: "Indefinite Pronoun (Person)",
+                type: "Nobody / Everyone -> they",
+                en: "Nobody in the laboratory noticed the minor voltage fluctuation last night, did they?",
+                id: "Tidak seorang pun di laboratorium menyadari fluktuasi tegangan kecil tadi malam, bukan?",
+                breakdown: [{ label: "Neg Subject", text: "Nobody" }, { label: "Positive Plural Tag", text: "did they?" }]
+            },
+            {
+                context: "Indefinite Pronoun (Thing)",
+                type: "Everything / Nothing -> it",
+                en: "Everything in the archival vault has been digitized properly, hasn't it?",
+                id: "Segala sesuatu di ruang arsip telah didigitalkan dengan benar, bukan?",
+                breakdown: [{ label: "Thing Subject", text: "Everything" }, { label: "Singular Tag", text: "hasn't it?" }]
+            },
+            {
+                context: "Verb 'Put / Cut / Read' Trap",
+                type: "Past V2 tanpa akhiran -s",
+                en: "Dr. Rahman put the signed approval form on your desk an hour ago, didn't he?",
+                id: "Dr. Rahman meletakkan formulir persetujuan yang sudah ditandatangani di meja Anda satu jam lalu, bukan?",
+                breakdown: [{ label: "V2 (Past)", text: "put (... ago)" }, { label: "Past Tag", text: "didn't he?" }]
             }
         ]
     },
@@ -2108,6 +2830,41 @@ window.TENSES_DATA = [
                 en: "If he were more fluent in Mandarin, he would have secured that diplomatic post in Beijing last year.",
                 id: "Seandainya dia lebih fasih berbahasa Mandarin, dia pasti sudah mendapatkan posisi diplomatik di Beijing tahun lalu.",
                 breakdown: [{ label: "Type 2", text: "If he were" }, { label: "Type 3", text: "would have secured" }]
+            },
+            {
+                context: "Conditional Type 0",
+                type: "Scientific Truth (V1 + V1)",
+                en: "If atmospheric carbon dioxide concentrations rise, ocean waters absorb more heat and become acidic.",
+                id: "Jika konsentrasi karbon dioksida atmosfer meningkat, air laut menyerap lebih banyak panas dan menjadi asam.",
+                breakdown: [{ label: "If-Clause", text: "rise (V1)" }, { label: "Fact Result", text: "absorb & become (V1)" }]
+            },
+            {
+                context: "Conditional Type 1 + Unless",
+                type: "Unless = If ... not",
+                en: "Unless municipal authorities expand cycling lanes, downtown traffic congestion will worsen.",
+                id: "Kecuali jika pemerintah kota memperluas jalur sepeda, kemacetan lalu lintas pusat kota akan memburuk.",
+                breakdown: [{ label: "Unless+V1", text: "Unless ... expand" }, { label: "Future", text: "will worsen" }]
+            },
+            {
+                context: "Conditional Type 2 (Subjunctive Were)",
+                type: "Were untuk semua subjek",
+                en: "If I were the Minister of Education, I would allocate greater funding to rural vocational schools.",
+                id: "Seandainya saya Menteri Pendidikan, saya akan mengalokasikan pendanaan lebih besar untuk sekolah kejuruan pedesaan.",
+                breakdown: [{ label: "If+Were", text: "If I were" }, { label: "Would+V1", text: "would allocate" }]
+            },
+            {
+                context: "Conditional Type 3",
+                type: "Past Regret / Evaluation",
+                en: "We would not have missed the early flight if we had departed for the airport thirty minutes earlier.",
+                id: "Kami tidak akan ketinggalan penerbangan pagi seandainya kami berangkat ke bandara tiga puluh menit lebih awal.",
+                breakdown: [{ label: "Main Type 3", text: "would not have missed" }, { label: "If Past Perf", text: "had departed" }]
+            },
+            {
+                context: "Inversion Conditional Type 3",
+                type: "Tanpa 'If' (Had + S + V3)",
+                en: "Had the coastal defenses been reinforced earlier, the storm surge would have caused far less damage.",
+                id: "Seandainya pertahanan pesisir diperkuat lebih awal, gelombang badai akan menyebabkan kerusakan yang jauh lebih sedikit.",
+                breakdown: [{ label: "Inverted If", text: "Had ... been reinforced" }, { label: "Result", text: "would have caused" }]
             }
         ]
     },
@@ -2132,6 +2889,41 @@ window.TENSES_DATA = [
                 en: "The economist whose latest book became an international bestseller delivered the keynote lecture.",
                 id: "Ekonom yang buku terbarunya menjadi buku terlaris internasional menyampaikan kuliah utama.",
                 breakdown: [{ label: "Antecedent", text: "The economist" }, { label: "Possession", text: "whose latest book" }]
+            },
+            {
+                context: "Subject Relative Pronoun",
+                type: "who + Verb",
+                en: "Researchers who specialize in renewable battery storage are in high demand worldwide.",
+                id: "Para peneliti yang mengkhususkan diri dalam penyimpanan baterai terbarukan sangat diminati di seluruh dunia.",
+                breakdown: [{ label: "Noun", text: "Researchers" }, { label: "Rel Subj", text: "who specialize" }]
+            },
+            {
+                context: "Object Relative Pronoun",
+                type: "whom + S + V",
+                en: "The visiting scholar whom the faculty invited from Kyoto gave a workshop on earthquake engineering.",
+                id: "Cendekiawan tamu yang diundang fakultas dari Kyoto memberikan lokakarya tentang teknik gempa bumi.",
+                breakdown: [{ label: "Noun", text: "scholar" }, { label: "Rel Obj", text: "whom the faculty invited" }]
+            },
+            {
+                context: "Relative Adverb of Place",
+                type: "where (= in which)",
+                en: "The clinical laboratory where the vaccine trials were conducted adheres to strict biosafety standards.",
+                id: "Laboratorium klinis tempat uji coba vaksin dilakukan mematuhi standar keamanan hayati yang ketat.",
+                breakdown: [{ label: "Place", text: "laboratory" }, { label: "Rel Adv", text: "where ... were conducted" }]
+            },
+            {
+                context: "Relative Adverb of Time",
+                type: "when (= in/on which)",
+                en: "2020 was a pivotal year when remote work transitioned from an exception to a global norm.",
+                id: "Tahun 2020 adalah tahun penting ketika kerja jarak jauh bertransisi dari pengecualian menjadi norma global.",
+                breakdown: [{ label: "Time", text: "year" }, { label: "Rel Adv", text: "when remote work transitioned" }]
+            },
+            {
+                context: "Formal Preposition + Which",
+                type: "Academic Writing Style",
+                en: "The framework upon which this policy is built requires transparent municipal budgeting.",
+                id: "Kerangka kerja yang menjadi dasar kebijakan ini memerlukan penganggaran kota yang transparan.",
+                breakdown: [{ label: "Prep+Rel", text: "upon which" }, { label: "Clause", text: "this policy is built" }]
             }
         ]
     },
@@ -2156,6 +2948,41 @@ window.TENSES_DATA = [
                 en: "The committee is still discussing how to allocate the emergency research grant fairly.",
                 id: "Komite masih mendiskusikan bagaimana cara mengalokasikan hibah penelitian darurat secara adil.",
                 breakdown: [{ label: "Verb", text: "discussing" }, { label: "Abridged NC", text: "how to allocate" }]
+            },
+            {
+                context: "Noun Clause as Subject",
+                type: "Whether + S + V (Singular Verb)",
+                en: "Whether artificial intelligence will create more jobs than it replaces remains a subject of intense debate.",
+                id: "Apakah kecerdasan buatan akan menciptakan lebih banyak pekerjaan daripada yang digantikannya tetap menjadi subjek perdebatan sengit.",
+                breakdown: [{ label: "Subject NC", text: "Whether AI will create..." }, { label: "Singular V", text: "remains" }]
+            },
+            {
+                context: "Noun Clause as Object of Verb",
+                type: "Susunan Pernyataan (S + V)",
+                en: "Empirical evidence clearly demonstrates why early childhood nutrition influences cognitive development.",
+                id: "Bukti empiris secara jelas menunjukkan mengapa nutrisi anak usia dini memengaruhi perkembangan kognitif.",
+                breakdown: [{ label: "Verb", text: "demonstrates" }, { label: "Object NC", text: "why ... nutrition influences" }]
+            },
+            {
+                context: "Object of Preposition",
+                type: "Preposition + QW + S + V",
+                en: "The funding panel was particularly impressed by what our interdisciplinary team had accomplished.",
+                id: "Panel pendanaan sangat terkesan dengan apa yang telah dicapai oleh tim interdisipliner kami.",
+                breakdown: [{ label: "Prep", text: "by" }, { label: "Obj of Prep", text: "what our team had accomplished" }]
+            },
+            {
+                context: "Subject Complement",
+                type: "To Be + that + S + V",
+                en: "The primary concern among urban planners is that public infrastructure cannot keep pace with population growth.",
+                id: "Kekhawatiran utama di kalangan perencana kota adalah bahwa infrastruktur publik tidak dapat mengimbangi pertumbuhan penduduk.",
+                breakdown: [{ label: "Linking V", text: "is" }, { label: "Complement NC", text: "that public infrastructure..." }]
+            },
+            {
+                context: "What-Clause Emphasis",
+                type: "Cleft Sentence (Writing Task 2)",
+                en: "What developing economies need most is sustained investment in vocational and digital training.",
+                id: "Apa yang paling dibutuhkan negara-negara berkembang adalah investasi berkelanjutan dalam pelatihan kejuruan dan digital.",
+                breakdown: [{ label: "Subject NC", text: "What ... need most" }, { label: "Main V", text: "is" }]
             }
         ]
     },
@@ -2180,6 +3007,41 @@ window.TENSES_DATA = [
                 en: "The laboratory supervisor told the students not to touch the chemical reagents without gloves.",
                 id: "Pengawas laboratorium memberi tahu para siswa untuk tidak menyentuh reagen kimia tanpa sarung tangan.",
                 breakdown: [{ label: "Reporting Verb", text: "told" }, { label: "Prohibition", text: "not to touch" }]
+            },
+            {
+                context: "Statement 1 (Present Reporting)",
+                type: "Tenses Tidak Mundur",
+                en: "The World Health Organization states that regular physical activity reduces the risk of chronic illness.",
+                id: "Organisasi Kesehatan Dunia menyatakan bahwa aktivitas fisik teratur mengurangi risiko penyakit kronis.",
+                breakdown: [{ label: "Present Main", text: "states" }, { label: "Present Sub", text: "reduces" }]
+            },
+            {
+                context: "Statement 2 (Past Backshift + Time)",
+                type: "will -> would | tomorrow -> the next day",
+                en: "The director announced that the company would launch its solar division the following month.",
+                id: "Direktur mengumumkan bahwa perusahaan akan meluncurkan divisi tenaga suryanya pada bulan berikutnya.",
+                breakdown: [{ label: "Past Main", text: "announced" }, { label: "Backshift", text: "would launch" }, { label: "Time", text: "the following month" }]
+            },
+            {
+                context: "Yes/No Question Indirect",
+                type: "asked + if/whether + S + V",
+                en: "The interviewer asked me whether I had ever led a cross-cultural research project.",
+                id: "Pewawancara bertanya kepada saya apakah saya pernah memimpin proyek penelitian lintas budaya.",
+                breakdown: [{ label: "Conj", text: "whether" }, { label: "Backshift", text: "I had ever led" }]
+            },
+            {
+                context: "WH-Question Indirect",
+                type: "QW + S + V (Susunan Pernyataan)",
+                en: "The examiner asked the candidate why she had chosen environmental law for her postgraduate degree.",
+                id: "Penguji bertanya kepada kandidat mengapa ia memilih hukum lingkungan untuk gelar pascasarjananya.",
+                breakdown: [{ label: "QW", text: "why" }, { label: "Statement Order", text: "she had chosen" }]
+            },
+            {
+                context: "Positive Imperative",
+                type: "asked/advised + O + to + V1",
+                en: "My thesis advisor reminded me to verify all primary statistical sources before submitting the draft.",
+                id: "Pembimbing tesis saya mengingatkan saya untuk memverifikasi semua sumber statistik utama sebelum menyerahkan draf.",
+                breakdown: [{ label: "Verb+Obj", text: "reminded me" }, { label: "To Inf", text: "to verify" }]
             }
         ]
     },
@@ -2204,6 +3066,41 @@ window.TENSES_DATA = [
                 en: "If only the engineers had detected the software bug yesterday, the server would not have crashed.",
                 id: "Seandainya saja para insinyur mendeteksi bug perangkat lunak kemarin, server tidak akan mengalami crash.",
                 breakdown: [{ label: "Subjunctive", text: "had detected" }, { label: "Fact", text: "did not detect" }]
+            },
+            {
+                context: "Present Subjunctive: Wish",
+                type: "Fact: Simple Present",
+                en: "Many urban commuters wish public trains ran more frequently during late evening hours.",
+                id: "Banyak komuter perkotaan berharap kereta umum beroperasi lebih sering pada jam-jam larut malam.",
+                breakdown: [{ label: "Wish", text: "wish" }, { label: "V2 Subj", text: "ran (Fact: don't run)" }]
+            },
+            {
+                context: "Present Subjunctive: Were",
+                type: "To Be = Were untuk semua subjek",
+                en: "I wish I were fluent in three foreign languages so I could work as a diplomatic interpreter.",
+                id: "Saya berharap saya fasih dalam tiga bahasa asing sehingga saya bisa bekerja sebagai penerjemah diplomatik.",
+                breakdown: [{ label: "S+Wish", text: "I wish" }, { label: "Were", text: "I were (Fact: I am not)" }]
+            },
+            {
+                context: "Present Subjunctive: Would Rather",
+                type: "Subject + would rather + S + V2",
+                en: "The research team would rather the university allocated more funding to laboratory equipment.",
+                id: "Tim peneliti lebih suka universitas mengalokasikan lebih banyak dana untuk peralatan laboratorium.",
+                breakdown: [{ label: "Would Rather", text: "would rather" }, { label: "V2 Subj", text: "allocated" }]
+            },
+            {
+                context: "Present Subjunctive: As If",
+                type: "Seolah-olah (Fakta Sekarang)",
+                en: "He speaks during board meetings as if he owned the entire multinational conglomerate.",
+                id: "Dia berbicara selama rapat dewan seolah-olah dia memiliki seluruh konglomerat multinasional tersebut.",
+                breakdown: [{ label: "Present Main", text: "speaks" }, { label: "As If + V2", text: "as if he owned" }]
+            },
+            {
+                context: "Past Subjunctive: Wish",
+                type: "Penyesalan Masa Lalu (had + V3)",
+                en: "She wished she had accepted the postdoctoral fellowship in Zurich when it was offered last year.",
+                id: "Dia berharap dia telah menerima beasiswa pascadoktoral di Zurich ketika ditawarkan tahun lalu.",
+                breakdown: [{ label: "Past Wish", text: "wished" }, { label: "Had+V3", text: "had accepted" }]
             }
         ]
     },
@@ -2228,6 +3125,41 @@ window.TENSES_DATA = [
                 en: "She managed to get the technician to repair her laptop, so she finally got her device fixed.",
                 id: "Dia berhasil meminta teknisi memperbaiki laptopnya, sehingga akhirnya perangkatnya diperbaiki.",
                 breakdown: [{ label: "Active", text: "get + technician + to repair" }, { label: "Passive", text: "got + device + fixed" }]
+            },
+            {
+                context: "Active Causative: Make",
+                type: "make + Object + V1 (tanpa 'to')",
+                en: "Strict environmental laws make manufacturing factories filter their industrial wastewater.",
+                id: "Undang-undang lingkungan yang ketat memaksa pabrik manufaktur menyaring air limbah industri mereka.",
+                breakdown: [{ label: "Make", text: "make" }, { label: "Obj", text: "factories" }, { label: "Bare V1", text: "filter" }]
+            },
+            {
+                context: "Active Causative: Have",
+                type: "have + Object + V1 (tanpa 'to')",
+                en: "The department chair had the teaching assistants grade the midterm essays over the weekend.",
+                id: "Ketua departemen meminta para asisten pengajar menilai esai ujian tengah semester selama akhir pekan.",
+                breakdown: [{ label: "Had", text: "had" }, { label: "Obj", text: "assistants" }, { label: "Bare V1", text: "grade" }]
+            },
+            {
+                context: "Active Causative: Let",
+                type: "let + Object + V1 (Mengizinkan)",
+                en: "Progressive companies let their employees choose flexible working hours to boost productivity.",
+                id: "Perusahaan progresif mengizinkan karyawan mereka memilih jam kerja fleksibel untuk meningkatkan produktivitas.",
+                breakdown: [{ label: "Let", text: "let" }, { label: "Obj", text: "employees" }, { label: "Bare V1", text: "choose" }]
+            },
+            {
+                context: "Active Causative: Help",
+                type: "help + Object + V1 / to V1",
+                en: "Visual data charts help readers understand complex demographic trends much more quickly.",
+                id: "Grafik data visual membantu pembaca memahami tren demografi yang kompleks dengan jauh lebih cepat.",
+                breakdown: [{ label: "Help", text: "help" }, { label: "Obj", text: "readers" }, { label: "V1 / to V1", text: "(to) understand" }]
+            },
+            {
+                context: "Passive Causative: Have",
+                type: "have + Object Pasif + V3",
+                en: "We should have the solar panels inspected annually to maintain peak energy efficiency.",
+                id: "Kita sebaiknya meminta panel surya diperiksa setiap tahun untuk mempertahankan efisiensi energi puncak.",
+                breakdown: [{ label: "Have", text: "have" }, { label: "Passive Obj", text: "the solar panels" }, { label: "V3", text: "inspected" }]
             }
         ]
     },
@@ -2248,10 +3180,45 @@ window.TENSES_DATA = [
         moreExamples: [
             {
                 context: "Subject-Verb Agreement",
-                type: "Neither ... nor",
+                type: "Neither ... nor (Ikuti S2)",
                 en: "Neither the lead researcher nor his assistants were aware of the sensor calibration error.",
                 id: "Baik peneliti utama maupun para asistennya tidak menyadari kesalahan kalibrasi sensor tersebut.",
                 breakdown: [{ label: "S2 (Plural)", text: "his assistants" }, { label: "Plural Verb", text: "were" }]
+            },
+            {
+                context: "Positive Adverb: So / Too",
+                type: "Inversi 'so + Aux + S'",
+                en: "Germany has invested heavily in offshore wind energy, and so has Denmark.",
+                id: "Jerman telah berinvestasi besar-besaran dalam energi angin lepas pantai, dan begitu pula Denmark.",
+                breakdown: [{ label: "Aux", text: "has" }, { label: "Inversion", text: "so has Denmark" }]
+            },
+            {
+                context: "Negative Adverb: Neither / Either",
+                type: "Negatif Setara",
+                en: "The first sample did not contain heavy metals, and neither did the second sample.",
+                id: "Sampel pertama tidak mengandung logam berat, dan sampel kedua juga tidak.",
+                breakdown: [{ label: "Neg Clause", text: "did not contain" }, { label: "Neither+Aux+S", text: "neither did the second sample" }]
+            },
+            {
+                context: "Paired: Not only ... but also",
+                type: "Verb mengikuti S2 (Tunggal)",
+                en: "Not only the lab technicians but also the chief scientist is attending the Geneva summit.",
+                id: "Tidak hanya teknisi laboratorium tetapi juga kepala ilmuwan menghadiri pertemuan puncak Jenewa.",
+                breakdown: [{ label: "S2 (Singular)", text: "the chief scientist" }, { label: "Singular V", text: "is attending" }]
+            },
+            {
+                context: "Paired: Both ... and",
+                type: "Selalu Jamak (Plural Verb)",
+                en: "Both urban planners and environmental economists agree that congestion pricing reduces traffic.",
+                id: "Baik perencana kota maupun ekonom lingkungan sepakat bahwa tarif kemacetan mengurangi lalu lintas.",
+                breakdown: [{ label: "Both S1 & S2", text: "planners & economists" }, { label: "Plural V", text: "agree" }]
+            },
+            {
+                context: "Contrastive Ellipsis: But",
+                type: "Positif vs Negatif",
+                en: "Solar panels generate electricity during sunny afternoons, but wind turbines can operate at night.",
+                id: "Panel surya menghasilkan listrik selama sore yang cerah, tetapi turbin angin dapat beroperasi pada malam hari.",
+                breakdown: [{ label: "Contrast", text: "but" }, { label: "Modal Ellipsis", text: "can operate" }]
             }
         ]
     },
@@ -2276,6 +3243,41 @@ window.TENSES_DATA = [
                 en: "My father has just purchased three luxurious red Italian racing cars.",
                 id: "Ayah saya baru saja membeli tiga mobil balap Italia berwarna merah yang mewah.",
                 breakdown: [{ label: "Ord", text: "three" }, { label: "Op-Col-Ori", text: "luxurious red Italian" }, { label: "Class+H", text: "racing cars" }]
+            },
+            {
+                context: "Opinion + Age + Origin + Head",
+                type: "Epithet Order",
+                en: "They were deeply impressed by the awesome classic Javanese batik collection.",
+                id: "Mereka sangat terkesan dengan koleksi batik Jawa klasik yang mengagumkan tersebut.",
+                breakdown: [{ label: "Det", text: "the" }, { label: "Op-Age-Ori", text: "awesome classic Javanese" }, { label: "Head", text: "batik collection" }]
+            },
+            {
+                context: "Size + Age + Color + Head",
+                type: "Physical Attributes",
+                en: "Archaeologists discovered a small ancient golden amulet inside the limestone chamber.",
+                id: "Para arkeolog menemukan jimat emas kuno berukuran kecil di dalam ruang batu kapur tersebut.",
+                breakdown: [{ label: "Size-Age-Col", text: "small ancient golden" }, { label: "Head", text: "amulet" }]
+            },
+            {
+                context: "Opinion + Size + Age + Origin",
+                type: "Architectural Description",
+                en: "Standing in the center of the square is a magnificent large nineteenth-century European monument.",
+                id: "Berdiri di tengah alun-alun adalah monumen Eropa abad kesembilan belas yang megah dan besar.",
+                breakdown: [{ label: "Op-Size-Age-Ori", text: "magnificent large nineteenth-century European" }, { label: "Head", text: "monument" }]
+            },
+            {
+                context: "Determiner + Ordinative + Classifier",
+                type: "Classifier Melekat di Head",
+                en: "She was appointed as the first kind English professor at the newly established faculty.",
+                id: "Dia ditunjuk sebagai profesor bahasa Inggris yang ramah pertama di fakultas yang baru didirikan.",
+                breakdown: [{ label: "Det+Ord", text: "the first" }, { label: "Op", text: "kind" }, { label: "Class+Head", text: "English professor" }]
+            },
+            {
+                context: "Pre-Modifier + Post-Modifier",
+                type: "Full Complex Noun Phrase",
+                en: "The sleek black German electric vehicle parked outside the laboratory belongs to Dr. Weber.",
+                id: "Kendaraan listrik Jerman berwarna hitam ramping yang terparkir di luar laboratorium milik Dr. Weber.",
+                breakdown: [{ label: "Pre-Mod", text: "The sleek black German electric" }, { label: "Head", text: "vehicle" }, { label: "Post-Mod", text: "parked outside..." }]
             }
         ]
     },
@@ -2300,6 +3302,41 @@ window.TENSES_DATA = [
                 en: "Several board members are strongly opposed to reducing the annual research budget.",
                 id: "Beberapa anggota dewan sangat menentang pengurangan anggaran penelitian tahunan.",
                 breakdown: [{ label: "Preposition", text: "opposed to" }, { label: "Gerund", text: "reducing" }]
+            },
+            {
+                context: "Gerund as Subject",
+                type: "V-ing Subject + Singular Verb",
+                en: "Analyzing peer-reviewed scientific articles daily significantly sharpens critical thinking skills.",
+                id: "Menganalisis artikel ilmiah tinjauan sejawat setiap hari secara signifikan mempertajam keterampilan berpikir kritis.",
+                breakdown: [{ label: "Gerund Subj", text: "Analyzing ... articles" }, { label: "Singular V", text: "sharpens" }]
+            },
+            {
+                context: "Object of Certain Verbs",
+                type: "avoid / consider / suggest + V-ing",
+                en: "Urban planners should consider expanding pedestrian-only zones in congested commercial districts.",
+                id: "Perencana kota sebaiknya mempertimbangkan perluasan zona khusus pejalan kaki di distrik komersial yang padat.",
+                breakdown: [{ label: "Verb", text: "consider" }, { label: "Gerund Obj", text: "expanding" }]
+            },
+            {
+                context: "Passive Gerund",
+                type: "being + V3",
+                en: "Senior researchers rarely enjoy being interrupted while presenting complex statistical models.",
+                id: "Peneliti senior jarang senang disela saat mempresentasikan model statistik yang kompleks.",
+                breakdown: [{ label: "Verb", text: "enjoy" }, { label: "Passive Gerund", text: "being interrupted" }]
+            },
+            {
+                context: "Bound Preposition: Apologize for",
+                type: "Preposition + V-ing",
+                en: "The logistics contractor apologized for delaying the delivery of essential laboratory sensors.",
+                id: "Kontraktor logistik meminta maaf karena menunda pengiriman sensor laboratorium yang penting.",
+                breakdown: [{ label: "Prep", text: "apologized for" }, { label: "Gerund", text: "delaying" }]
+            },
+            {
+                context: "Gerund vs Participle Modifier",
+                type: "Function Noun (Swimming pool)",
+                en: "The university built an Olympic-sized swimming pool and an underground parking area.",
+                id: "Universitas membangun kolam renang berukuran Olimpiade dan area parkir bawah tanah.",
+                breakdown: [{ label: "Function Gerund 1", text: "swimming pool" }, { label: "Function Gerund 2", text: "parking area" }]
             }
         ]
     },
@@ -2324,6 +3361,41 @@ window.TENSES_DATA = [
                 en: "The experiment conducted at the University of Chicago yielded groundbreaking results.",
                 id: "Eksperimen yang dilakukan di Universitas Chicago menghasilkan temuan yang inovatif.",
                 breakdown: [{ label: "Asal", text: "which was conducted" }, { label: "Reduced", text: "conducted (V3)" }]
+            },
+            {
+                context: "Active Reduction (V-ing)",
+                type: "who are waiting -> waiting",
+                en: "Commuters waiting for the delayed express train were offered complimentary shuttle buses.",
+                id: "Para komuter yang menunggu kereta ekspres yang tertunda ditawari bus antar-jemput gratis.",
+                breakdown: [{ label: "Asal", text: "who were waiting" }, { label: "Reduced", text: "waiting (V-ing)" }]
+            },
+            {
+                context: "Active Simple Present Reduction",
+                type: "who offers -> offering",
+                en: "Companies offering comprehensive remote-work benefits attract top international software engineers.",
+                id: "Perusahaan yang menawarkan tunjangan kerja jarak jauh yang komprehensif menarik insinyur perangkat lunak internasional terbaik.",
+                breakdown: [{ label: "Asal", text: "which offer" }, { label: "Reduced", text: "offering (V-ing)" }]
+            },
+            {
+                context: "Emotion / Effect Contrast",
+                type: "V-ing (Penyebab) vs V3 (Perasaan)",
+                en: "Although the twelve-hour field survey was exhausting, the exhausted researchers remained optimistic.",
+                id: "Meskipun survei lapangan selama dua belas jam itu melelahkan, para peneliti yang kelelahan tetap optimis.",
+                breakdown: [{ label: "Cause (V-ing)", text: "exhausting" }, { label: "Feeling (V3)", text: "exhausted" }]
+            },
+            {
+                context: "Pre-Noun V3 Modifier",
+                type: "V3 + Noun",
+                en: "We must replace all broken laboratory glassware before starting the chemical titration.",
+                id: "Kita harus mengganti semua peralatan gelas laboratorium yang pecah sebelum memulai titrasi kimia.",
+                breakdown: [{ label: "Passive Adj", text: "broken" }, { label: "Noun", text: "glassware" }]
+            },
+            {
+                context: "Avoiding Double Verb Trap",
+                type: "Tanpa 'was/were' di Modifier",
+                en: "The grant money offered by the foundation was allocated to renewable energy startups.",
+                id: "Uang hibah yang ditawarkan oleh yayasan tersebut dialokasikan untuk startup energi terbarukan.",
+                breakdown: [{ label: "Participle", text: "offered (bukan was offered)" }, { label: "Main Verb", text: "was allocated" }]
             }
         ]
     },
@@ -2343,11 +3415,46 @@ window.TENSES_DATA = [
         speakingExample: "I moved to the capital city to pursue better career opportunities in software engineering.",
         moreExamples: [
             {
-                context: "Meaning Contrast",
+                context: "Meaning Contrast: Try",
                 type: "Try + V-ing vs Try + to V1",
                 en: "The lock was jammed, so I tried lubricating it with oil after trying to force it open.",
                 id: "Kuncinya macet, jadi saya mencoba melumasinya dengan minyak setelah berusaha membukanya secara paksa.",
                 breakdown: [{ label: "Experiment", text: "tried lubricating" }, { label: "Effort", text: "trying to force" }]
+            },
+            {
+                context: "Infinitive as Adverb (Purpose)",
+                type: "Menjawab 'Why?'",
+                en: "International delegates gathered in Geneva to negotiate binding carbon-reduction targets.",
+                id: "Para delegasi internasional berkumpul di Jenewa untuk menegosiasikan target pengurangan karbon yang mengikat.",
+                breakdown: [{ label: "Main V", text: "gathered" }, { label: "Purpose Inf", text: "to negotiate" }]
+            },
+            {
+                context: "Infinitive as Adjective",
+                type: "Noun + to + V1",
+                en: "Remote island communities desperately need sustainable infrastructure to store harvested rainwater.",
+                id: "Komunitas pulau terpencil sangat membutuhkan infrastruktur berkelanjutan untuk menyimpan air hujan yang dipanen.",
+                breakdown: [{ label: "Noun", text: "infrastructure" }, { label: "Adj Inf", text: "to store" }]
+            },
+            {
+                context: "Adjective + Enough + To V1",
+                type: "Posisi 'Enough' Setelah Adj",
+                en: "The statistical software is intuitive enough for first-year undergraduates to master within a week.",
+                id: "Perangkat lunak statistik tersebut cukup intuitif bagi mahasiswa sarjana tahun pertama untuk dikuasai dalam seminggu.",
+                breakdown: [{ label: "Adj+Enough", text: "intuitive enough" }, { label: "Inf", text: "to master" }]
+            },
+            {
+                context: "Meaning Contrast: Remember / Forget",
+                type: "to V1 (Tugas) vs V-ing (Memori Lampau)",
+                en: "Please remember to lock the archive room tonight; I still remember locking it yesterday.",
+                id: "Harap ingat untuk mengunci ruang arsip malam ini; saya masih ingat menguncinya kemarin.",
+                breakdown: [{ label: "Duty (to V1)", text: "remember to lock" }, { label: "Past Memory (V-ing)", text: "remember locking" }]
+            },
+            {
+                context: "Meaning Contrast: Regret",
+                type: "Regret + to V1 (Kabar Buruk Formal)",
+                en: "We regret to inform you that your application did not meet the minimum GPA threshold.",
+                id: "Kami menyesal memberi tahu Anda bahwa lamaran Anda tidak memenuhi ambang batas IPK minimum.",
+                breakdown: [{ label: "Formal Notice", text: "regret to inform" }]
             }
         ]
     }
